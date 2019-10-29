@@ -11,6 +11,7 @@ TagManager:
   - MainMenuCanvas
   - GroundObject
   - Canvas
+  - Panel
   layers:
   - Default
   - TransparentFX

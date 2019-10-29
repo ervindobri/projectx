@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonAnimController : MonoBehaviour
 {
-	[Header("STYLE OBJECT")]
-	public GameObject styleObject;
+	[Header("STYLE OBJECTS")]
+	public GameObject styleObjectIn;
+	public GameObject styleObjectOut;
 	[Header("STYLE PARENT")]
-	public GameObject panel;
+	public GameObject panelIn;
+	public GameObject panelOut;
 	[Header("STYLE BUTTON")]
-	private GameObject styleButton;
+	public GameObject styleButtonIn;
+	//public GameObject styleButtonOut;
 
 
 	// [Header("PANEL ANIMS")]
@@ -26,42 +30,39 @@ public class ButtonAnimController : MonoBehaviour
 	private Animator panelAnimator;
 	private Animator styleAnimator;
 	private Animator buttonAnimator;
-	public bool fadeIn;
-	private void Start()
+	public bool fadeIn,fadeOut;
+	private void Update()
 	{
-		styleButton = GameObject.Find("PlayButton");
+
 	}
 	public void PanelAnimationFadeIn()
 	{
 		Debug.Log("Button was clicked!");
-		panelAnimator = panel.GetComponent<Animator>();
+		panelAnimator = panelIn.GetComponent<Animator>();
 		//panelAnimator.Play(panelFadeOut);
 		panelAnimator.Play(panelFadeIn);
 
-		buttonAnimator = styleButton.GetComponent<Animator>();
+		buttonAnimator = styleButtonIn.GetComponent<Animator>();
 		//buttonAnimator.Play(buttonFadeOut);
 		buttonAnimator.Play(buttonFadeIn);
 
-		styleAnimator = panel.GetComponent<Animator>();
+		styleAnimator = panelIn.GetComponent<Animator>();
 		styleAnimator.Play(styleLoop);
 
 		fadeIn = true;
 	}
 	public void PanelAnimationFadeOut()
 	{
-		Debug.Log("Fade out!");
-
-		//panelAnimator = panel.GetComponent<Animator>();
-		//panelAnimator.Play(panelFadeIn);
-
-
-		//buttonAnimator = styleButton.GetComponent<Animator>();
-		//buttonAnimator.Play(buttonFadeOut);
-
-		styleAnimator = panel.GetComponent<Animator>();
+		//Debug.Log("Fade out!");
+		styleAnimator = panelOut.GetComponent<Animator>();
 		styleAnimator.Play(styleClose);
-		//styleAnimator.Play(styleExpand);
-		//panelAnimator.Play(panelFadeOut);
-
+		StartCoroutine(WaitToLoadScene(1));
+		fadeOut = true;
+	}
+	IEnumerator WaitToLoadScene(float duration)
+	{
+		//Play the transition, then load next scene ->
+		//buttonAnimController.PanelAnimationFadeIn();
+		yield return new WaitForSeconds(duration);
 	}
 }

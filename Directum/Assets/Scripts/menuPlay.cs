@@ -24,10 +24,14 @@ public class menuPlay : MonoBehaviour
 		{
 			Debug.Log("Could not find 'ButtonAnimController' script...");
 		}
+		//if ( buttonAnimController.fadeOut )
+		//{
+		//	GameObject.Find("Styles - Fade Out").SetActive(false);
+		//}
 	}
 	private void Update()
 	{
-		if ( buttonAnimController.fadeIn)
+		if ( buttonAnimController.fadeIn )
 		{
 			StartCoroutine(WaitToLoadScene(2f));
 		}
