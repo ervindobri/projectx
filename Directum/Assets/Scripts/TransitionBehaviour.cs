@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class TransitionBehaviour : MonoBehaviour
 {
-	public GameObject styleObject;
-	private Animator styleAnimator;
+	public GameObject panelStyleObject;
+	private Animator panelAnimator;
 	ButtonAnimController buttonAnimController;
 	private void Awake()
 	{
-		styleAnimator = styleObject.GetComponent<Animator>();
+		panelAnimator = panelStyleObject.GetComponent<Animator>();
 		GameObject buttonAnimControllerObject = GameObject.FindWithTag("Canvas");
 		if (buttonAnimControllerObject != null)
 		{
@@ -19,8 +19,10 @@ public class TransitionBehaviour : MonoBehaviour
 		{
 			Debug.Log("Could not find 'ButtonAnimController' script...");
 		}
-		//styleAnimator.SetBool("fadeOut", true);
-		buttonAnimController.PanelAnimationFadeOut();
+		if (buttonAnimController.fadeOut)
+		{
+			buttonAnimController.PanelAnimationFadeOut();
+		}
 	}
 	private void Update()
 	{

@@ -5,13 +5,15 @@ using UnityEngine.SceneManagement;
 
 
 
-public class menuPlay : MonoBehaviour
+public class MenuPlay : MonoBehaviour
 {
 
 	public GameObject styleObject;
 	private Animator styleAnimator;
 	public string sceneName;
 	ButtonAnimController buttonAnimController;
+	public static int sceneLoadCounter;
+
 	private void Start()
 	{
 		styleAnimator = styleObject.GetComponent<Animator>();
@@ -24,26 +26,27 @@ public class menuPlay : MonoBehaviour
 		{
 			Debug.Log("Could not find 'ButtonAnimController' script...");
 		}
-		//if ( buttonAnimController.fadeOut )
-		//{
-		//	GameObject.Find("Styles - Fade Out").SetActive(false);
-		//}
+		// If this was the first scene loaded, don't play transition fade out
+		if ( sceneLoadCounter == 0 && SceneManager.GetActiveScene().name == "MainMenu")
+		{
+			GameObject.Find("Styles - Fade Out").SetActive(false);
+		}
+
 	}
 	private void Update()
 	{
-		if ( buttonAnimController.fadeIn )
+		if (buttonAnimController.fadeIn)
 		{
-			StartCoroutine(WaitToLoadScene(2f));
+			StartCoroutine(WaitToLoadScene(1.01f));
 		}
+
 	}
 	IEnumerator WaitToLoadScene(float duration)
 	{
 		//Play the transition, then load next scene ->
-		//buttonAnimController.PanelAnimationFadeIn();
 		yield return new WaitForSeconds(duration);
-
-		styleAnimator.SetTrigger("loadPlayMenu");
-		SceneManager.LoadScene(sceneName);
+		SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+		sceneLoadCounter++;
 	}
 
 }

@@ -214,6 +214,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1380774001}
+        m_MethodName: setClosePanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &108282631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -898,7 +909,7 @@ RectTransform:
   m_GameObject: {fileID: 905640204}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.85, z: 1}
+  m_LocalScale: {x: 1.3, y: 1.2, z: 1}
   m_Children:
   - {fileID: 181726891}
   - {fileID: 1539325660}
@@ -1977,7 +1988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: decd6658f5028a54ab71ff6eb65e43c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  styleObject: {fileID: 193948667}
+  panelStyleObject: {fileID: 1644956811}
 --- !u!114 &1949418256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1990,7 +2001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd05b7f544ed8db4382228087627fc59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  styleObject: {fileID: 663482477}
+  styleObject: {fileID: 1644956811}
   sceneName: MainMenu
 --- !u!1 &2126638878
 GameObject:
