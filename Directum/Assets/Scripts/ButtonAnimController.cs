@@ -45,7 +45,6 @@ public class ButtonAnimController : MonoBehaviour
 
 		styleAnimator = panelIn.GetComponent<Animator>();
 		styleAnimator.Play(styleLoop);
-
 		fadeIn = true;
 	}
 	public void PanelAnimationFadeOut()
@@ -53,10 +52,10 @@ public class ButtonAnimController : MonoBehaviour
 		//Debug.Log("Fade out!");
 		styleAnimator = panelOut.GetComponent<Animator>();
 		styleAnimator.Play(styleClose);
-		StartCoroutine(WaitForSeconds(1));
+		StartCoroutine(WaitABit(1));
 		fadeOut = true;
 	}
-	IEnumerator WaitForSeconds(float duration)
+	IEnumerator WaitABit(float duration)
 	{
 		//Play the transition, then load next scene ->
 		//buttonAnimController.PanelAnimationFadeIn();
@@ -67,5 +66,9 @@ public class ButtonAnimController : MonoBehaviour
 		//The 'Quit()' function only works in the compiled game
 		Application.Quit();
 		Debug.Log("Exited!");
+	}
+	public void setTransitionToNextPanel(string trigger)
+	{
+		this.gameObject.GetComponent<Animator>().SetTrigger(trigger);
 	}
 }

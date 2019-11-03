@@ -13,6 +13,7 @@ public class MenuPlay : MonoBehaviour
 	public string sceneName;
 	ButtonAnimController buttonAnimController;
 	public static int sceneLoadCounter;
+	private bool introCanvasStatus;
 
 	private void Start()
 	{
@@ -30,15 +31,30 @@ public class MenuPlay : MonoBehaviour
 		if ( sceneLoadCounter == 0 && SceneManager.GetActiveScene().name == "MainMenu")
 		{
 			GameObject.Find("Styles - Fade Out").SetActive(false);
+			GameObject.Find("IntroCanvas").SetActive(true);
+
+		}
+		else
+		{
+			GameObject.Find("IntroCanvas").SetActive(false);
+
 		}
 
+		//
+		introCanvasStatus = GameObject.Find("IntroCanvas").activeInHierarchy;
+	}
+	public void setSceneName(string scene)
+	{
+		sceneName = scene;
 	}
 	private void Update()
 	{
-		if (buttonAnimController.fadeIn)
+		if (buttonAnimController.fadeIn == true)
 		{
 			StartCoroutine(WaitToLoadScene(1.01f));
 		}
+		Debug.Log(sceneLoadCounter);
+		
 
 	}
 	IEnumerator WaitToLoadScene(float duration)

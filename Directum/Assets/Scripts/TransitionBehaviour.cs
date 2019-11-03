@@ -19,10 +19,10 @@ public class TransitionBehaviour : MonoBehaviour
 		{
 			Debug.Log("Could not find 'ButtonAnimController' script...");
 		}
-		if (buttonAnimController.fadeOut)
-		{
-			buttonAnimController.PanelAnimationFadeOut();
-		}
+		//if (buttonAnimController.fadeOut)
+		//{
+		//	buttonAnimController.PanelAnimationFadeOut();
+		//}
 	}
 	private void Update()
 	{
