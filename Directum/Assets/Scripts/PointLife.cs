@@ -28,17 +28,38 @@ public class PointLife : MonoBehaviour
 		{
 			Debug.Log("Could not find 'ConnectLines' script...");
 		}
-
 		point = this.gameObject;
 	}
 	private void OnMouseDown()
 	{
-		wasSelected = true;
-		//Debug.Log(gameObject.name + ": "+ wasSelected);
+        connectLines.nextPoint = point;
+        Color rose = new Color(0.7264151f, 0.2775454f, 0.2775454f, 1f);
+        if (connectLines.nextPoint.GetComponent<SpriteRenderer>().color == rose)
+        {
+            wasSelected = true;
+            if (connectLines.isWin(point))
+            {
+                Debug.Log("Winner");
+            }
+            else
+            {
+                //if (connectLines.isLose(point))
+                //{
+                //    Debug.Log("Looser");
+                //}
+                //else
+                //{
 
-		pointSprite.color = new Color(0f, 0f, 0f, 1f);
-
-		// This point becomes the current point from which we have to make a line
-		connectLines.currentPoint = point;
+                //}
+                //Debug.Log("No win");
+            }
+            connectLines.drawLines();
+        }
+        else
+        {
+            ;
+        }
+        //serverCommunication();
+        //processingRecievedDataFromServer();
 	}
 }
