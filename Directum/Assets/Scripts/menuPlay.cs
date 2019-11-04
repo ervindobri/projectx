@@ -53,7 +53,7 @@ public class MenuPlay : MonoBehaviour
 		{
 			StartCoroutine(WaitToLoadScene(1.01f));
 		}
-		Debug.Log(sceneLoadCounter);
+		//Debug.Log(sceneLoadCounter);
 		
 
 	}
