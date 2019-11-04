@@ -10,6 +10,11 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+Library/
+Temp/
+Obj/
+UnityGenerated/
+
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 
