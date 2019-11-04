@@ -5,13 +5,16 @@ using UnityEngine.SceneManagement;
 
 
 
-public class menuPlay : MonoBehaviour
+public class MenuPlay : MonoBehaviour
 {
 
 	public GameObject styleObject;
 	private Animator styleAnimator;
 	public string sceneName;
 	ButtonAnimController buttonAnimController;
+	public static int sceneLoadCounter;
+	private bool introCanvasStatus;
+
 	private void Start()
 	{
 		styleAnimator = styleObject.GetComponent<Animator>();
@@ -24,26 +27,42 @@ public class menuPlay : MonoBehaviour
 		{
 			Debug.Log("Could not find 'ButtonAnimController' script...");
 		}
-		//if ( buttonAnimController.fadeOut )
-		//{
-		//	GameObject.Find("Styles - Fade Out").SetActive(false);
-		//}
+		// If this was the first scene loaded, don't play transition fade out
+		if ( sceneLoadCounter == 0 && SceneManager.GetActiveScene().name == "MainMenu")
+		{
+			GameObject.Find("Styles - Fade Out").SetActive(false);
+			GameObject.Find("IntroCanvas").SetActive(true);
+
+		}
+		else
+		{
+			GameObject.Find("IntroCanvas").SetActive(false);
+
+		}
+
+		//
+		introCanvasStatus = GameObject.Find("IntroCanvas").activeInHierarchy;
+	}
+	public void setSceneName(string scene)
+	{
+		sceneName = scene;
 	}
 	private void Update()
 	{
-		if ( buttonAnimController.fadeIn )
+		if (buttonAnimController.fadeIn == true)
 		{
-			StartCoroutine(WaitToLoadScene(2f));
+			StartCoroutine(WaitToLoadScene(1.01f));
 		}
+		Debug.Log(sceneLoadCounter);
+		
+
 	}
 	IEnumerator WaitToLoadScene(float duration)
 	{
 		//Play the transition, then load next scene ->
-		//buttonAnimController.PanelAnimationFadeIn();
 		yield return new WaitForSeconds(duration);
-
-		styleAnimator.SetTrigger("loadPlayMenu");
-		SceneManager.LoadScene(sceneName);
+		SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+		sceneLoadCounter++;
 	}
 
 }
