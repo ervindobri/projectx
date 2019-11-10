@@ -12,6 +12,7 @@ TagManager:
   - GroundObject
   - Canvas
   - Panel
+  - Button
   layers:
   - Default
   - TransparentFX

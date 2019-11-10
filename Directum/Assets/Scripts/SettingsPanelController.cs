@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -22,10 +20,10 @@ public class SettingsPanelController : MonoBehaviour
 	{
 		currentPanelName = this.gameObject.name;
 		GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<Canvas>().sortingOrder = 0;
-		textObject = GameObject.Find(currentPanelName + "/Name/InputField/Text").GetComponent<Text>();
-		inputTextObject = GameObject.Find(currentPanelName + "/Name/InputField").GetComponent<InputField>();
+		textObject = GameObject.Find(currentPanelName + "VibratingPanel/Name/InputField/Text").GetComponent<Text>();
+		inputTextObject = GameObject.Find(currentPanelName + "VibratingPanel/Name/InputField").GetComponent<InputField>();
 
-		outlineColor = GameObject.Find(currentPanelName + "/Color/SelectColorButton").GetComponent<Outline>().effectColor;
+		outlineColor = GameObject.Find(currentPanelName + "VibratingPanel/Color/SelectColorButton").GetComponent<Outline>().effectColor;
 		//Debug.Log(textObject.name);
 		messagePanelAnimator = GameObject.Find(currentPanelName + "/MessagePanel").GetComponent<Animator>();
 		messagePanelDisplayText = GameObject.Find(currentPanelName + "/MessagePanel/DisplayText");
@@ -33,7 +31,7 @@ public class SettingsPanelController : MonoBehaviour
 	private void Update()
 	{
 		color = GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<ChangeColor>()._handle.color;
-		GameObject.Find(currentPanelName + "/Color/SelectColorButton").GetComponent<Outline>().effectColor = color;
+		GameObject.Find(currentPanelName + "VibratingPanel/Color/SelectColorButton").GetComponent<Outline>().effectColor = color;
 		playerName = textObject.text;
 
 		//Debug.Log(playerName);
