@@ -5,15 +5,19 @@ using UnityEngine.Rendering;
 
 public class ConnectLines : MonoBehaviour
 {
-    private int mapLength=12;
-    private int mapWidth=8;
+    private int mapLength=5;
+    private int mapWidth=4;
 	public LineRenderer line;
+    
 	private Vector3 mousePos;
 	public Material material;
 	public uint numberOfPoints; // we tell him how many points there are 
 	private uint currentLines = 0; // number of current lines
+    private uint currentPoints = 0;
+    public GameObject point;
     public GameObject[] allPoints;
-	public SpriteRenderer[] allPointsSprite;
+
+    public SpriteRenderer[] allPointsSprite;
 	public GameObject currentPoint;
     public GameObject nextPoint;
     PointLife pointController;
@@ -25,8 +29,9 @@ public class ConnectLines : MonoBehaviour
     //int enemyScore=0;
     void Awake()
     {
+        drawPoints();
 		allPoints = GameObject.FindGameObjectsWithTag("Point");		
-		currentPoint = allPoints[0];
+		currentPoint = allPoints[49];
 		if (currentPoint != null )
 		{
 			pointController = currentPoint.GetComponent<PointLife>();
@@ -34,7 +39,7 @@ public class ConnectLines : MonoBehaviour
 		else
 		{
 		Debug.Log("Could not find 'PointLife' script...");
-		}
+		} 
         drawMapLines();
         displayAllPossibleMoves(currentPoint); // displays all the possible moves
     }
@@ -42,11 +47,7 @@ public class ConnectLines : MonoBehaviour
 	{		
 	}
     public void drawLines()
-    {
-        //Debug.Log("aktualis pont:");
-        // Debug.Log(currentPoint);
-        // Debug.Log("kovetkezo pont:");
-        // Debug.Log(nextPoint);              
+    {             
         if (line == null)
         {
             createLine();
@@ -80,16 +81,17 @@ public class ConnectLines : MonoBehaviour
 	{
         int possibleStepcounter = 0;
         for (int i = 0; i < allPoints.Length; i++)
-		{
-			float dist = Vector3.Distance(currentPoint.GetComponent<CircleCollider2D>().bounds.center, allPoints[i].GetComponent<CircleCollider2D>().bounds.center);
-			//Debug.Log("Distance is: " + dist);
+		{          
+            float dist = Vector3.Distance(currentPoint.transform.position, allPoints[i].GetComponent<CircleCollider2D>().transform.position);          
 			if ( dist <= 1.42  && dist != 0 && !isLineBetweenTwoPoints(currentPoint,allPoints[i])) // 1.42 because distance is  ~ 1 * square 2
 			{
+                //Debug.Log("rose");
 				allPoints[i].GetComponent<SpriteRenderer>().color = rose;
                 ++possibleStepcounter;
 			}
 			else
 			{
+                //Debug.Log("white");
                 allPoints[i].GetComponent<SpriteRenderer>().color = white;
 			}
 		}
@@ -106,11 +108,11 @@ public class ConnectLines : MonoBehaviour
         GameObject[] lineObjects = GameObject.FindGameObjectsWithTag("Line");
         for (int i = 0; i < lineObjects.Length; ++i)
         {
-            if (lineObjects[i].GetComponent<LineRenderer>().GetPosition(0) == startingPoint.GetComponent<CircleCollider2D>().bounds.center ||
-                lineObjects[i].GetComponent<LineRenderer>().GetPosition(0) == endingPoint.GetComponent<CircleCollider2D>().bounds.center)
+            if (lineObjects[i].GetComponent<LineRenderer>().GetPosition(0) == startingPoint.GetComponent<CircleCollider2D>().transform.position ||
+                lineObjects[i].GetComponent<LineRenderer>().GetPosition(0) == endingPoint.GetComponent<CircleCollider2D>().transform.position)
             {
-                if (lineObjects[i].GetComponent<LineRenderer>().GetPosition(1) == endingPoint.GetComponent<CircleCollider2D>().bounds.center ||
-                    lineObjects[i].GetComponent<LineRenderer>().GetPosition(1) == startingPoint.GetComponent<CircleCollider2D>().bounds.center)
+                if (lineObjects[i].GetComponent<LineRenderer>().GetPosition(1) == endingPoint.GetComponent<CircleCollider2D>().transform.position ||
+                    lineObjects[i].GetComponent<LineRenderer>().GetPosition(1) == startingPoint.GetComponent<CircleCollider2D>().transform.position)
                 {
                     //Debug.Log("out isThereline true");
                     return true;
@@ -135,8 +137,8 @@ public class ConnectLines : MonoBehaviour
         GameObject[] lineObjects = GameObject.FindGameObjectsWithTag("Line");
         for (int i = 0; i < lineObjects.Length; ++i)
         {
-            if (lineObjects[i].GetComponent<LineRenderer>().GetPosition(0) == point.GetComponent<CircleCollider2D>().bounds.center ||
-                lineObjects[i].GetComponent<LineRenderer>().GetPosition(1) == point.GetComponent<CircleCollider2D>().bounds.center)
+            if (lineObjects[i].GetComponent<LineRenderer>().GetPosition(0) == point.GetComponent<CircleCollider2D>().transform.position ||
+                lineObjects[i].GetComponent<LineRenderer>().GetPosition(1) == point.GetComponent<CircleCollider2D>().transform.position)
             {
                 ++counter;
                 if (counter == 2)
@@ -158,7 +160,7 @@ public class ConnectLines : MonoBehaviour
     }
     public bool isWin(GameObject point)
     {
-        if((point.GetComponent<CircleCollider2D>().bounds.center.x == 7) || (point.GetComponent<CircleCollider2D>().bounds.center.x == -7))
+        if((point.GetComponent<CircleCollider2D>().transform.position.x == mapLength+1) || (point.GetComponent<CircleCollider2D>().transform.position.x == -mapLength-1))
         {
             return true;
         }
@@ -167,87 +169,153 @@ public class ConnectLines : MonoBehaviour
             return false;
         }
     }
-    public bool isLose(GameObject point)
+
+    public void drawMapLines()
     {
-        if (isDeadEnd(point))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    public bool isDeadEnd(GameObject point)
-    {
-        if (point.name == "circle (122)" || point.name == "circle (119)" || point.name == "circle (83)" || point.name == "circle (80)")
-        {
-            return true;
-        }
-        else
-        {
-            if ((point.GetComponent<CircleCollider2D>().bounds.center.y == mapWidth || point.GetComponent<CircleCollider2D>().bounds.center.y == -mapWidth ||
-                point.GetComponent<CircleCollider2D>().bounds.center.y == 14 || point.GetComponent<CircleCollider2D>().bounds.center.y == -10)
-                && (numberOfLinesFromPoint(point) == 5))
+        Vector3 pointCoordinates1;
+        Vector3 pointCoordinates2;
+        bool stop = false;
+        bool stop2 = false;
+        pointCoordinates1.z = 0;
+        pointCoordinates1.x = -mapLength;
+        pointCoordinates1.y = -mapWidth;
+        pointCoordinates2.z = 0;
+        pointCoordinates2.x = mapLength;
+        pointCoordinates2.y = -mapWidth;
+        //Vertival limits
+        while (pointCoordinates1.y < mapWidth)
+        { 
+            createLine();
+            if (pointCoordinates1.y == -1 && !stop)
             {
-                return true;
+                line.SetPosition(0, pointCoordinates1);
+                --pointCoordinates1.x;
+                line.SetPosition(1, pointCoordinates1);
+                line = null;
+                currentLines++;
+                stop = true;
             }
             else
             {
-                if (numberOfLinesFromPoint(point) == 8)
+                if (pointCoordinates1.y == 1 && !stop)
                 {
-                    return true;
+                    line.SetPosition(0, pointCoordinates1);
+                    ++pointCoordinates1.x;
+                    line.SetPosition(1, pointCoordinates1);
+                    line = null;
+                    currentLines++;
+                    stop = true;
+                }
+                else
+                {
+                    line.SetPosition(0, pointCoordinates1);
+                    ++pointCoordinates1.y;
+                    line.SetPosition(1, pointCoordinates1);
+                    line = null;
+                    currentLines++;
+                    stop = false;
+                }
+            }
+            createLine();
+            if (pointCoordinates2.y == -1 && !stop2)
+            {
+                line.SetPosition(0, pointCoordinates2);
+                ++pointCoordinates2.x;
+                line.SetPosition(1, pointCoordinates2);
+                line = null;
+                currentLines++;
+                stop2 = true;
+            }
+            else
+            {
+                if (pointCoordinates2.y == 1 && !stop2)
+                {
+                    line.SetPosition(0, pointCoordinates2);
+                    --pointCoordinates2.x;
+                    line.SetPosition(1, pointCoordinates2);
+                    line = null;
+                    currentLines++;
+                    stop2 = true;
+                }
+                else
+                {
+                    line.SetPosition(0, pointCoordinates2);
+                    ++pointCoordinates2.y;
+                    line.SetPosition(1, pointCoordinates2);
+                    line = null;
+                    currentLines++;
+                    stop2 = false;
                 }
             }
         }
-        return false;
-    }
-    public void drawMapLines()
-    {
-        Vector3 pointCoordinates;
-        pointCoordinates.z = 0;
-        pointCoordinates.y = -mapWidth;
-        //Debug.Log("keret");
-        for (int i = -mapWidth; i < mapWidth - 1; i+=2) {
-            if (line == null)
-            {
-                Debug.Log("linecreated");
-                createLine();
-            }
-            if (Mathf.Abs(i) < mapWidth / 2)
-            {
-                pointCoordinates.x = -12;
-            }
-            else
-            {
-                pointCoordinates.x = -10;
-            }
-            Debug.Log("keret");
-            line.SetPosition(0, pointCoordinates);
-            pointCoordinates.y = i+2;
-            line.SetPosition(1, pointCoordinates);
+        //vertical limits
+        pointCoordinates1.x = -mapLength;
+        pointCoordinates1.y = -mapWidth;
+        pointCoordinates2.x = -mapLength;
+        pointCoordinates2.y = mapWidth;
+        while (pointCoordinates1.x < mapLength)
+        {
+            createLine();
+            line.SetPosition(0, pointCoordinates1);
+            ++pointCoordinates1.x;
+            line.SetPosition(1, pointCoordinates1);
             line = null;
             currentLines++;
-            //if (line == null)
-            //{
-            //    createLine();
-            //}
-            //if (i < mapWidth / 2)
-            //{
-            //    pointCoordinates.x = 16;
-            //}
-            //else
-            //{
-            //    pointCoordinates.x = 14;
-            //}
-            //pointCoordinates.y-=2;
-            //line.SetPosition(0, pointCoordinates);
-            //pointCoordinates.y+=2;
-            //line.SetPosition(1, pointCoordinates);
-            //line = null;
-            //currentLines++;
+            createLine();
 
+            line.SetPosition(0, pointCoordinates2);
+            ++pointCoordinates2.x;
+            line.SetPosition(1, pointCoordinates2);
+            line = null;
+            currentLines++;
         }
+
+        pointCoordinates1.x = -mapLength;
+        pointCoordinates1.y = -2;
+        pointCoordinates2.x = -mapLength-1;
+        pointCoordinates2.y = -1;
+        createLine();
+        line.SetPosition(0, pointCoordinates1);
+        line.SetPosition(1, pointCoordinates2);
+        line.sortingLayerName = "Default";
+        line.sortingOrder = -2;
+        line = null;
+        currentLines++;
+
+        pointCoordinates1.x = -mapLength;
+        pointCoordinates1.y = 2;
+        pointCoordinates2.x = -mapLength - 1;
+        pointCoordinates2.y = 1;
+        createLine();
+        line.SetPosition(0, pointCoordinates1);
+        line.SetPosition(1, pointCoordinates2);
+        line.sortingLayerName = "Default";
+        line.sortingOrder = -2;
+        line = null;
+
+        pointCoordinates1.x = mapLength;
+        pointCoordinates1.y = 2;
+        pointCoordinates2.x = mapLength + 1;
+        pointCoordinates2.y = 1;
+        createLine();
+        line.SetPosition(0, pointCoordinates1);
+        line.SetPosition(1, pointCoordinates2);
+        line.sortingLayerName = "Default";
+        line.sortingOrder = -2;
+        line = null;
+        currentLines++;
+
+        pointCoordinates1.x = mapLength;
+        pointCoordinates1.y = -2;
+        pointCoordinates2.x = mapLength + 1;
+        pointCoordinates2.y = -1;
+        createLine();
+        line.SetPosition(0, pointCoordinates1);
+        line.SetPosition(1, pointCoordinates2);
+        line.sortingLayerName = "Default";
+        line.sortingOrder = -2;
+        line = null;
+        currentLines++;
     }
     public int numberOfLinesFromPoint(GameObject point)
     {
@@ -256,15 +324,48 @@ public class ConnectLines : MonoBehaviour
         for (int i = 0; i < lineObjects.Length; ++i)
         {
 
-            if (lineObjects[i].GetComponent<LineRenderer>().GetPosition(0) == point.GetComponent<CircleCollider2D>().bounds.center ||
-                lineObjects[i].GetComponent<LineRenderer>().GetPosition(1) == point.GetComponent<CircleCollider2D>().bounds.center)
+            if (lineObjects[i].GetComponent<LineRenderer>().GetPosition(0) == point.GetComponent<CircleCollider2D>().transform.position ||
+                lineObjects[i].GetComponent<LineRenderer>().GetPosition(1) == point.GetComponent<CircleCollider2D>().transform.position)
             {
                 ++counter;
             }
         }
         return counter;
     }
+    public void createPoint(int x, int y)
+    {
+        Vector3 pointCoordinate;
+        pointCoordinate.x = x;
+        pointCoordinate.y = y;
+        pointCoordinate.z = 0;
+        point = new GameObject("Circle" + currentPoints);
+        point.AddComponent<PointLife>();
+        point.AddComponent<SpriteRenderer>();
+        point.AddComponent<CircleCollider2D>();
+        point.tag = "Point";
+        point.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/Circle", typeof(Sprite)) as Sprite;
+        point.GetComponent<SpriteRenderer>().sortingLayerName = "Points";
+        point.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        point.transform.position = pointCoordinate;
+        point.transform.localScale = new Vector3(0.5f, 0.5f,0.5f);
+        ++currentPoints;
 
+    }
+    public void drawPoints()
+    {
+        for (int i = -mapLength; i <= mapLength; ++i)
+        {
+            for (int j = -mapWidth; j <= mapWidth; ++j)
+            {
+                createPoint(i, j);
+            }
+        }
+        for (int i = -1; i <= 1; ++i)
+        {
+            createPoint(-mapLength - 1, i);
+            createPoint(mapLength + 1, i);
+        }
+    }
 }
 
 

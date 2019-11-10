@@ -36,6 +36,8 @@ public class PointLife : MonoBehaviour
         Color rose = new Color(0.7264151f, 0.2775454f, 0.2775454f, 1f);
         if (connectLines.nextPoint.GetComponent<SpriteRenderer>().color == rose)
         {
+            Debug.Log("Selected");
+
             wasSelected = true;
             if (connectLines.isWin(point))
             {
