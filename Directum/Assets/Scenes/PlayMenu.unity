@@ -365,6 +365,7 @@ GameObject:
   - component: {fileID: 108282630}
   - component: {fileID: 108282633}
   - component: {fileID: 108282634}
+  - component: {fileID: 108282635}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -457,6 +458,18 @@ MonoBehaviour:
           m_StringArgument: MainMenu
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 108282635}
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: d1e3a60e94561d64bba68ff958780769,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &108282631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,6 +540,20 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.13333334}
   m_EffectDistance: {x: -6.06, y: -6.3}
   m_UseGraphicAlpha: 1
+--- !u!114 &108282635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108282628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec49bd9b87acfd43945e07d503397c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuButtonController: {fileID: 1254893144}
+  disableOnce: 0
 --- !u!1 &124525940
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,6 +565,7 @@ GameObject:
   - component: {fileID: 124525941}
   - component: {fileID: 124525943}
   - component: {fileID: 124525942}
+  - component: {fileID: 124525944}
   m_Layer: 5
   m_Name: JoinPanel
   m_TagString: Untagged
@@ -604,6 +632,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 124525940}
   m_CullTransparentMesh: 0
+--- !u!114 &124525944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124525940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa46b7f79299df0458472185236b47f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 541792521}
 --- !u!1 &135050008
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,6 +657,7 @@ GameObject:
   - component: {fileID: 135050012}
   - component: {fileID: 135050011}
   - component: {fileID: 135050010}
+  - component: {fileID: 135050013}
   m_Layer: 5
   m_Name: JoinButton
   m_TagString: Untagged
@@ -685,7 +727,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 135050011}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 135050013}
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 930e21722ed892c46a269bc8e02957ab,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &135050011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,6 +776,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135050008}
   m_CullTransparentMesh: 0
+--- !u!114 &135050013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135050008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec49bd9b87acfd43945e07d503397c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuButtonController: {fileID: 1254893144}
+  disableOnce: 0
 --- !u!1 &181726890
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,6 +803,9 @@ GameObject:
   - component: {fileID: 181726894}
   - component: {fileID: 181726893}
   - component: {fileID: 181726892}
+  - component: {fileID: 181726898}
+  - component: {fileID: 181726897}
+  - component: {fileID: 181726896}
   m_Layer: 5
   m_Name: JoinGameButton
   m_TagString: Untagged
@@ -821,6 +892,17 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1254893142}
+        m_MethodName: resetTriggerBeforeTransition
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: prevPanel
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1254893142}
         m_MethodName: setTransitionToNextPanel
         m_Mode: 5
         m_Arguments:
@@ -829,6 +911,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: nextPanel
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 181726897}
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 930e21722ed892c46a269bc8e02957ab,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &181726894
@@ -867,6 +961,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181726890}
   m_CullTransparentMesh: 0
+--- !u!95 &181726896
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181726890}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1f171313b706eb24cafd3997c8de663f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &181726897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181726890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec49bd9b87acfd43945e07d503397c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuButtonController: {fileID: 1254893144}
+  disableOnce: 0
+--- !u!114 &181726898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181726890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f136bc9480fd8b4788efbc4fd7b5d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuButtonController: {fileID: 1254893144}
+  animator: {fileID: 181726896}
+  animatorFunctions: {fileID: 181726897}
+  thisIndex: 0
 --- !u!1 &193948667
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,6 +1248,7 @@ GameObject:
   - component: {fileID: 296527694}
   - component: {fileID: 296527696}
   - component: {fileID: 296527695}
+  - component: {fileID: 296527697}
   m_Layer: 5
   m_Name: CreatePanel
   m_TagString: Untagged
@@ -1173,6 +1317,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 296527693}
   m_CullTransparentMesh: 0
+--- !u!114 &296527697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296527693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa46b7f79299df0458472185236b47f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 704461097}
 --- !u!1 &303364300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1184,6 +1341,7 @@ GameObject:
   - component: {fileID: 303364301}
   - component: {fileID: 303364303}
   - component: {fileID: 303364302}
+  - component: {fileID: 303364304}
   m_Layer: 5
   m_Name: MainPanel
   m_TagString: Untagged
@@ -1249,6 +1407,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 303364300}
   m_CullTransparentMesh: 0
+--- !u!114 &303364304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303364300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa46b7f79299df0458472185236b47f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 108282628}
 --- !u!1 &372480521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1261,6 +1432,7 @@ GameObject:
   - component: {fileID: 372480525}
   - component: {fileID: 372480524}
   - component: {fileID: 372480523}
+  - component: {fileID: 372480526}
   m_Layer: 5
   m_Name: CreateButton
   m_TagString: Untagged
@@ -1310,7 +1482,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 0.1745283, g: 1, b: 0.19793642, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -1331,6 +1503,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1254893142}
+        m_MethodName: PanelAnimationFadeIn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1949418256}
         m_MethodName: setSceneName
         m_Mode: 5
@@ -1340,6 +1523,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: GameMain
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 372480526}
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 930e21722ed892c46a269bc8e02957ab,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &372480524
@@ -1378,6 +1573,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372480521}
   m_CullTransparentMesh: 0
+--- !u!114 &372480526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372480521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec49bd9b87acfd43945e07d503397c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuButtonController: {fileID: 1254893144}
+  disableOnce: 0
 --- !u!1 &484692219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1467,6 +1676,7 @@ GameObject:
   - component: {fileID: 541792525}
   - component: {fileID: 541792524}
   - component: {fileID: 541792523}
+  - component: {fileID: 541792526}
   m_Layer: 5
   m_Name: CancelButton
   m_TagString: Untagged
@@ -1538,6 +1748,17 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1254893142}
+        m_MethodName: resetTriggerBeforeTransition
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: nextPanel
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1254893142}
         m_MethodName: setTransitionToNextPanel
         m_Mode: 5
         m_Arguments:
@@ -1546,6 +1767,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: prevPanel
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 541792526}
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: d1e3a60e94561d64bba68ff958780769,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &541792524
@@ -1584,6 +1817,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 541792521}
   m_CullTransparentMesh: 0
+--- !u!114 &541792526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541792521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec49bd9b87acfd43945e07d503397c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuButtonController: {fileID: 1254893144}
+  disableOnce: 0
 --- !u!1 &542342775
 GameObject:
   m_ObjectHideFlags: 0
@@ -2097,6 +2344,7 @@ GameObject:
   - component: {fileID: 704461101}
   - component: {fileID: 704461100}
   - component: {fileID: 704461099}
+  - component: {fileID: 704461102}
   m_Layer: 5
   m_Name: CancelButton
   m_TagString: Untagged
@@ -2168,7 +2416,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1254893142}
-        m_MethodName: setTransitionToNextPanel
+        m_MethodName: resetTriggerBeforeTransition
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2176,6 +2424,29 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: prevPanel
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1254893142}
+        m_MethodName: setTransitionToNextPanel
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: nextPanel
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 704461102}
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: d1e3a60e94561d64bba68ff958780769,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &704461100
@@ -2214,6 +2485,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704461097}
   m_CullTransparentMesh: 0
+--- !u!114 &704461102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704461097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec49bd9b87acfd43945e07d503397c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuButtonController: {fileID: 1254893144}
+  disableOnce: 0
 --- !u!1 &704489663
 GameObject:
   m_ObjectHideFlags: 0
@@ -3314,6 +3599,8 @@ GameObject:
   - component: {fileID: 1254893138}
   - component: {fileID: 1254893142}
   - component: {fileID: 1254893143}
+  - component: {fileID: 1254893144}
+  - component: {fileID: 1254893145}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Canvas
@@ -3441,6 +3728,118 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1254893144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254893137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6878262d6fb4aef419fca13218bd44fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 0
+  keyDown: 0
+  maxIndex: 1
+  audioSource: {fileID: 0}
+--- !u!82 &1254893145
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254893137}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 677e53755bb55434591606f9bc494c68, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.2
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1526532499
 GameObject:
   m_ObjectHideFlags: 0
@@ -3527,6 +3926,9 @@ GameObject:
   - component: {fileID: 1539325663}
   - component: {fileID: 1539325662}
   - component: {fileID: 1539325661}
+  - component: {fileID: 1539325667}
+  - component: {fileID: 1539325666}
+  - component: {fileID: 1539325665}
   m_Layer: 5
   m_Name: CreateGameButton
   m_TagString: Untagged
@@ -3613,6 +4015,17 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1254893142}
+        m_MethodName: resetTriggerBeforeTransition
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: nextPanel
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1254893142}
         m_MethodName: setTransitionToNextPanel
         m_Mode: 5
         m_Arguments:
@@ -3621,6 +4034,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: prevPanel
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1539325666}
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 930e21722ed892c46a269bc8e02957ab,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1539325663
@@ -3659,6 +4084,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1539325659}
   m_CullTransparentMesh: 0
+--- !u!114 &1539325665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539325659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f136bc9480fd8b4788efbc4fd7b5d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuButtonController: {fileID: 1254893144}
+  animator: {fileID: 1539325667}
+  animatorFunctions: {fileID: 1539325666}
+  thisIndex: 1
+--- !u!114 &1539325666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539325659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec49bd9b87acfd43945e07d503397c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuButtonController: {fileID: 1254893144}
+  disableOnce: 0
+--- !u!95 &1539325667
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539325659}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1f171313b706eb24cafd3997c8de663f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1552370686
 GameObject:
   m_ObjectHideFlags: 0

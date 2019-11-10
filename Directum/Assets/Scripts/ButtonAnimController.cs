@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.Audio;
 public class ButtonAnimController : MonoBehaviour
 {
 	[Header("STYLE OBJECTS")]
@@ -67,8 +67,13 @@ public class ButtonAnimController : MonoBehaviour
 		Application.Quit();
 		Debug.Log("Exited!");
 	}
-	public void setTransitionToNextPanel(string trigger)
+	public void setTransitionToNextPanel(string setTrigger)
 	{
-		this.gameObject.GetComponent<Animator>().SetTrigger(trigger);
+		
+		this.gameObject.GetComponent<Animator>().SetTrigger(setTrigger);
+	}
+	public void resetTriggerBeforeTransition(string resetTrigger)
+	{
+		this.gameObject.GetComponent<Animator>().ResetTrigger(resetTrigger);
 	}
 }

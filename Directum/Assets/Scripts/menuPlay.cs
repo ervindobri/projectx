@@ -49,7 +49,7 @@ public class MenuPlay : MonoBehaviour
 	}
 	private void Update()
 	{
-		if (buttonAnimController.fadeIn == true)
+		if ( buttonAnimController.fadeIn )
 		{
 			StartCoroutine(WaitToLoadScene(1.01f));
 		}
