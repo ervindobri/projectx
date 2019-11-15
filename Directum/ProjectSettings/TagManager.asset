@@ -13,6 +13,7 @@ TagManager:
   - Canvas
   - Panel
   - Button
+  - Movetimer
   layers:
   - Default
   - TransparentFX
@@ -58,4 +59,16 @@ TagManager:
     locked: 0
   - name: Points
     uniqueID: 682054757
+    locked: 0
+  - name: GameOver
+    uniqueID: 926963731
+    locked: 0
+  - name: Countdown
+    uniqueID: 1228184847
+    locked: 0
+  - name: Pause
+    uniqueID: 1059397219
+    locked: 0
+  - name: Transition
+    uniqueID: 4196001111
     locked: 0

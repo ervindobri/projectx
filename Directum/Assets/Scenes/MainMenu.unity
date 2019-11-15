@@ -238,7 +238,6 @@ MonoBehaviour:
   styleObjectOut: {fileID: 1443529489}
   panelIn: {fileID: 7267325771224536034}
   panelOut: {fileID: 1285368333}
-  styleButtonIn: {fileID: 1844975631}
   fadeIn: 0
   fadeOut: 0
 --- !u!82 &25808636
