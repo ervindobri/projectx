@@ -8,48 +8,25 @@ using System;
 
 public class Client : MonoBehaviour
 {
-	private bool socketReady;
+	public static bool socketReady;
 	private TcpClient socket;
 	private NetworkStream stream;
 	private StreamReader reader;
 	private StreamWriter writer;
 
-	private GameObject messagePanelObject;
-	private MessagePanelController messagePanel;
-
+	public string clientName;
 	private void Start()
 	{
-		messagePanelObject = GameObject.Find("MessagePanel").gameObject;
-		messagePanel = messagePanelObject.GetComponent<MessagePanelController>();
-
 		DontDestroyOnLoad(this.gameObject);
 	}
 
-	public void ConnectToServer()
+	public void ConnectToServer(string host, int port)
 	{
 		//already connected
 		if (socketReady)
 		{
 			Debug.Log(" Already conected");
 			return;
-		}
-		string host = "127.0.0.1";
-		int port = 2269;
-
-		string h;
-		int p;
-		//Check if anything is typed in the inputfields.
-		h = GameObject.Find("HostInput").GetComponent<InputField>().text;
-		if ( h!= "")
-		{
-			//Debug.Log(h);
-			host = h;
-		}
-		int.TryParse(GameObject.Find("PortInput").GetComponent<InputField>().text, out p);
-		if ( p != 0)
-		{
-			//Debug.Log(p);
-			port = p;
 		}
 		// Create the socket
 		try
@@ -59,12 +36,10 @@ public class Client : MonoBehaviour
 			writer = new StreamWriter(stream);
 			reader = new StreamReader(stream);
 			socketReady = true;
-			messagePanel.text.text = "CONNECTED TO HOST SUCCESSFULLY";
 		}
 		catch (Exception e)
 		{
 			Debug.Log("Socket error: "+ e.Message);
-			messagePanel.text.text = "SOCKET ERROR!" ;
 		}
 	}
 	private void Update()
@@ -80,7 +55,7 @@ public class Client : MonoBehaviour
 					OnIncomingData(data);
 				}
 			}
-			Send("Hello GANYE");
+			Send("Hello Server");
 		}
 	}
 	private void OnApplicationQuit()

@@ -9,8 +9,8 @@ public class MoveTimer : MonoBehaviour
 
 	private string thisPlayerPanelName;
 	private GameObject countDownPanel;
-	public  bool alreadyMoved;
-	public  bool isTicking;
+	public bool alreadyMoved;
+	public bool isTicking;
 	private Text moveTimerText;
 	private GameObject thisPlayerPanel;
 	private GameObject thisMoveTimer;
@@ -28,16 +28,16 @@ public class MoveTimer : MonoBehaviour
 		moveTimerText.text = RemainingSeconds.ToString("#0");
 		alreadyMoved = false;
 
-		Debug.Log(thisPlayerPanelName + "," + thisMoveTimer);
+		//Debug.Log(thisPlayerPanelName + "," + thisMoveTimer);
 	}
 	private void Update()
 	{
 		if ( !countDownPanel.activeSelf)
 		{
 			// check if this player has to move or not -> GameplayManager tells which player has to move
-			Debug.Log(thisPlayerPanelName + " and " + GameplayManager.movingPlayerName);
-			Debug.Log(thisMoveTimer + " and " + GameplayManager.currentMoveTimer);
-			if ( thisPlayerPanelName == GameplayManager.movingPlayerName && thisMoveTimer == GameplayManager.currentMoveTimer && isTicking )
+			//Debug.Log(thisPlayerPanelName + " and " + GameplayManager.movingPlayerName);
+			//Debug.Log(thisMoveTimer + " and " + GameplayManager.currentMoveTimer);
+			if ( thisPlayerPanel== GameplayManager.currentMovingPlayer && thisMoveTimer == GameplayManager.currentMoveTimer )
 			{
 				//Debug.Log(thisPlayerPanelName + "-" +  thisMoveTimer);	
 				if ( isTicking )
@@ -54,7 +54,7 @@ public class MoveTimer : MonoBehaviour
 						//Now It's the time to move!!
 						if (!alreadyMoved && Input.GetMouseButtonDown(1))
 						{
-							Debug.Log("I moved!");
+							//Debug.Log("I moved!");
 							timePassed = 0;
 							RemainingSeconds = timeLeft;
 							moveTimerText.text = RemainingSeconds.ToString("#0");

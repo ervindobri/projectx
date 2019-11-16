@@ -39,7 +39,6 @@ public class GameTimer : MonoBehaviour
 		timePassed = 0f;
 		timerText.text = timePassed.ToString("#0.00");
 		RemainingSeconds = startTime;
-
 		isTicking = true;
 	}
 

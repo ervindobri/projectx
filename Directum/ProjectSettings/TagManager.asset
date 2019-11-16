@@ -14,6 +14,7 @@ TagManager:
   - Panel
   - Button
   - Movetimer
+  - Client
   layers:
   - Default
   - TransparentFX

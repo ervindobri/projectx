@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -46,18 +47,18 @@ public class SettingsPanelController : MonoBehaviour
 		GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<Canvas>().sortingOrder = 0;
 	}
 
-	public void SavePlayer(int index)
+	public void SavePlayer()
 	{
 		//Displays a message so that the user knows the playerdata has been saved
 		messagePanelAnimator.SetTrigger("dispMessage");
-		messagePanelDisplayText.GetComponent<Text>().text = "Player" + index + " data has been saved!";
+		messagePanelDisplayText.GetComponent<Text>().text = "Player data has been saved!";
 		//Calls the function which creates a file with the data saved
 		//Debug.Log( "Player" + index + " data Saved!");
-		SaveSystem.SavePlayer(this, index);
+		SaveSystem.SavePlayer(this);
 	}
-	public void LoadPlayer(int index)
+	public void LoadPlayer()
 	{
-		PlayerData data = SaveSystem.LoadPlayer(index);
+		PlayerData data = SaveSystem.LoadPlayer();
 
 		inputTextObject.text = data.playerName;
 		Color loadColor;
@@ -65,15 +66,18 @@ public class SettingsPanelController : MonoBehaviour
 		loadColor.g = data.cursorColor[1];
 		loadColor.b = data.cursorColor[2];
 		loadColor.a = data.cursorColor[3];
+
 		if (GameObject.Find(currentPanelName + "/ColorSelectorPanel"))
 		{
 			GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<ChangeColor>()._handle.color = loadColor;
 		}
-		Debug.Log(data.playerName + " " + loadColor);
+		//Debug.Log(data.playerName + " " + loadColor);
 
 		//Displays a message so that the user knows the playerdata has been saved
 		messagePanelAnimator.SetTrigger("dispMessage");
-		messagePanelDisplayText.GetComponent<Text>().text = "Player" + index + " data has been loaded!";
+		messagePanelDisplayText.GetComponent<Text>().text = "Player data has been loaded!";
+
+
 	}
 	public void ResetPlayer(int index)
 	{

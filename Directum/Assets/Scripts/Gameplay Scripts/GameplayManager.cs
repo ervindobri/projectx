@@ -2,64 +2,186 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System;
+using System.Net;
+using System.Diagnostics;
 
 public class GameplayManager : MonoBehaviour
 {
-	public static string movingPlayerName;
+	public static GameObject currentMovingPlayer;
+	public static string currentMovingPlayerName;
 	private GameObject[] playerPanels;
 	private List<Text> playerTexts;
 	public int moveCounter;
 
-	private GameObject[] moveTimers;
+	private GameObject[] moveTimerObjects;
 	public static GameObject currentMoveTimer;
-	private void Start()
+	public List<MoveTimer> moveTimers;
+
+	ButtonAnimController buttonAnimController;
+	private GameObject messagePanelObject;
+	private MessagePanelController messagePanel;
+
+
+	public GameObject clientPrefab;
+	public GameObject serverPrefab;
+	private void Awake()
 	{
-		playerTexts = new List<Text>();
-		playerPanels = GameObject.FindGameObjectsWithTag("Player");
-		moveTimers = GameObject.FindGameObjectsWithTag("Movetimer");
-		for (int i = 0; i < playerPanels.Length; i++)
+		messagePanelObject = GameObject.Find("MessagePanel").gameObject;
+		messagePanel = messagePanelObject.GetComponent<MessagePanelController>();
+		//DontDestroyOnLoad(this.gameObject);
+		if ( SceneManager.GetActiveScene().name == "GameMain")
 		{
-			playerTexts.Add(playerPanels[i].transform.Find("Text").GetComponent<Text>());
+			playerTexts = new List<Text>();
+			playerPanels = GameObject.FindGameObjectsWithTag("Player");
+			for (int i = 0; i < playerPanels.Length; i++)
+			{
+				playerTexts.Add(playerPanels[i].transform.Find("Text").GetComponent<Text>());
+			}
+			moveTimerObjects = GameObject.FindGameObjectsWithTag("Movetimer");
+			moveTimers = new List<MoveTimer>();
+			for (int i = 0; i < playerPanels.Length; i++)
+			{
+				moveTimers.Add(playerPanels[i].GetComponent<MoveTimer>());
+				//Debug.Log(moveTimers[i]);
+			}
+			//First move goes for Player1
+			if (playerTexts[0].text == "PLAYER 1")
+			{
+				currentMovingPlayer = playerPanels[0];
+				currentMovingPlayerName = playerTexts[0].text;
+				currentMoveTimer = moveTimerObjects[0];
+			}
 		}
-		foreach (var text in playerTexts)
+		if ( SceneManager.GetActiveScene().name == "PlayMenu")
 		{
-			Debug.Log(text);
+			GameObject buttonAnimControllerObject = GameObject.FindWithTag("Canvas");
+			if (buttonAnimControllerObject != null)
+			{
+				buttonAnimController = buttonAnimControllerObject.GetComponent<ButtonAnimController>();
+			}
+			if (buttonAnimControllerObject == null)
+			{
+				UnityEngine.Debug.Log("Could not find 'ButtonAnimController' script...");
+			}
 		}
-		//First move goes for Player1
-		if (playerTexts[0].text == "PLAYER 1")
-		{
-			movingPlayerName = playerTexts[0].text;
-			currentMoveTimer = moveTimers[0];
-		}
+		
 	}
 	private void Update()
 	{
-		Debug.Log(movingPlayerName + "+" + currentMoveTimer);
-		//if Player1 made a move->next player has to make a move
-		if ( movingPlayerName == playerTexts[0].text)
+		if (SceneManager.GetActiveScene().name == "GameMain")
 		{
-			playerPanels[0].GetComponent<MoveTimer>().isTicking = true;
-			//Debug.Log("Player 1 is making a move!");
-			if ( playerPanels[0].GetComponent<MoveTimer>().alreadyMoved )
+			//Debug.Log(movingPlayerName + "+" + currentMoveTimer);
+			//if Player1 made a move->next player has to make a move
+			if (currentMovingPlayerName == playerTexts[0].text && !PauseMenuController.isPaused)
 			{
-				movingPlayerName = playerTexts[1].text;
-				playerPanels[0].GetComponent<MoveTimer>().isTicking = false;
-				currentMoveTimer = moveTimers[1];
-				playerPanels[0].GetComponent<MoveTimer>().alreadyMoved = false;
+				moveTimers[0].isTicking = true;
+				//Debug.Log("Player 1 is making a move!");
+				if ( moveTimers[0].alreadyMoved )
+				{
+					currentMovingPlayer = playerPanels[1];
+					currentMovingPlayerName = playerTexts[1].text;
+					currentMoveTimer = moveTimerObjects[1];
+					//
+					moveTimers[0].isTicking = false;
+					moveTimers[0].alreadyMoved = false;
+				}
+			}
+			//if Player2 has to move 
+			if (currentMovingPlayerName == playerTexts[1].text && !PauseMenuController.isPaused)
+			{
+				moveTimers[1].isTicking = true;
+				//Debug.Log("Player 2 is making a move!");
+				if (moveTimers[1].alreadyMoved)
+				{
+					// The current player is set to be player 1
+					currentMovingPlayer = playerPanels[0];
+					currentMovingPlayerName = playerTexts[0].text;
+					currentMoveTimer = moveTimerObjects[0];
+					//
+					moveTimers[1].isTicking = false;
+					moveTimers[1].alreadyMoved = false;
+				}
 			}
 		}
-		//if Player2 has to move 
-		if (movingPlayerName == playerTexts[1].text)
+		if (SceneManager.GetActiveScene().name == "PlayMenu")
 		{
-			playerPanels[1].GetComponent<MoveTimer>().isTicking = true;
-			//Debug.Log("Player 2 is making a move!");
-			if (playerPanels[1].GetComponent<MoveTimer>().alreadyMoved )
-			{
-				movingPlayerName = playerTexts[0].text;
-				playerPanels[1].GetComponent<MoveTimer>().isTicking = false;
-				currentMoveTimer = moveTimers[0];
-				playerPanels[1].GetComponent<MoveTimer>().alreadyMoved = false;
-			}
 		}
+	}
+
+	public void HostButton()
+	{
+		try
+		{
+			int port;
+			int.TryParse(GameObject.Find("PortInput").GetComponent<InputField>().text, out port);
+			//Start C++ Server as a new process with arguments as host and port
+			/*Process process = new Process();
+			  process.StartInfo.FileName = "TCPServer.exe";
+			  process.StartInfo.Arguments = "-n";
+			*/
+			// Host is also a client -> instantiate
+			
+			Server server = Instantiate(serverPrefab).GetComponent<Server>();
+			server.Init();
+			messagePanel.text.text = "SERVER CREATED SUCCESSFULLY";
+
+
+			Client client = Instantiate(clientPrefab).GetComponent<Client>();
+			// Set client name -> load file
+			PlayerData data = SaveSystem.LoadPlayer();
+			client.clientName = data.playerName;
+			client.ConnectToServer("127.0.0.1", port);
+			UnityEngine.Debug.Log(client.clientName + " has connected to server");
+
+			// Transition fade in , then Set scene to Lobby
+			buttonAnimController.PanelAnimationFadeIn();
+			WAitABit();
+		}
+		catch (Exception e)
+		{
+			messagePanel.text.text = "COULDN'T CREATE SERVER!";
+			//messagePanel.text.text = e.Message;
+			throw;
+		}
+	}
+	public void ConnectToServerButton()
+	{
+		int port;
+		string host = GameObject.Find("HostInput").GetComponent<InputField>().text;
+		int.TryParse(GameObject.Find("PortInput").GetComponent<InputField>().text, out port);
+
+		if (host == "")
+		{
+			host = "127.0.0.1";
+		}
+		if (port == 0) {
+		
+			port = 2269;
+		}
+		try 
+		{
+			Client client = Instantiate(clientPrefab).GetComponent<Client>();
+			// Set client name -> load file
+			PlayerData data = SaveSystem.LoadPlayer();
+			client.clientName = data.playerName;
+			client.ConnectToServer(host, port);
+			messagePanel.text.text = "CONNECTED TO HOST SUCCESSFULLY";
+			// Transition fade in , then Set scene to Lobby
+			buttonAnimController.PanelAnimationFadeIn();
+			WAitABit();
+		}
+		catch (Exception)
+		{
+			messagePanel.text.text = "SOCKET ERROR!";
+			throw;
+		}
+	}
+
+	IEnumerator WAitABit()
+	{
+		yield return new WaitForSeconds(2.0f);
+		buttonAnimController.PanelAnimationFadeIn();
 	}
 }

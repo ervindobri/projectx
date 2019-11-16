@@ -1,43 +1,53 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoadPlayerData : MonoBehaviour
 {
 	SettingsPanelController settings;
 
-	private List<GameObject> playerNames;
+	private GameObject playerNameObject;
 
+	private string playerName;
+	private Color loadColor;
 	public static bool playersLoaded;
 	private void Start()
 	{
-		playerNames = new List<GameObject>();
 		settings = GetComponent<SettingsPanelController>();
-		GameObject.Find(this.gameObject.name + "/Player1Panel/Text/Name/");
-		playerNames.Add(GameObject.Find(this.gameObject.name +"/PlayerPanel"));
-		playerNames.Add(GameObject.Find(this.gameObject.name +"/PlayerPanel"));
+		if ( SceneManager.GetActiveScene().name == "GameMain")
+		{
+			playerNameObject = GameObject.Find(this.gameObject.name +"/PlayerPanel");
+		}
+		//playerNames.Add(GameObject.Find(this.gameObject.name +"/Player2Panel"));
 		
 		// Load player data on Load
-		LoadPlayersOnLoad();
+		LoadPlayerOnLoad();
 		playersLoaded = true;
 	}
-	private void LoadPlayersOnLoad()
+	private void LoadPlayerOnLoad()
 	{
-		PlayerData data1 = SaveSystem.LoadPlayer(1);
-		PlayerData data2 = SaveSystem.LoadPlayer(2);
+		try
+		{
+			PlayerData data = SaveSystem.LoadPlayer();
+			playerName = data.playerName;
+			loadColor.r = data.cursorColor[0];
+			loadColor.g = data.cursorColor[1];
+			loadColor.b = data.cursorColor[2];
+			loadColor.a = data.cursorColor[3];
+			if (SceneManager.GetActiveScene().name == "GameMain")
+			{
+				playerNameObject.transform.Find("Text/Name").GetComponent<Text>().text = data.playerName;
+				loadColor = transform.Find("Text").GetComponent<Text>().color = loadColor;
+			}
+		}
+		catch (System.Exception)
+		{
+			Debug.Log("Save file not found");
+			throw;
+		}
 
-		playerNames[0].transform.Find("Text/Name").GetComponent<Text>().text = data1.playerName;
-		playerNames[1].transform.Find("Text/Name").GetComponent<Text>().text = data2.playerName;
-		Color loadColor;
-		loadColor.r = data1.cursorColor[0];
-		loadColor.g = data1.cursorColor[1];
-		loadColor.b = data1.cursorColor[2];
-		loadColor.a = data1.cursorColor[3];
-		playerNames[0].transform.Find("Text").GetComponent<Text>().color = loadColor;
-		loadColor.r = data2.cursorColor[0];
-		loadColor.g = data2.cursorColor[1];
-		loadColor.b = data2.cursorColor[2];
-		loadColor.a = data2.cursorColor[3];
-		playerNames[1].transform.Find("Text").GetComponent<Text>().color = loadColor;
+
+
 	}
 }

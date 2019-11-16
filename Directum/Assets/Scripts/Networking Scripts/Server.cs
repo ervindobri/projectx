@@ -13,11 +13,13 @@ public class Server : MonoBehaviour
 	private List<ServerClient> clientList;
 	private List<ServerClient> disconnectList;
 	public int port = 2269;
+
 	private TcpListener server;
 	private bool serverStarted;
 
-	private void Start()
+	public void Init()
 	{
+		DontDestroyOnLoad(gameObject);
 		clientList = new List<ServerClient>();
 		disconnectList = new List<ServerClient>();
 		Debug.Log(IPAddress.Any);
@@ -70,7 +72,13 @@ public class Server : MonoBehaviour
 					}
 				}
 			}
+			for (int i = 0; i < disconnectList.Count; i++)
+			{
 
+				//Tell our player somebody has disconnected
+				clientList.Remove(disconnectList[i]);
+				disconnectList.RemoveAt(i);
+			}
 		}
 	}
 	private void StartListening()
@@ -105,6 +113,7 @@ public class Server : MonoBehaviour
 	private void AcceptTcpClient(IAsyncResult ar)
 	{
 		TcpListener listener = (TcpListener)ar.AsyncState;
+
 		clientList.Add(new ServerClient(listener.EndAcceptTcpClient(ar)));
 		StartListening();
 

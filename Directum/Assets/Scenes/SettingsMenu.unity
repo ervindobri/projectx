@@ -594,7 +594,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 625369238}
         m_MethodName: SavePlayer
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5330,7 +5330,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 625369238}
         m_MethodName: LoadPlayer
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6729,7 +6729,6 @@ MonoBehaviour:
   styleObjectOut: {fileID: 911597411}
   panelIn: {fileID: 1756419582}
   panelOut: {fileID: 883642736}
-  styleButtonIn: {fileID: 1320898546}
   fadeIn: 0
   fadeOut: 0
 --- !u!114 &1822412299

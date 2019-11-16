@@ -33,6 +33,7 @@ public class ConnectLines : MonoBehaviour
 	public static bool gameWon;
 	private Vector3 originalPosition;
 
+	private bool deadEnd;
 	void Awake()
     {
 		GameObject[] points = GameObject.FindGameObjectsWithTag("Point");
@@ -148,9 +149,10 @@ public class ConnectLines : MonoBehaviour
 			}
 		}
         currentPoint.GetComponent<SpriteRenderer>().color = black;
-        if (possibleStepcounter == 0)
+        if (possibleStepcounter == 0 && isWin(currentPoint) )
         {
-            Debug.Log("DeadEnd=Lose");
+			deadEnd = true;
+			Debug.Log("DeadEnd=Lose");
         }
     }
 
