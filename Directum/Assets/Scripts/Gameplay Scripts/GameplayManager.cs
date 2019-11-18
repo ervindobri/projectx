@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Net;
 using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -28,12 +29,14 @@ public class GameplayManager : MonoBehaviour
 	public GameObject serverPrefab;
 	private GameObject gameplayManagerObject;
 	private GameplayManager gameplayManager;
+    public static GameplayManager Instance { get; set; }
 
-	private void Awake()
+    private void Awake()
 	{
-		messagePanelObject = GameObject.Find("MessagePanel").gameObject;
+        Instance = this;
+        messagePanelObject = GameObject.Find("MessagePanel").gameObject;
 		messagePanel = messagePanelObject.GetComponent<MessagePanelController>();
-		//DontDestroyOnLoad(this.gameObject);
+		DontDestroyOnLoad(this.gameObject);
 		if ( SceneManager.GetActiveScene().name == "GameMain")
 		{
 			gameplayManagerObject = GameObject.Find("GameplayManager");
@@ -74,10 +77,7 @@ public class GameplayManager : MonoBehaviour
 			{
 				UnityEngine.Debug.Log("Could not find 'ButtonAnimController' script...");
 			}
-		}
-
-		
-		
+		}	
 	}
 	private void Update()
 	{
@@ -141,32 +141,40 @@ public class GameplayManager : MonoBehaviour
 
 	public void HostButton()
 	{
-		try
+        int port;
+        int.TryParse(GameObject.Find("PortInput").GetComponent<InputField>().text, out port);
+        try
 		{
-			int port;
-			int.TryParse(GameObject.Find("PortInput").GetComponent<InputField>().text, out port);
-			//Start C++ Server as a new process with arguments as host and port
-			/*Process process = new Process();
+            //Start C++ Server as a new process with arguments as host and port
+            /*Process process = new Process();
 			  process.StartInfo.FileName = "TCPServer.exe";
 			  process.StartInfo.Arguments = "-n";
 			*/
-			// Host is also a client -> instantiate
-			
-			Server server = Instantiate(serverPrefab).GetComponent<Server>();
-			server.Init();
-			messagePanel.text.text = "SERVER CREATED SUCCESSFULLY";
+            // Host is also a client -> instantiate
 
+            Process process = new Process();
+            process.EnableRaisingEvents = false;
+            //process.StartInfo.FileName = Application.dataPath + "/path/to/The.app/Contents/MacOS/The";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.RedirectStandardError = true;
+
+            Process.Start(@"D:\Sapientia\V.felev\szoftver\projectX\projectx\GameServer\Debug\GameServer.exe");
+
+            //Server server = Instantiate(serverPrefab).GetComponent<Server>();
+			//server.Init();
+			messagePanel.text.text = "SERVER CREATED SUCCESSFULLY";
 
 			Client client = Instantiate(clientPrefab).GetComponent<Client>();
 			// Set client name -> load file
 			PlayerData data = SaveSystem.LoadPlayer();
 			client.clientName = data.playerName;
-			client.ConnectToServer("127.0.0.1", port);
+			client.ConnectToServer("127.0.0.1", 2269);
 			UnityEngine.Debug.Log(client.clientName + " has connected to server");
 
 			// Transition fade in , then Set scene to Lobby
 			buttonAnimController.PanelAnimationFadeIn();
-			WAitABit();
 		}
 		catch (Exception e)
 		{
@@ -199,18 +207,11 @@ public class GameplayManager : MonoBehaviour
 			messagePanel.text.text = "CONNECTED TO HOST SUCCESSFULLY";
 			// Transition fade in , then Set scene to Lobby
 			buttonAnimController.PanelAnimationFadeIn();
-			WAitABit();
 		}
 		catch (Exception)
 		{
 			messagePanel.text.text = "SOCKET ERROR!";
 			throw;
 		}
-	}
-
-	IEnumerator WAitABit()
-	{
-		yield return new WaitForSeconds(2.0f);
-		buttonAnimController.PanelAnimationFadeIn();
 	}
 }

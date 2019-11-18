@@ -91,11 +91,12 @@ void main()
 		else {
 			printf("Accept succesful:Client connected!\n");
 		}
-		recv(AcceptSocket, RecvBuf, recvBufLen, 0);
+		
+		//recv(AcceptSocket, RecvBuf, recvBufLen, 0);
 		//x = (int)RecvBuf;
 		cout << RecvBuf;
 		char message[] = "uzenetet kuldtem";
-		send(AcceptSocket, message, sizeof(message), 0);
+		//send(AcceptSocket, message, sizeof(message), 0);
 
 		//fout << x << " " << y << endl;
 		printf("Sending a datagram to the receiver...\n");
