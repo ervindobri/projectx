@@ -19,7 +19,7 @@ public class MenuButton : MonoBehaviour
 			if ( Input.GetAxis("Submit") == 1 || Input.GetMouseButtonDown(0) )
 			{
 
-				Debug.Log(this.gameObject.name);
+				//Debug.Log(this.gameObject.name);
 				animator.SetBool("pressed", true);
 				this.gameObject.GetComponent<Button>().onClick.Invoke();
 			}

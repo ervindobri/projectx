@@ -5,9 +5,14 @@ public class CountDown : MonoBehaviour
 {
 	private float timeLeft = 3.0f;
 	private Text countDown;
+
+	[Header("Sound")]
+	public AudioSource audioSource;
 	private void Start()
 	{
 		countDown = gameObject.GetComponentInChildren<Text>();
+		audioSource = GetComponent<AudioSource>();
+		audioSource.Play();
 	}
 	private void Update()
 	{

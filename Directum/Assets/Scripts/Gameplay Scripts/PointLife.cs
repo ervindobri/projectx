@@ -32,19 +32,18 @@ public class PointLife : MonoBehaviour
 	}
 	private void OnMouseDown()
 	{
-        connectLines.nextPoint = point;
+		connectLines.nextPoint = point;
         Color rose = new Color(0.7264151f, 0.2775454f, 0.2775454f, 1f);
         if (connectLines.nextPoint.GetComponent<SpriteRenderer>().color == rose)
         {
-            //Debug.Log("Selected");
-
-            wasSelected = true;
-            if (connectLines.isWin(point))
+			//Debug.Log("Selected");
+			wasSelected = true;
+			if (connectLines.isWin(point))
             {
-				//Stop timer, display panel, hide other panels, lines and points
+				//Stop timer, display panel
 				
 				ConnectLines.gameWon = true;
-				Debug.Log("Winner");
+				//Debug.Log("Winner");
             }
             else
             {
@@ -64,7 +63,5 @@ public class PointLife : MonoBehaviour
         {
             ;
         }
-        //serverCommunication();
-        //processingRecievedDataFromServer();
 	}
 }

@@ -23,9 +23,12 @@ public class GameplayManager : MonoBehaviour
 	private GameObject messagePanelObject;
 	private MessagePanelController messagePanel;
 
-
+	private GameObject gameOverPanel;
 	public GameObject clientPrefab;
 	public GameObject serverPrefab;
+	private GameObject gameplayManagerObject;
+	private GameplayManager gameplayManager;
+
 	private void Awake()
 	{
 		messagePanelObject = GameObject.Find("MessagePanel").gameObject;
@@ -33,18 +36,23 @@ public class GameplayManager : MonoBehaviour
 		//DontDestroyOnLoad(this.gameObject);
 		if ( SceneManager.GetActiveScene().name == "GameMain")
 		{
+			gameplayManagerObject = GameObject.Find("GameplayManager");
+			gameplayManager = gameplayManagerObject.GetComponent<GameplayManager>();
+			gameOverPanel = GameObject.Find("GameOverPanel");
+			gameOverPanel.GetComponent<Canvas>().sortingLayerName = "Default";
 			playerTexts = new List<Text>();
 			playerPanels = GameObject.FindGameObjectsWithTag("Player");
 			for (int i = 0; i < playerPanels.Length; i++)
 			{
-				playerTexts.Add(playerPanels[i].transform.Find("Text").GetComponent<Text>());
+				playerTexts.Add(playerPanels[i].transform.Find("Title").GetComponent<Text>());
+				//UnityEngine.Debug.Log(playerTexts[i]);
 			}
 			moveTimerObjects = GameObject.FindGameObjectsWithTag("Movetimer");
 			moveTimers = new List<MoveTimer>();
 			for (int i = 0; i < playerPanels.Length; i++)
 			{
 				moveTimers.Add(playerPanels[i].GetComponent<MoveTimer>());
-				//Debug.Log(moveTimers[i]);
+				//UnityEngine.Debug.Log(moveTimers[i]);
 			}
 			//First move goes for Player1
 			if (playerTexts[0].text == "PLAYER 1")
@@ -52,6 +60,7 @@ public class GameplayManager : MonoBehaviour
 				currentMovingPlayer = playerPanels[0];
 				currentMovingPlayerName = playerTexts[0].text;
 				currentMoveTimer = moveTimerObjects[0];
+				//UnityEngine.Debug.Log(currentMoveTimer);
 			}
 		}
 		if ( SceneManager.GetActiveScene().name == "PlayMenu")
@@ -66,44 +75,64 @@ public class GameplayManager : MonoBehaviour
 				UnityEngine.Debug.Log("Could not find 'ButtonAnimController' script...");
 			}
 		}
+
+		
 		
 	}
 	private void Update()
 	{
 		if (SceneManager.GetActiveScene().name == "GameMain")
 		{
-			//Debug.Log(movingPlayerName + "+" + currentMoveTimer);
-			//if Player1 made a move->next player has to make a move
-			if (currentMovingPlayerName == playerTexts[0].text && !PauseMenuController.isPaused)
+			if (gameOverPanel.GetComponent<Canvas>().sortingLayerName == "GameOver")
 			{
-				moveTimers[0].isTicking = true;
-				//Debug.Log("Player 1 is making a move!");
-				if ( moveTimers[0].alreadyMoved )
+				// If GameOverPanel is active stop all timers
+				GameTimer.isTicking = false;
+				foreach (var item in gameplayManager.moveTimers)
 				{
-					currentMovingPlayer = playerPanels[1];
-					currentMovingPlayerName = playerTexts[1].text;
-					currentMoveTimer = moveTimerObjects[1];
-					//
-					moveTimers[0].isTicking = false;
-					moveTimers[0].alreadyMoved = false;
+					item.isTicking = false;
 				}
+				// Set winner name and time
+				gameOverPanel.transform.Find("Winner").GetComponent<Text>().text = currentMovingPlayerName + "WON!";
+				gameOverPanel.transform.Find("FinalTimer").GetComponent<Text>().text = "Time: " + GameObject.Find("Timer").GetComponent<Text>().text;
+
 			}
-			//if Player2 has to move 
-			if (currentMovingPlayerName == playerTexts[1].text && !PauseMenuController.isPaused)
+			else
 			{
-				moveTimers[1].isTicking = true;
-				//Debug.Log("Player 2 is making a move!");
-				if (moveTimers[1].alreadyMoved)
+				//Debug.Log(movingPlayerName + "+" + currentMoveTimer);
+				//if Player1 made a move->next player has to make a move
+				if (currentMovingPlayerName == playerTexts[0].text && !PauseMenuController.isPaused)
 				{
-					// The current player is set to be player 1
-					currentMovingPlayer = playerPanels[0];
-					currentMovingPlayerName = playerTexts[0].text;
-					currentMoveTimer = moveTimerObjects[0];
-					//
-					moveTimers[1].isTicking = false;
-					moveTimers[1].alreadyMoved = false;
+					moveTimers[0].isTicking = true;
+					//Debug.Log("Player 1 is making a move!");
+					if (moveTimers[0].alreadyMoved)
+					{
+						currentMovingPlayer = playerPanels[1];
+						currentMovingPlayerName = playerTexts[1].text;
+						currentMoveTimer = moveTimerObjects[1];
+						//
+						moveTimers[0].isTicking = false;
+						moveTimers[0].alreadyMoved = false;
+					}
 				}
+				//if Player2 has to move 
+				if (currentMovingPlayerName == playerTexts[1].text && !PauseMenuController.isPaused)
+				{
+					moveTimers[1].isTicking = true;
+					//Debug.Log("Player 2 is making a move!");
+					if (moveTimers[1].alreadyMoved)
+					{
+						// The current player is set to be player 1
+						currentMovingPlayer = playerPanels[0];
+						currentMovingPlayerName = playerTexts[0].text;
+						currentMoveTimer = moveTimerObjects[0];
+						//
+						moveTimers[1].isTicking = false;
+						moveTimers[1].alreadyMoved = false;
+					}
+				}
+
 			}
+			
 		}
 		if (SceneManager.GetActiveScene().name == "PlayMenu")
 		{

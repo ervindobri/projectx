@@ -14,13 +14,19 @@ public class GameTimer : MonoBehaviour
 
 	public float RemainingSeconds;
 
+	[Header("Timer sound")]
+	private AudioClip audioClip;
+	public static AudioSource audioSource;
+
 	public static bool isTicking;
 	private Text timerText;
 	private GameObject countDownPanel;
+	private bool soundOn;
 
 	// Use this for initialization
 	void Awake()
 	{
+		audioSource = gameObject.GetComponent<AudioSource>();
 		countDownPanel = GameObject.Find("CountdownPanel");
 		timerText = GameObject.Find("Timer").GetComponent<Text>();
 		// Another timer exists, kill this one
@@ -40,6 +46,8 @@ public class GameTimer : MonoBehaviour
 		timerText.text = timePassed.ToString("#0.00");
 		RemainingSeconds = startTime;
 		isTicking = true;
+		audioSource.loop = true;
+		soundOn = true;
 	}
 
 	//Update is called once per frame
@@ -48,6 +56,11 @@ public class GameTimer : MonoBehaviour
 
 		if (isTicking && !countDownPanel.activeSelf )// already a bool no check for true needed
 		{
+			if ( soundOn )
+			{
+				audioSource.Play();
+				soundOn = false;
+			}
 			// add frame time to passed time
 			timePassed += Time.deltaTime;
 			timerText.text = timePassed.ToString("#0.00");
