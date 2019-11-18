@@ -10,70 +10,7 @@
 
 #pragma comment(lib, "Ws2_32.lib")
 using namespace std;
-
-void main() {
-	//Atirni TCP serverre!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	WSADATA wsaData;
-	SOCKET SendSocket;
-	sockaddr_in RecvAddr;
-	sockaddr_in RecvAddr1;
-	sockaddr_in RecvAddr2;
-	int Port = 13000;
-	char RecvBuf[1024];
-	char SendBuf[1024];
-	int BufLen = 1024;
-	int SenderAddrSize = sizeof(RecvAddr);
-	int x, y;
-	ofstream fout;
-	fout.open("Gamelog.txt");
-
-
-	WSAStartup(MAKEWORD(2, 2), &wsaData);
-	
-	SendSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-	
-	RecvAddr.sin_family = AF_INET;
-	RecvAddr.sin_port = htons(Port);
-	RecvAddr.sin_addr.s_addr;
-	inet_pton(AF_INET, "127.0.0.1", &RecvAddr.sin_addr.s_addr);
-	
-	if (bind(SendSocket, (SOCKADDR*)&RecvAddr, sizeof(RecvAddr)) == SOCKET_ERROR)
-	{
-		printf("bind() failed.\n");
-		closesocket(SendSocket);
-		return;
-	}
-	recvfrom(SendSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
-	if ((int)RecvBuf) {
-		RecvAddr1 = RecvAddr;
-		recvfrom(SendSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
-		RecvAddr2 = RecvAddr;
-	}
-	else {
-		RecvAddr2 = RecvAddr;
-		recvfrom(SendSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
-		RecvAddr1 = RecvAddr;
-	}
-	printf("Receiving datagrams...\n");
-	while (true) 
-	{
-		//recieve:
-		recvfrom(SendSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
-		x = (int)RecvBuf;
-		recvfrom(SendSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
-		y= (int)RecvBuf;
-		fout<<x<<" "<<y<<endl;
-		printf("Sending a datagram to the receiver...\n");
-		sendto(SendSocket, , sizeof(Buffer), 0, (SOCKADDR*)&RecvAddr, SenderAddrSize);
-		
-	}
-	printf("Finished sending. Closing socket.\n");
-	closesocket(SendSocket);
-	
-	printf("Exiting.\n");
-	WSACleanup();
-	return;
-}void main()
+void main()
 {
 	// visszatéritési érték tárolásához
 	int iResult;
@@ -101,6 +38,7 @@ void main() {
 	//----------------------
 	// A sockaddr_in struktúra meghatározza a cím családot,
 	// Az IP címet és a portot amihez kapcslódnia kell
+
 	int Port = 2269;
 	char IP[10] = "127.0.0.1";
 	sockaddr_in ServerAddr;
@@ -153,14 +91,15 @@ void main() {
 		else {
 			printf("Accept succesful:Client connected!\n");
 		}
-		recv(AcceptSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
-		x = (int)RecvBuf;
-		send()
-		recvfrom(SendSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
-		y = (int)RecvBuf;
-		fout << x << " " << y << endl;
+		recv(AcceptSocket, RecvBuf, recvBufLen, 0);
+		//x = (int)RecvBuf;
+		cout << RecvBuf;
+		char message[] = "uzenetet kuldtem";
+		send(AcceptSocket, message, sizeof(message), 0);
+
+		//fout << x << " " << y << endl;
 		printf("Sending a datagram to the receiver...\n");
-		sendto(SendSocket, , sizeof(Buffer), 0, (SOCKADDR*)&RecvAddr, SenderAddrSize);
+		//send(SendSocket, sizeof(Buffer), 0);
 
 		//iResult = recv(AcceptSocket, RecBuf, recvBufLen - 1, 0);
 		//RecBuf[iResult] = '\0';
@@ -186,3 +125,65 @@ void main() {
 	WSACleanup();
 	return;
 }
+//void main() {
+//	WSADATA wsaData;
+//	SOCKET SendSocket;
+//	sockaddr_in RecvAddr;
+//	sockaddr_in RecvAddr1;
+//	sockaddr_in RecvAddr2;
+//	int Port = 13000;
+//	char RecvBuf[1024];
+//	char SendBuf[1024];
+//	int BufLen = 1024;
+//	int SenderAddrSize = sizeof(RecvAddr);
+//	int x, y;
+//	ofstream fout;
+//	fout.open("Gamelog.txt");
+//
+//	//Kliens listat kesziteni, ami tartalmazza az osszes csatlakoztatott klienst
+//	WSAStartup(MAKEWORD(2, 2), &wsaData);
+//	
+//	SendSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+//	
+//	RecvAddr.sin_family = AF_INET;
+//	RecvAddr.sin_port = htons(Port);
+//	RecvAddr.sin_addr.s_addr;
+//	inet_pton(AF_INET, "127.0.0.1", &RecvAddr.sin_addr.s_addr);
+//	
+//	if (bind(SendSocket, (SOCKADDR*)&RecvAddr, sizeof(RecvAddr)) == SOCKET_ERROR)
+//	{
+//		printf("bind() failed.\n");
+//		closesocket(SendSocket);
+//		return;
+//	}
+//	/*recvfrom(SendSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
+//	if ((int)RecvBuf) {
+//		RecvAddr1 = RecvAddr;
+//		recvfrom(SendSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
+//		RecvAddr2 = RecvAddr;
+//	}
+//	else {
+//		RecvAddr2 = RecvAddr;
+//		recvfrom(SendSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
+//		RecvAddr1 = RecvAddr;
+//	}*/
+//	printf("Receiving datagrams...\n");
+//	while (true) 
+//	{
+//		//recieve:
+//		recvfrom(SendSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
+//		x = (int)RecvBuf;
+//		recvfrom(SendSocket, RecvBuf, BufLen, 0, (SOCKADDR*)&RecvAddr, &SenderAddrSize);
+//		y= (int)RecvBuf;
+//		fout<<x<<" "<<y<<endl;
+//		printf("Sending a datagram to the receiver...\n");
+//		sendto(SendSocket, , sizeof(Buffer), 0, (SOCKADDR*)&RecvAddr, SenderAddrSize);
+//		
+//	}
+//	printf("Finished sending. Closing socket.\n");
+//	closesocket(SendSocket);
+//	
+//	printf("Exiting.\n");
+//	WSACleanup();
+//	return;
+//}

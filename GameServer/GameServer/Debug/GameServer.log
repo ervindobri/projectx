@@ -1,0 +1,3 @@
+﻿  Source.cpp
+D:\Sapientia\V.felev\szoftver\projectX\projectx\GameServer\GameServer\Source.cpp(14,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  GameServer.vcxproj -> D:\Sapientia\V.felev\szoftver\projectX\projectx\GameServer\Debug\GameServer.exe
