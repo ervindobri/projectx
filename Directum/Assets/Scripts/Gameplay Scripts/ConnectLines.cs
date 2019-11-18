@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor.Animations;
 
 public class ConnectLines : MonoBehaviour
 {
@@ -33,24 +34,11 @@ public class ConnectLines : MonoBehaviour
 	public static bool gameWon;
 	private Vector3 originalPosition;
 
-	private bool deadEnd;
+	public static bool deadEnd;
 	void Awake()
     {
-		GameObject[] points = GameObject.FindGameObjectsWithTag("Point");
-		foreach (var point in points)
-		{
-			point.SetActive(true);
-		}
-		GameObject[] lines = GameObject.FindGameObjectsWithTag("Line");
-		foreach (var line in lines)
-		{
-			line.SetActive(true);
-		}
 		mainPanel = GameObject.Find("Canvas/MainPanel");
 		gameOverPanel = GameObject.Find("Canvas/GameOverPanel");
-		originalPosition = gameOverPanel.GetComponent<RectTransform>().anchoredPosition;
-		gameOverPanel.GetComponent<RectTransform>().anchoredPosition = -originalPosition;
-		//Debug.Log(originalPosition);
 		drawPoints();
 		allPoints = GameObject.FindGameObjectsWithTag("Point");		
 		currentPoint = allPoints[49];
@@ -67,35 +55,27 @@ public class ConnectLines : MonoBehaviour
     }
     private void Update()
 	{
+		Debug.Log(gameOverPanel.GetComponent<Canvas>().sortingLayerName);
 		if (MenuPlay.wasRestarted)
 		{
 			//Debug.Log("Reset");
 
 		}
 		//If someone won the game , hide unneccessary panels, points and lines, display GAME WON panel
-		if ( gameWon )
+		if ( gameWon || deadEnd )
 		{
-			if (mainPanel.activeSelf)
-			{
-				mainPanel.GetComponent<Canvas>().sortingOrder = -1;
-			}
-			gameOverPanel.GetComponent<RectTransform>().anchoredPosition = originalPosition;
-			GameObject[] points = GameObject.FindGameObjectsWithTag("Point");
-			foreach (var point in points)
-			{
-				point.SetActive(false);
-			}
-			GameObject[] lines = GameObject.FindGameObjectsWithTag("Line");
-			foreach (var line in lines)
-			{
-				line.SetActive(false);
-			}
+			//if (mainPanel.activeSelf)
+			//{
+			//	mainPanel.GetComponent<Canvas>().sortingOrder = -1;
+			//}
+			gameOverPanel.GetComponent<Canvas>().sortingLayerName = "GameOver";
 			StartCoroutine(resetGameStatus());
 		}
 		IEnumerator resetGameStatus()
 		{
-			gameWon = false;
 			yield return new WaitForSeconds(2f);
+			gameWon = false;
+			deadEnd = false;
 		}
 	}
     public void drawLines()
@@ -112,7 +92,8 @@ public class ConnectLines : MonoBehaviour
         line.SetPosition(1, mousePos);
         line = null;
         currentLines++;
-        currentPoint = nextPoint;
+		currentPoint.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/pointocska", typeof(Sprite)) as Sprite;
+		currentPoint = nextPoint;
         displayAllPossibleMoves(nextPoint);      
     }   
     void createLine()
@@ -140,19 +121,24 @@ public class ConnectLines : MonoBehaviour
 			{
                 //Debug.Log("rose");
 				allPoints[i].GetComponent<SpriteRenderer>().color = rose;
-                ++possibleStepcounter;
+				//allPoints[i].GetComponent<Animator>().enabled = true;
+				++possibleStepcounter;
 			}
 			else
 			{
                 //Debug.Log("white");
                 allPoints[i].GetComponent<SpriteRenderer>().color = white;
+				point.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/pointocska", typeof(Sprite)) as Sprite;
 			}
 		}
-        currentPoint.GetComponent<SpriteRenderer>().color = black;
-        if (possibleStepcounter == 0 && isWin(currentPoint) )
+		currentPoint.GetComponent<SpriteRenderer>().color = new Color(0.3867925f, 0.3867925f, 0.3867925f);
+		currentPoint.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/selectedpointocska", typeof(Sprite)) as Sprite;
+		if (possibleStepcounter == 0  )
         {
+			// The current player has gone to a point that has no possible moves -> lose
+			// The other player won
 			deadEnd = true;
-			Debug.Log("DeadEnd=Lose");
+			Debug.Log("Dead end");
         }
     }
 
@@ -388,23 +374,22 @@ public class ConnectLines : MonoBehaviour
     }
     public void createPoint(int x, int y)
     {
-        Vector3 pointCoordinate;
-        pointCoordinate.x = x;
-        pointCoordinate.y = y;
-        pointCoordinate.z = 0;
+		Vector3 pointCoordinate = new Vector3(x, y, 0);
         point = new GameObject("Circle" + currentPoints);
 		point.transform.parent = GameObject.Find("Points").transform;
-		//Debug.Log(point.transform.parent);
+        point.tag = "Point";
         point.AddComponent<PointLife>();
         point.AddComponent<SpriteRenderer>();
-        point.AddComponent<CircleCollider2D>();
-        point.tag = "Point";
-        point.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/Circle", typeof(Sprite)) as Sprite;
+        point.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/pointocska", typeof(Sprite)) as Sprite;
         point.GetComponent<SpriteRenderer>().sortingLayerName = "Points";
         point.GetComponent<SpriteRenderer>().sortingOrder = 1;
         point.transform.position = pointCoordinate;
-        point.transform.localScale = new Vector3(0.5f, 0.5f,0.5f);
-        ++currentPoints;
+        point.transform.localScale = new Vector3(0.25f, 0.25f,0.25f);
+        point.AddComponent<CircleCollider2D>();
+        point.AddComponent<Animator>();
+		point.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("vibrating", typeof(RuntimeAnimatorController)) as RuntimeAnimatorController;
+		point.GetComponent<Animator>().enabled = false;
+		++currentPoints;
 
     }
     public void drawPoints()

@@ -19,7 +19,7 @@ public class MoveTimer : MonoBehaviour
 		countDownPanel = GameObject.Find("CountdownPanel");
 
 		thisPlayerPanel = this.gameObject;
-		thisPlayerPanelName = thisPlayerPanel.transform.Find("Text").GetComponent<Text>().text;
+		thisPlayerPanelName = thisPlayerPanel.transform.Find("Title").GetComponent<Text>().text;
 
 		thisMoveTimer = thisPlayerPanel.transform.Find("MoveTimer").gameObject;
 		moveTimerText = thisMoveTimer.GetComponent<Text>();
@@ -37,7 +37,7 @@ public class MoveTimer : MonoBehaviour
 			// check if this player has to move or not -> GameplayManager tells which player has to move
 			//Debug.Log(thisPlayerPanelName + " and " + GameplayManager.movingPlayerName);
 			//Debug.Log(thisMoveTimer + " and " + GameplayManager.currentMoveTimer);
-			if ( thisPlayerPanel== GameplayManager.currentMovingPlayer && thisMoveTimer == GameplayManager.currentMoveTimer )
+			if ( thisPlayerPanel == GameplayManager.currentMovingPlayer && thisMoveTimer == GameplayManager.currentMoveTimer )
 			{
 				//Debug.Log(thisPlayerPanelName + "-" +  thisMoveTimer);	
 				if ( isTicking )
@@ -65,7 +65,7 @@ public class MoveTimer : MonoBehaviour
 					else
 					{
 						alreadyMoved = false;
-						Debug.Log("Your time ran out! Next player has to move");
+						//Debug.Log("Your time ran out! Next player has to move");
 						return;
 					}
 				}
