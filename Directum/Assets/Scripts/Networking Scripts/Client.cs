@@ -55,7 +55,6 @@ public class Client : MonoBehaviour
 					OnIncomingData(data);
 				}
 			}
-			Send("Hello Server");
 		}
 	}
 	private void OnApplicationQuit()

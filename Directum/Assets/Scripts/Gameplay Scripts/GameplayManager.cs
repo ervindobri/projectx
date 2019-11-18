@@ -29,11 +29,14 @@ public class GameplayManager : MonoBehaviour
 	private GameObject gameplayManagerObject;
 	private GameplayManager gameplayManager;
 
+	public static GameplayManager Instance { get; set; }
+
 	private void Awake()
 	{
+		Instance = this;
 		messagePanelObject = GameObject.Find("MessagePanel").gameObject;
 		messagePanel = messagePanelObject.GetComponent<MessagePanelController>();
-		//DontDestroyOnLoad(this.gameObject);
+		DontDestroyOnLoad(gameObject);
 		if ( SceneManager.GetActiveScene().name == "GameMain")
 		{
 			gameplayManagerObject = GameObject.Find("GameplayManager");
@@ -87,6 +90,7 @@ public class GameplayManager : MonoBehaviour
 			{
 				// If GameOverPanel is active stop all timers
 				GameTimer.isTicking = false;
+				GameTimer.audioSource.volume = 0f;
 				foreach (var item in gameplayManager.moveTimers)
 				{
 					item.isTicking = false;
@@ -166,7 +170,6 @@ public class GameplayManager : MonoBehaviour
 
 			// Transition fade in , then Set scene to Lobby
 			buttonAnimController.PanelAnimationFadeIn();
-			WAitABit();
 		}
 		catch (Exception e)
 		{
@@ -196,10 +199,11 @@ public class GameplayManager : MonoBehaviour
 			PlayerData data = SaveSystem.LoadPlayer();
 			client.clientName = data.playerName;
 			client.ConnectToServer(host, port);
+			UnityEngine.Debug.Log(client.clientName + " has connected to server");
+
 			messagePanel.text.text = "CONNECTED TO HOST SUCCESSFULLY";
 			// Transition fade in , then Set scene to Lobby
 			buttonAnimController.PanelAnimationFadeIn();
-			WAitABit();
 		}
 		catch (Exception)
 		{
@@ -207,10 +211,8 @@ public class GameplayManager : MonoBehaviour
 			throw;
 		}
 	}
-
-	IEnumerator WAitABit()
+	public void DestroyOnReload()
 	{
-		yield return new WaitForSeconds(2.0f);
-		buttonAnimController.PanelAnimationFadeIn();
+		Destroy(this);
 	}
 }
