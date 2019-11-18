@@ -98,4 +98,5 @@ public class GameClient
 {
 	public string playerName;
 	public float[] playerColor;
+
 }
