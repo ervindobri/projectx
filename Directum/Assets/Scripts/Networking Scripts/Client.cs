@@ -40,6 +40,7 @@ public class Client : MonoBehaviour
 		catch (Exception e)
 		{
 			Debug.Log("Socket error: "+ e.Message);
+
 		}
 	}
 	private void Update()

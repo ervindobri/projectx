@@ -6,6 +6,7 @@ public class ChatController : MonoBehaviour
 	public GameObject clientObject;
 	private Client client;
 	private GameObject parent;
+	private GameObject playerMessages;
 	private GameObject messagePanelObject;
 	public MessagePanelController messagePanel;
 	public GameObject textPrefab;
@@ -13,6 +14,9 @@ public class ChatController : MonoBehaviour
 	{
 		clientObject = GameObject.FindGameObjectWithTag("Client");
 		parent = GameObject.FindGameObjectWithTag("Content");
+
+		playerMessages = GameObject.Find("PlayerMessages/Scrollview/Viewport/Content");
+
 		client = clientObject.GetComponent<Client>();
 		displayPlayerName(client);
 
@@ -23,4 +27,9 @@ public class ChatController : MonoBehaviour
 		textPrefab.GetComponent<Text>().text = client.GetComponent<Client>().clientName;
 		Instantiate(textPrefab, parent.transform);
 	}
+	public void SendMessage()
+	{
+
+	}
+
 }
