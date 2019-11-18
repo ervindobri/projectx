@@ -16,6 +16,8 @@ public class MenuPlay : MonoBehaviour
 	private bool introCanvasStatus;
 
 	public static bool wasRestarted;
+
+
 	private void Start()
 	{
 		styleAnimator = styleObject.GetComponent<Animator>();
@@ -43,10 +45,7 @@ public class MenuPlay : MonoBehaviour
 		}
 		
 	}
-	private void GameRestart()
-	{
 
-	}
 	public void setSceneName(string scene)
 	{
 		sceneName = scene;
@@ -59,6 +58,7 @@ public class MenuPlay : MonoBehaviour
 	{
 		if ( buttonAnimController.fadeIn )
 		{
+
 			StartCoroutine(WaitToLoadScene(1.01f));
 		}
 		//Debug.Log(sceneLoadCounter);
