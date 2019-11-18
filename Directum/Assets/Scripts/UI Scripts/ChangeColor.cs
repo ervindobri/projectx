@@ -21,6 +21,6 @@ public class ChangeColor : MonoBehaviour
 	}
 	public void getSelectedColor()
 	{
-		Debug.Log(_handle.color);
+		//Debug.Log(_handle.color);
 	}
 }

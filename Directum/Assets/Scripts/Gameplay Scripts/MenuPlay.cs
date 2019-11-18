@@ -13,6 +13,7 @@ public class MenuPlay : MonoBehaviour
 	public string sceneName;
 	ButtonAnimController buttonAnimController;
 	public static int sceneLoadCounter;
+	private GameObject introCanvasObject;
 	private bool introCanvasStatus;
 
 	public static bool wasRestarted;
@@ -35,11 +36,12 @@ public class MenuPlay : MonoBehaviour
 		{
 			GameObject.Find("Styles - Fade Out").SetActive(false);
 			GameObject.Find("IntroCanvas").SetActive(true);
-			introCanvasStatus = GameObject.Find("IntroCanvas").activeInHierarchy;
+			introCanvasObject = GameObject.Find("IntroCanvas");
+			introCanvasStatus = introCanvasObject.activeInHierarchy;
 		}
 		else if(sceneLoadCounter!= 0 && SceneManager.GetActiveScene().name == "MainMenu")
 		{
-			introCanvasStatus = GameObject.Find("IntroCanvas").activeInHierarchy;
+			introCanvasStatus = introCanvasObject.activeInHierarchy;
 			GameObject.Find("IntroCanvas").SetActive(false);
 
 		}

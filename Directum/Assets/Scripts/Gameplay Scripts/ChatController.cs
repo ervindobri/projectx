@@ -3,22 +3,24 @@ using UnityEngine.UI;
 
 public class ChatController : MonoBehaviour
 {
-	public GameObject[] clients;
+	public GameObject clientObject;
+	private Client client;
 	private GameObject parent;
+	private GameObject messagePanelObject;
+	public MessagePanelController messagePanel;
 	public GameObject textPrefab;
-	private void Start()
+	private void Awake()
 	{
-		clients = GameObject.FindGameObjectsWithTag("Client");
-		parent = GameObject.Find("Scroll View/Viewport/Content");
-		// Display clients in scrollview
-		foreach (var client in clients)
-		{
-			textPrefab.GetComponent<Text>().text = client.GetComponent<Client>().clientName;
-			Instantiate(textPrefab, parent.transform);
-		}
-	}
-	private void Update()
-	{
+		clientObject = GameObject.FindGameObjectWithTag("Client");
+		parent = GameObject.FindGameObjectWithTag("Content");
+		client = clientObject.GetComponent<Client>();
+		displayPlayerName(client);
 
+		// Display clients in scrollview
+	}
+	public void displayPlayerName(Client client)
+	{
+		textPrefab.GetComponent<Text>().text = client.GetComponent<Client>().clientName;
+		Instantiate(textPrefab, parent.transform);
 	}
 }

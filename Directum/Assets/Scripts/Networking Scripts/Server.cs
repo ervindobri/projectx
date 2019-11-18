@@ -22,7 +22,7 @@ public class Server : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 		clientList = new List<ServerClient>();
 		disconnectList = new List<ServerClient>();
-		Debug.Log(IPAddress.Any);
+		//Debug.Log(IPAddress.Any);
 		
 		try
 		{
@@ -98,7 +98,6 @@ public class Server : MonoBehaviour
 				return true;
 			}
 			return false;
-
 		}
 		catch
 		{
@@ -118,7 +117,8 @@ public class Server : MonoBehaviour
 		StartListening();
 
 		// send a message to everyone
-		Broadcast(clientList[clientList.Count - 1].clientName + " has connected", clientList);
+		
+		Broadcast( clientList[clientList.Count - 1].clientName + " has connected", clientList );
 	}
 	private void Broadcast( string data, List<ServerClient> clients)
 	{
