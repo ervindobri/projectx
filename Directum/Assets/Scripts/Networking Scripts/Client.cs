@@ -5,28 +5,57 @@ using System.IO;
 using UnityEngine.UI;
 using System.Net.Sockets;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Client : MonoBehaviour
 {
-	public static bool socketReady;
+	private bool socketReady;
 	private TcpClient socket;
 	private NetworkStream stream;
 	private StreamReader reader;
 	private StreamWriter writer;
 
 	public string clientName;
+	public bool isHost;
+
+	[Header("Chat objects:")]
+	private GameObject playersList;
+	public GameObject textPrefab;
+	private GameObject playerMessages;
+	public InputField inputField;
+
+
+	private List<GameClient> players = new List<GameClient>();
+	private bool displayed;
+
 	private void Start()
 	{
-		DontDestroyOnLoad(this.gameObject);
+		DontDestroyOnLoad(gameObject);
+	}
+	public bool DisplayClientName()
+	{
+		//Put the clientName in the playersList panel
+		textPrefab.GetComponent<Text>().text = clientName;
+		if ( Instantiate(textPrefab, playersList.transform) ) {
+			return true;
+		}
+		return false;
 	}
 
-	public void ConnectToServer(string host, int port)
+	public void OnSendButton()
+	{
+		string message = clientName + " says: " + inputField.text;
+		Send(message);
+		inputField.Select();
+		inputField.text = "";
+	}
+	public bool ConnectToServer(string host, int port)
 	{
 		//already connected
 		if (socketReady)
 		{
-			Debug.Log(" Already conected");
-			return;
+			Debug.Log("Already conected");
+			return false;
 		}
 		// Create the socket
 		try
@@ -42,9 +71,18 @@ public class Client : MonoBehaviour
 			Debug.Log("Socket error: "+ e.Message);
 
 		}
+		return socketReady;
 	}
 	private void Update()
 	{
+		if (SceneManager.GetActiveScene().name == "Lobby" && !displayed)
+		{
+			playersList = GameObject.FindGameObjectWithTag("Content");
+			playerMessages = GameObject.FindGameObjectWithTag("Message");
+			//Display client name on the list
+			DisplayClientName();
+			displayed = true;
+		}
 		//If we are connected
 		if (socketReady)
 		{
@@ -69,19 +107,51 @@ public class Client : MonoBehaviour
 	// This function represents incoming data from other client(s) through SERVER
 	private void OnIncomingData(string data)
 	{
-		Debug.Log("Server sent : " + data);
+		if ( SceneManager.GetActiveScene().name == "Lobby")
+		{
+			GameObject go = Instantiate(textPrefab, playerMessages.transform) as GameObject;
+			go.GetComponent<Text>().text = data;
+		}
+		else
+		{
+			Debug.Log("Client:" + data);
+			string[] aData = data.Split('|');
+			switch (aData[0])
+			{
+				case "SWHO":
+					for (int i = 1; i < aData.Length - 1; i++)
+					{
+						UserConnected(aData[i], false);
+					}
+					Send("CWHO|" + clientName + "|" + ((isHost) ? 1 : 0).ToString());
+					break;
+				case "SCONN":
+					UserConnected(aData[1], false);
+					break;
+			}
+		}
+		
+	}
+	private void UserConnected(string name,bool host)
+	{
+		GameClient gc = new GameClient();
+		gc.playerName = name;
+
+		players.Add(gc);
 	}
 	public void Send(string data)
 	{
-		if ( !socketReady)
+		if ( !socketReady )
 		{
+			//Debug.Log("not sent");
 			return;
 		}
 		writer.WriteLine(data);
 		writer.Flush();
+		//Debug.Log("sent");
 	}
 
-	private void CloseSocket()
+	public void CloseSocket()
 	{
 		if (!socketReady)
 		{
@@ -97,6 +167,5 @@ public class Client : MonoBehaviour
 public class GameClient
 {
 	public string playerName;
-	public float[] playerColor;
-
+	public bool isHost;
 }

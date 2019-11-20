@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class Server : MonoBehaviour
 {
@@ -22,8 +23,6 @@ public class Server : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 		clientList = new List<ServerClient>();
 		disconnectList = new List<ServerClient>();
-		//Debug.Log(IPAddress.Any);
-		
 		try
 		{
 			//IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
@@ -33,12 +32,12 @@ public class Server : MonoBehaviour
 			StartListening();
 			serverStarted = true;
 
-			Debug.Log("Server has been started!");
+			//Debug.Log("Server has been started!");
 		}
 		catch (Exception e)
 		{
 			Debug.Log("Socket Error:" + e.Message);
-			throw;
+
 		}
 	}
 	private void Update()
@@ -48,19 +47,19 @@ public class Server : MonoBehaviour
 			Debug.Log("Server has not started!");
 			return;
 		}
-		foreach ( ServerClient c in clientList)
+		foreach ( ServerClient client in clientList)
 		{
 			//Is the client still connected?
-			if (!isConnected(c.tcpClient))
+			if (!isConnected(client.tcpClient))
 			{
-				c.tcpClient.Close();
-				disconnectList.Add(c);
+				client.tcpClient.Close();
+				disconnectList.Add(client);
 				continue;
 			}
 			// check for message from the client
 			else
 			{
-				NetworkStream stream = c.tcpClient.GetStream();
+				NetworkStream stream = client.tcpClient.GetStream();
 				if (stream.DataAvailable)
 				{
 					StreamReader reader = new StreamReader(stream,true);
@@ -68,22 +67,41 @@ public class Server : MonoBehaviour
 					if ( data != null)
 					{
 						//process the message with this function
-						OnIncomingData(c, data);
+						
+						OnIncomingData(client, data);
 					}
 				}
-			}
-			for (int i = 0; i < disconnectList.Count; i++)
-			{
+			}	
+		}
+		for (int i = 0; i < disconnectList.Count; i++)
+		{
 
-				//Tell our player somebody has disconnected
-				clientList.Remove(disconnectList[i]);
-				disconnectList.RemoveAt(i);
-			}
+			//Tell our player somebody has disconnected
+			clientList.Remove(disconnectList[i]);
+			disconnectList.RemoveAt(i);
 		}
 	}
 	private void StartListening()
 	{
 		server.BeginAcceptTcpClient(AcceptTcpClient, server);
+	}
+	private void AcceptTcpClient(IAsyncResult ar)
+	{
+		TcpListener listener = (TcpListener)ar.AsyncState;
+
+		string allUsers = "";
+		foreach (ServerClient i in clientList)
+		{
+			allUsers += i.clientName + '|';
+		}
+		ServerClient sc = new ServerClient(listener.EndAcceptTcpClient(ar));
+		clientList.Add(sc);
+
+		StartListening();
+
+		// send a message to everyone
+
+		Broadcast("SWHO|", clientList[clientList.Count - 1]);
 	}
 	private bool isConnected(TcpClient client)
 	{
@@ -97,29 +115,17 @@ public class Server : MonoBehaviour
 				}
 				return true;
 			}
-			return false;
+			else
+			{
+				return false;
+			}
 		}
 		catch
 		{
-
 			return false;
 		}
 	}
-	private void OnIncomingData(ServerClient c, string data)
-	{
-		Debug.Log(c.clientName + " has sent the following message:" + data);
-	}
-	private void AcceptTcpClient(IAsyncResult ar)
-	{
-		TcpListener listener = (TcpListener)ar.AsyncState;
 
-		clientList.Add(new ServerClient(listener.EndAcceptTcpClient(ar)));
-		StartListening();
-
-		// send a message to everyone
-		
-		Broadcast( clientList[clientList.Count - 1].clientName + " has connected", clientList );
-	}
 	private void Broadcast( string data, List<ServerClient> clients)
 	{
 		foreach ( ServerClient sc in clients)
@@ -138,16 +144,42 @@ public class Server : MonoBehaviour
 			}
 		}
 	}
+	private void Broadcast(string data, ServerClient client)
+	{
+		List<ServerClient> sc = new List<ServerClient> { client };
+		Broadcast(data, sc);
+	}
+	private void OnIncomingData(ServerClient client, string data)
+	{
+		if ( SceneManager.GetActiveScene().name == "Lobby")
+		{
+			Broadcast(data, clientList);
+		}
+		else
+		{
+			Debug.Log("Server:" + data);
+			string[] aData = data.Split('|');
+			switch (aData[0])
+			{
+				case "CWHO":
+					client.clientName = aData[1];
+					client.isHost = (aData[2] == "0") ? false : true;
+					Broadcast("SCONN|" + client.clientName, clientList);
+					break;
+			}
+		}
+		
+	}
 }
 
 public class ServerClient
 {
-	public TcpClient tcpClient;
 	public string clientName;
+	public TcpClient tcpClient;
+	public bool isHost;
 
 	public ServerClient(TcpClient clientSocket)
 	{
-		clientName = "Guest";
 		tcpClient = clientSocket;
 	}
 }

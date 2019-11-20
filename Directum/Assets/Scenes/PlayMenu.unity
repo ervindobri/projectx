@@ -3363,6 +3363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveCounter: 0
   moveTimers: []
+  messagePanel: {fileID: 0}
   clientPrefab: {fileID: 175842025746895303, guid: 0f91ef8ec2939814380578787d66747d,
     type: 3}
   serverPrefab: {fileID: 6172214544371265404, guid: cbc7c56cd946969499c3a296fa3c1efe,
@@ -3793,7 +3794,7 @@ GameObject:
   - component: {fileID: 1082568820}
   m_Layer: 5
   m_Name: MessagePanel
-  m_TagString: Message
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

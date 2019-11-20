@@ -21,26 +21,23 @@ public class GameplayManager : MonoBehaviour
 
 	ButtonAnimController buttonAnimController;
 	private GameObject messagePanelObject;
-	private MessagePanelController messagePanel;
+	public MessagePanelController messagePanel;
 
 	private GameObject gameOverPanel;
 	public GameObject clientPrefab;
 	public GameObject serverPrefab;
-	private GameObject gameplayManagerObject;
-	private GameplayManager gameplayManager;
 
 	public static GameplayManager Instance { get; set; }
 
-	private void Awake()
+	private void Start()
 	{
 		Instance = this;
+		DontDestroyOnLoad(gameObject);
+
 		messagePanelObject = GameObject.Find("MessagePanel").gameObject;
 		messagePanel = messagePanelObject.GetComponent<MessagePanelController>();
-		DontDestroyOnLoad(gameObject);
 		if ( SceneManager.GetActiveScene().name == "GameMain")
 		{
-			gameplayManagerObject = GameObject.Find("GameplayManager");
-			gameplayManager = gameplayManagerObject.GetComponent<GameplayManager>();
 			gameOverPanel = GameObject.Find("GameOverPanel");
 			gameOverPanel.GetComponent<Canvas>().sortingLayerName = "Default";
 			playerTexts = new List<Text>();
@@ -68,6 +65,7 @@ public class GameplayManager : MonoBehaviour
 		}
 		if ( SceneManager.GetActiveScene().name == "PlayMenu")
 		{
+
 			GameObject buttonAnimControllerObject = GameObject.FindWithTag("Canvas");
 			if (buttonAnimControllerObject != null)
 			{
@@ -91,7 +89,7 @@ public class GameplayManager : MonoBehaviour
 				// If GameOverPanel is active stop all timers
 				GameTimer.isTicking = false;
 				GameTimer.audioSource.volume = 0f;
-				foreach (var item in gameplayManager.moveTimers)
+				foreach (var item in moveTimers)
 				{
 					item.isTicking = false;
 				}
@@ -163,43 +161,45 @@ public class GameplayManager : MonoBehaviour
 
 			Client client = Instantiate(clientPrefab).GetComponent<Client>();
 			// Set client name -> load file
-			PlayerData data = SaveSystem.LoadPlayer();
-			client.clientName = data.playerName;
-			client.ConnectToServer("127.0.0.1", port);
-			UnityEngine.Debug.Log(client.clientName + " has connected to server");
+			//PlayerData data = SaveSystem.LoadPlayer();
+			//client.clientName = data.playerName;
+			if ( client.clientName == "")
+			{
+				client.clientName = "Host";
+			}
+			client.isHost = true;
+			client.ConnectToServer("127.0.0.1", 2269);
 
 			// Transition fade in , then Set scene to Lobby
 			buttonAnimController.PanelAnimationFadeIn();
 		}
-		catch (Exception e)
+		catch (Exception)
 		{
 			messagePanel.text.text = "COULDN'T CREATE SERVER!";
 			//messagePanel.text.text = e.Message;
-			throw;
 		}
 	}
 	public void ConnectToServerButton()
 	{
-		int port;
+		//int port;
 		string host = GameObject.Find("HostInput").GetComponent<InputField>().text;
-		int.TryParse(GameObject.Find("PortInput").GetComponent<InputField>().text, out port);
+		//int.TryParse(GameObject.Find("PortInput").GetComponent<InputField>().text, out port);
 
 		if (host == "")
 		{
 			host = "127.0.0.1";
 		}
-		if (port == 0) {
-		
-			port = 2269;
-		}
 		try 
 		{
 			Client client = Instantiate(clientPrefab).GetComponent<Client>();
 			// Set client name -> load file
-			PlayerData data = SaveSystem.LoadPlayer();
-			client.clientName = data.playerName;
-			client.ConnectToServer(host, port);
-			UnityEngine.Debug.Log(client.clientName + " has connected to server");
+			//PlayerData data = SaveSystem.LoadPlayer();
+			//client.clientName = data.playerName;
+			if (client.clientName == "")
+			{
+				client.clientName = "Client";
+			}
+			client.ConnectToServer(host, 2269);
 
 			messagePanel.text.text = "CONNECTED TO HOST SUCCESSFULLY";
 			// Transition fade in , then Set scene to Lobby
@@ -208,7 +208,6 @@ public class GameplayManager : MonoBehaviour
 		catch (Exception)
 		{
 			messagePanel.text.text = "SOCKET ERROR!";
-			throw;
 		}
 	}
 	public void DestroyOnReload()
