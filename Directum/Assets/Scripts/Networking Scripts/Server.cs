@@ -49,6 +49,7 @@ public class Server : MonoBehaviour
 		}
 		foreach ( ServerClient client in clientList)
 		{
+			//Debug.Log(client.clientName);
 			//Is the client still connected?
 			if (!isConnected(client.tcpClient))
 			{
@@ -151,20 +152,61 @@ public class Server : MonoBehaviour
 	}
 	private void OnIncomingData(ServerClient client, string data)
 	{
+		string[] aData = data.Split('|');
+		Debug.Log(" Server: " + data);
+
+		//
 		if ( SceneManager.GetActiveScene().name == "Lobby")
 		{
-			Broadcast(data, clientList);
-		}
-		else
-		{
-			Debug.Log("Server:" + data);
-			string[] aData = data.Split('|');
+			//Broadcast(data, clientList);
 			switch (aData[0])
 			{
 				case "CWHO":
 					client.clientName = aData[1];
-					client.isHost = (aData[2] == "0") ? false : true;
-					Broadcast("SCONN|" + client.clientName, clientList);
+					client.isHost = (aData[2] == "1")?true:false;
+					client.canMove = (aData[2] == "1") ? false : true;
+					client.clientColor = aData[3];
+					Broadcast("SCONN|" + client.clientName + "|" + ((client.isHost) ? 1 : 0).ToString() + "|" + client.clientColor, clientList);
+					break;
+				case "MSG":
+					client.clientName = aData[1];
+					client.clientColor = aData[3];
+					string message = aData[2];
+					Broadcast("MSG|" + client.clientName + "|" + message + "|" + client.clientColor, clientList);
+					break;
+				case "SMSG":
+					client.clientName = aData[1];
+					client.isReady = bool.Parse(aData[2]);
+					Broadcast("SMSG|" + client.clientName + "|" + ((client.isReady) ? 1 : 0).ToString() , clientList);
+					break;
+				case "HI":
+					Broadcast("HI|" + aData[1] + "|" + aData[2] + "|" + aData[3] + "|" + aData[4],clientList[clientList.Count-1]);
+					break;
+				case "GS":
+					Broadcast("GS|" + aData[1], clientList);
+					break;
+			}
+		}
+		else
+		{
+
+
+			switch (aData[0])
+			{
+				case "CWHO":
+					client.clientName = aData[1];
+					client.isHost = (aData[2] == "1") ? true : false;
+					client.clientColor = aData[3];
+					Broadcast("SCONN|" + client.clientName + "|" + ((client.isHost)?1:0).ToString() + "|" + client.clientColor, clientList);
+					break;
+				//system messages
+				case "SMSG":
+					client.clientName = aData[1];
+					client.isReady = bool.Parse(aData[2]);
+					Broadcast("SMSG|" + client.clientName + "|" + ((client.isReady) ? 1 : 0).ToString(), clientList);
+					break;
+				case "HI":
+					Broadcast("HI|" + aData[1] + "|" + aData[2] + "|" + aData[3] + "|" + aData[4], clientList[clientList.Count - 1]);
 					break;
 			}
 		}
@@ -175,8 +217,11 @@ public class Server : MonoBehaviour
 public class ServerClient
 {
 	public string clientName;
+	public string clientColor;
 	public TcpClient tcpClient;
 	public bool isHost;
+	public bool isReady;
+	public bool canMove;
 
 	public ServerClient(TcpClient clientSocket)
 	{

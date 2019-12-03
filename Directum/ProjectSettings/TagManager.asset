@@ -17,6 +17,11 @@ TagManager:
   - Client
   - Message
   - Content
+  - Scrollbar
+  - Countdown
+  - MessageInput
+  - GameOver
+  - MessagePanel
   layers:
   - Default
   - TransparentFX
@@ -28,7 +33,7 @@ TagManager:
   - 
   - Lines
   - Points
-  - 
+  - Particles
   - 
   - 
   - 

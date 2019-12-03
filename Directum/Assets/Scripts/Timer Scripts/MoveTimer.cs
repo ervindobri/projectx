@@ -19,7 +19,7 @@ public class MoveTimer : MonoBehaviour
 		countDownPanel = GameObject.Find("CountdownPanel");
 
 		thisPlayerPanel = this.gameObject;
-		thisPlayerPanelName = thisPlayerPanel.transform.Find("Title").GetComponent<Text>().text;
+		thisPlayerPanelName = thisPlayerPanel.transform.Find("TitleImage/Title").GetComponent<Text>().text;
 
 		thisMoveTimer = thisPlayerPanel.transform.Find("MoveTimer").gameObject;
 		moveTimerText = thisMoveTimer.GetComponent<Text>();
@@ -28,21 +28,18 @@ public class MoveTimer : MonoBehaviour
 		moveTimerText.text = RemainingSeconds.ToString("#0");
 		alreadyMoved = false;
 
-		//Debug.Log(thisPlayerPanelName + "," + thisMoveTimer);
+		//Debug.Log(thisPlayerPanelName + " - am:" + alreadyMoved + " - tick:" + isTicking);
 	}
 	private void Update()
 	{
+		//Debug.Log(thisMoveTimer.transform.parent + " - " + alreadyMoved);
 		if ( !countDownPanel.activeSelf)
 		{
 			// check if this player has to move or not -> GameplayManager tells which player has to move
-			//Debug.Log(thisPlayerPanelName + " and " + GameplayManager.movingPlayerName);
-			//Debug.Log(thisMoveTimer + " and " + GameplayManager.currentMoveTimer);
-			if ( thisPlayerPanel == GameplayManager.currentMovingPlayer && thisMoveTimer == GameplayManager.currentMoveTimer )
-			{
-				//Debug.Log(thisPlayerPanelName + "-" +  thisMoveTimer);	
+			if ( thisPlayerPanel == GameplayManager.currentMovingPlayer && thisMoveTimer == GameplayManager.currentMoveTimerObject)
+			{	
 				if ( isTicking )
 				{
-					//Debug.Log("Your time to move: " + thisPlayerPanelName);
 					// if this player has to move -> start timer
 					timePassed += Time.deltaTime;
 					RemainingSeconds = timeLeft - timePassed;
@@ -52,19 +49,25 @@ public class MoveTimer : MonoBehaviour
 					if (RemainingSeconds > 0 )
 					{
 						//Now It's the time to move!!
-						if (!alreadyMoved && Input.GetMouseButtonDown(1))
+						if (!alreadyMoved )
 						{
-							//Debug.Log("I moved!");
-							timePassed = 0;
-							RemainingSeconds = timeLeft;
-							moveTimerText.text = RemainingSeconds.ToString("#0");
-							alreadyMoved = true;
+							//Trigger will be if player has to draw a line
+							ConnectLines player = FindObjectOfType<ConnectLines>();
+							//bool trigger = player.lineCreated;
+							//if ( trigger )
+							//{
+							//	timePassed = 0;
+							//	RemainingSeconds = timeLeft;
+							//	moveTimerText.text = RemainingSeconds.ToString("#0");
+							//	alreadyMoved = true;
+							//}
+							//player.lineCreated = false;
 						}
 					}
 					//Time out!
 					else
 					{
-						alreadyMoved = false;
+						alreadyMoved = true;
 						//Debug.Log("Your time ran out! Next player has to move");
 						return;
 					}

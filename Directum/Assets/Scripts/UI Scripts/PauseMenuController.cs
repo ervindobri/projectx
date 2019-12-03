@@ -12,49 +12,70 @@ public class PauseMenuController : MonoBehaviour
 	public AudioClip audioClip;
 	public static float pausedTime;
 	private float startTime;
-	private GameObject panelObject;
-	private MoveTimer moveTimer;
+	public GameObject panelObject;
+	private GameObject gameOverPanel;
+	public MoveTimer moveTimer;
 
 	private GameObject gameplayManagerObject;
 	private GameplayManager gameplayManager;
 	private GameObject pausePanel;
-
+	private Client client;
 	public static bool isPaused;
 	private void Start()
 	{
 		audioSource = GetComponent<AudioSource>();
 		panelTransform = GetComponent<RectTransform>();
 		panelObject = GameplayManager.currentMovingPlayer;
-		moveTimer = panelObject.GetComponent<MoveTimer>();
+
+		gameOverPanel = GameObject.FindGameObjectWithTag("GameOver");
+		gameOverPanel.GetComponent<Canvas>().sortingLayerName = "Default";
+		//UnityEngine.Debug.Log(panelObject);
+
+		if ( panelObject != null)
+		{
+			moveTimer = panelObject.GetComponent<MoveTimer>();
+		}
+		else
+		{
+			Debug.Log("No move timer");
+		}
+
+		//UnityEngine.Debug.Log(moveTimer);
 		gameplayManagerObject = GameObject.Find("GameplayManager");
 		gameplayManager = gameplayManagerObject.GetComponent<GameplayManager>();
 		pausePanel = GameObject.Find("PausePanel");
+
+		//Reach the client for further message sending solutions
+		client = FindObjectOfType<Client>();
 	}
 	private void Update()
 	{
 		if (Input.GetKey("p") && !isPaused)
 		{
+			//Send a message to server that pause is on
+			// Message format: Pause|GameTimer|MoveTimer1|MoveTimer2
 			showPanel(audioClip);
+			isPaused = true;
 		}
 		else if ( Input.GetKey("escape") && isPaused)
 		{
+			//Send a message to server that pause is off
 			hidePanel();
+			isPaused = false;
 		}
 	}
 	public void showPanel(AudioClip audioClip)
 	{
-		foreach (var item in gameplayManager.moveTimers)
-		{
-			item.isTicking = false;
-		}
+		//Send a message to server that game was stopped:
+
+		//client.Send("P|" + "0|0|0");
 		audioSource.PlayOneShot(audioClip);
 		startTime = Time.time - pausedTime;
 		GameTimer.isTicking = false;
 		GameTimer.audioSource.volume = 0f;
-		moveTimer.isTicking = false;
+		//moveTimer.isTicking = false;
 		pausePanel.GetComponent<Canvas>().sortingLayerName = "Pause";
 		pausePanel.GetComponentInChildren<Animator>().SetTrigger("fadeIn");
-		isPaused = true;
 	}
 	public void hidePanel()
 	{

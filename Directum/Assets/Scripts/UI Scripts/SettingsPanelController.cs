@@ -17,8 +17,10 @@ public class SettingsPanelController : MonoBehaviour
 	private GameObject messagePanelDisplayText;
 	public Animator messagePanelAnimator;
 
+	public static SettingsPanelController Instance { set; get; }
 	private void Start()
 	{
+		Instance = this;
 		currentPanelName = this.gameObject.name;
 		GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<Canvas>().sortingOrder = 0;
 		textObject = GameObject.Find(currentPanelName + "VibratingPanel/Name/InputField/Text").GetComponent<Text>();
@@ -26,8 +28,8 @@ public class SettingsPanelController : MonoBehaviour
 
 		outlineColor = GameObject.Find(currentPanelName + "VibratingPanel/Color/SelectColorButton").GetComponent<Outline>().effectColor;
 		//Debug.Log(textObject.name);
-		messagePanelAnimator = GameObject.Find(currentPanelName + "/MessagePanel").GetComponent<Animator>();
-		messagePanelDisplayText = GameObject.Find(currentPanelName + "/MessagePanel/DisplayText");
+		messagePanelAnimator = GameObject.FindGameObjectWithTag("MessagePanel").GetComponent<Animator>();
+		messagePanelDisplayText = GameObject.Find("MessagePanel/DisplayText");
 	}
 	private void Update()
 	{
@@ -55,6 +57,19 @@ public class SettingsPanelController : MonoBehaviour
 		//Calls the function which creates a file with the data saved
 		//Debug.Log( "Player" + index + " data Saved!");
 		SaveSystem.SavePlayer(this);
+	}
+	public void SavePlayerPrefs(int index)
+	{
+		string name = playerName;
+		Color playerColor = GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<ChangeColor>()._handle.color;
+		PlayerPrefs.SetString("p"+index+"name", name );
+		PlayerPrefs.SetFloat("p" + index + "c1", playerColor.r);
+		PlayerPrefs.SetFloat("p" + index + "c2", playerColor.g);
+		PlayerPrefs.SetFloat("p" + index + "c3", playerColor.b);
+		PlayerPrefs.SetFloat("p" + index + "c4", playerColor.a);
+
+		Debug.Log("Playerprefs Saved for " + name + " " + playerColor.r + playerColor.g + playerColor.b + playerColor.a);
+
 	}
 	public void LoadPlayer()
 	{

@@ -21,38 +21,42 @@ public class MenuButtonController : MonoBehaviour
 
 	void Update()
     {
-        if ( Input.GetAxis("Vertical")!= 0)
+		if ( this.gameObject.GetComponent<Canvas>().sortingLayerName == "GameOver" || this.gameObject.GetComponent<Canvas>().sortingLayerName == "Pause")
 		{
-			if ( !keyDown)
+			if (Input.GetAxis("Vertical") != 0)
 			{
-				if (Input.GetAxis("Vertical") < 0)
+				if (!keyDown)
 				{
-					if ( index < maxIndex)
+					if (Input.GetAxis("Vertical") < 0)
 					{
-						index++;
+						if (index < maxIndex)
+						{
+							index++;
+						}
+						else
+						{
+							index = 0;
+						}
 					}
-					else
+					else if (Input.GetAxis("Vertical") > 0)
 					{
-						index = 0;
+						if (index > 0)
+						{
+							index--;
+						}
+						else
+						{
+							index = maxIndex;
+						}
 					}
+					keyDown = true;
 				}
-				else if ( Input.GetAxis("Vertical") > 0)
-				{
-					if ( index > 0)
-					{
-						index--;
-					}
-					else
-					{
-						index = maxIndex;
-					}
-				}
-				keyDown = true;
+			}
+			else
+			{
+				keyDown = false;
 			}
 		}
-		else
-		{
-			keyDown = false;
-		}
+       
     }
 }

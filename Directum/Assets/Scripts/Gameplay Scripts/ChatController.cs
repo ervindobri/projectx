@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ChatController : MonoBehaviour
 {
-	public GameObject clientObject;
-	public Client client;
+	private Client client;
 	private GameObject parent;
 	private GameObject playerMessages;
 	private GameObject messagePanelObject;
@@ -18,38 +18,100 @@ public class ChatController : MonoBehaviour
 
 	private GameObject sendButton;
 	private bool wasPressed;
+	public GameObject messagePrefab;
 
 	private void Awake()
 	{
 		sendButton = GameObject.Find("SendButton");
-		clientObject = GameObject.FindGameObjectWithTag("Client");
 		parent = GameObject.FindGameObjectWithTag("Content");
 
-		playerMessages = GameObject.Find("PlayerMessages/Scrollview/Viewport/Content");
+		playerMessages = GameObject.FindGameObjectWithTag("Message");
 
-		client = clientObject.GetComponent<Client>();
-		//displayPlayerName(client);
-
-		// Display clients in scrollview
+		client = FindObjectOfType<Client>();
 	}
 
 	private void Update()
 	{
-		if (Input.GetAxis("Submit") == 1 && !wasPressed)
+		if ( SceneManager.GetActiveScene().name == "Lobby" )
 		{
-			sendButton.GetComponent<Button>().onClick.Invoke();
-			Debug.Log("invoked");
-			wasPressed = true;
-			StartCoroutine(ResetBool());
+			if (Input.GetKey(KeyCode.Return) && !wasPressed)
+			{
+				sendButton.GetComponent<Button>().onClick.Invoke();
+				Debug.Log("invoked");
+				wasPressed = true;
+				StartCoroutine(ResetBool());
+			}
 		}
+		else
+		{
+			if (inputField.isFocused)
+			{
+				OnPointerSetAlpha(1);
+			}
+		}
+
 	}
 	public void SendMessage()
 	{
-		textPrefab.GetComponent<Text>().text = client.GetComponent<Client>().clientName + " says: " + inputField.text;
-		//Send to server
-		client.Send(textPrefab.GetComponent<Text>().text);
-		inputField.Select();
-		inputField.text = "";
+		//Send to server -> format: MSG|clientName|message|messagecolor: r-g-b-a
+		if (inputField.text != "")
+		{
+			client.Send("serverclientsystchat" + client.clientName + inputField.text + "|" +
+			client.playerColor.r.ToString() + "-" + client.playerColor.g.ToString() + "-" +
+			client.playerColor.b.ToString() + "-" + "0.69");
+			//client.Send("MSG|" + client.clientName + "|" + inputField.text + "|" +
+			//client.playerColor.r.ToString() + "-" + client.playerColor.g.ToString() + "-" +
+			//client.playerColor.b.ToString() + "-" + "0.69");
+			inputField.Select();
+			inputField.text = "";
+		}
+		else
+		{
+			Debug.Log("Your message is empty!");
+		}
+
+	}
+	public void ReadyToPlay()
+	{
+		//client.Send("SMSG|"+ client.clientName + "|" + client.isReady);
+		client.Send("serverclientsyst" + client.clientName + "ready");
+	}
+	public void StartButton()
+	{
+		if ( client.isHost == "host"  )
+		{
+			//Check if the 2 - players pressed the ready button and start the game if so
+			if ( client.players[0].isReady && client.players[1].isReady)
+			{
+				//Start the game
+				GameObject go = Instantiate(messagePrefab, playerMessages.transform) as GameObject;
+				go.GetComponentInChildren<Text>().text = "Starting game!";
+
+				//Send a message -> GS
+				//client.Send("GS|" + "Game is starting!");
+				//Debug.Log("Starting the game!");
+				client.Send("serverclientsyststart");
+			}
+			else
+			{
+				GameObject go = Instantiate(messagePrefab, playerMessages.transform) as GameObject;
+				go.GetComponentInChildren<Text>().text = "Everyone must be ready!";
+				Debug.Log("Everyone must be ready!");
+			}
+
+		}
+		else
+		{
+			GameObject go = Instantiate(messagePrefab, playerMessages.transform) as GameObject;
+			go.GetComponentInChildren<Text>().text = "You are not the host!";
+			//If you aren't host you can't start the game
+			Debug.Log("You are not the host!");
+		}
+	}
+
+	public void OnPointerSetAlpha(float value)
+	{
+			this.GetComponent<CanvasGroup>().alpha = value;
 	}
 	IEnumerator ResetBool()
 	{
