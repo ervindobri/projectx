@@ -6,9 +6,9 @@ using System.Runtime.Serialization.Formatters.Binary; // this allows us to acces
 public static class SaveSystem
 {
 	public static void SavePlayer ( SettingsPanelController player )
-	{
+	{ 
 		BinaryFormatter formatter = new BinaryFormatter();
-		string path = Application.persistentDataPath + "/player.fun"; // gets a path to the app directory
+		string path = Application.dataPath + "/player.rekt"; // gets a path to the app directory
 		FileStream stream = new FileStream(path, FileMode.Create);
 
 		PlayerData data = new PlayerData(player);
@@ -19,7 +19,7 @@ public static class SaveSystem
 	public static PlayerData LoadPlayer()
 	{
 		//Debug.Log(Application.persistentDataPath);
-		string path = Application.persistentDataPath + "/player.fun"; // gets a path to the app directory
+		string path = Application.dataPath + "/player.rekt"; // gets a path to the app directory
 		if (File.Exists(path))
 		{
 			BinaryFormatter formatter = new BinaryFormatter();

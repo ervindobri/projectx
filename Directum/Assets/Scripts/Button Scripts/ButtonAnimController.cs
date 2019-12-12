@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
+
 public class ButtonAnimController : MonoBehaviour
 {
 	[Header("STYLE OBJECTS")]
@@ -11,26 +9,18 @@ public class ButtonAnimController : MonoBehaviour
 	[Header("STYLE PARENT")]
 	public GameObject panelIn;
 	public GameObject panelOut;
-	//[Header("STYLE BUTTON")]
-	//public GameObject styleButtonIn;
-	//public GameObject styleButtonOut;
-
 
 	// [Header("PANEL ANIMS")]
-	private string panelFadeIn = "Panel Open";
-	private string panelFadeOut = "Panel Close";
-	private string styleExpand = "Expand";
-	private string styleLoop = "Loop";
-	private string styleClose = "Loop";
+	private readonly string panelFadeIn = "Panel Open";
+	private readonly string styleLoop = "Loop";
+	private readonly string styleClose = "Loop";
 
-	// [Header("BUTTON ANIMS")]
-	private string buttonFadeIn = "Button Open";
-	private string buttonFadeOut = "Button Close";
 
 	private Animator panelAnimator;
 	private Animator styleAnimator;
 	//private Animator buttonAnimator;
 	public bool fadeIn,fadeOut;
+	private Client client;
 
 	public void PanelAnimationFadeIn()
 	{
@@ -38,7 +28,6 @@ public class ButtonAnimController : MonoBehaviour
 		panelAnimator = panelIn.GetComponent<Animator>();
 		//panelAnimator.Play(panelFadeOut);
 		panelAnimator.Play(panelFadeIn);
-
 		styleAnimator = panelIn.GetComponent<Animator>();
 		styleAnimator.Play(styleLoop);
 		fadeIn = true;
@@ -53,22 +42,23 @@ public class ButtonAnimController : MonoBehaviour
 	}
 	IEnumerator WaitABit(float duration)
 	{
-		//Play the transition, then load next scene ->
-		//buttonAnimController.PanelAnimationFadeIn();
 		yield return new WaitForSeconds(duration);
 	}
-	public void exitButton()
+	public void ExitButton()
 	{
 		//The 'Quit()' function only works in the compiled game
 		Application.Quit();
+		client = FindObjectOfType<Client>();
+		client.CloseSocket();
 		Debug.Log("Exited!");
+
 	}
-	public void setTransitionToNextPanel(string setTrigger)
+	public void SetTransitionToNextPanel(string setTrigger)
 	{
 		
 		this.gameObject.GetComponent<Animator>().SetTrigger(setTrigger);
 	}
-	public void resetTriggerBeforeTransition(string resetTrigger)
+	public void ResetTriggerBeforeTransition(string resetTrigger)
 	{
 		this.gameObject.GetComponent<Animator>().ResetTrigger(resetTrigger);
 	}

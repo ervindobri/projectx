@@ -20,43 +20,61 @@ public class Client : MonoBehaviour
 
 
 	[Header("Chat objects:")]
-	private GameObject playersList;
 	public GameObject textPrefab;
 	public GameObject messagePrefab;
+
+	private GameObject playersList;
 	private GameObject playerMessages;
 	public InputField inputField;
 	public Color playerColor;
 	public string[] colors = { "0" };
 
 	public List<GameClient> players;
-	private  GameClient hostData;
+
 	
  
+	private bool canDisplay;
 	private bool wasDisplayed;
-	private GameObject messagePanel;
 
 	//Booleans for checking turns
 	public bool myTurn = false;
 	internal bool isReady;
+	private GameObject readyPanel;
+	public GameObject readyPrefab;
+	public GameObject lilmsgPrefab;
 
+	// TODO: turn player timers on and off
+	//private void TriggerAllPlayers(bool turnoN)
+	//{
+	//	foreach (var player in players)
+	//	{
+	//		player.
+	//	}
+	//}
 	private void Start()
 	{
-		hostData = new GameClient();
+		//hostData = new GameClient();
 		players = new List<GameClient>();
 		DontDestroyOnLoad(gameObject);
-		messagePanel = GameObject.Find("MessagePanel").gameObject;
+
+		//For testing:
+		//UserConnected(clientName, false, false, "1-1-1-1");
+		//UserConnected(clientName, false, false, "1-1-1-1");
 	}
 	public void DisplayClientName(GameClient client)
 	{
 		string[] pcolors = client.playerColor.Split('-');
-		GameObject go = Instantiate(textPrefab, playersList.transform);
-		go.GetComponent<Text>().text = client.playerName;
+		GameObject playerName = Instantiate(textPrefab, playersList.transform);
+		playerName.GetComponent<Text>().text = client.playerName;
 		//Put the clientName in the playersList panel
-		go.GetComponent<Text>().color = new Color(float.Parse(pcolors[0]), float.Parse(pcolors[1]), float.Parse(pcolors[2]), float.Parse(pcolors[3]));
+		playerName.GetComponent<Text>().color = new Color(float.Parse(pcolors[0]), float.Parse(pcolors[1]), float.Parse(pcolors[2]), float.Parse(pcolors[3]));
 	}
-
-
-
+	public void DisplayNotification(string message)
+	{
+		MessagePanelController messagePanelController = FindObjectOfType<MessagePanelController>();
+		messagePanelController.DisplayMessage();
+		messagePanelController.SetMessage(message);
+	}
 	public bool ConnectToServer(string host, int port)
 	{
 		//already connected
@@ -73,12 +91,14 @@ public class Client : MonoBehaviour
 			writer = new StreamWriter(stream);
 			reader = new StreamReader(stream);
 			socketReady = true;
-			//bool ihost = (isHost == "host") ? true : false;
-			//UserConnected(clientName, ihost, false, null);
+			Send("serverclientsystnewcl" + playerColor.r.ToString() + "-" +
+				playerColor.g.ToString() + "-" + playerColor.b.ToString() + "-" +
+				playerColor.a.ToString() + "|" + clientName);
 		}
 		catch (Exception e)
 		{
 			Debug.Log("Socket error: "+ e.Message);
+			DisplayNotification("Couldn't connect to server!");
 
 		}
 		return socketReady;
@@ -86,18 +106,16 @@ public class Client : MonoBehaviour
 	private void Update()
 	{
 		//For testing
-		Debug.Log(players.Count);
 		//If we are connected
-		if ( SceneManager.GetActiveScene().name == "Lobby" && !wasDisplayed )
+		if ( SceneManager.GetActiveScene().name == "Lobby" && !wasDisplayed && canDisplay)
 		{
 			playersList = GameObject.FindGameObjectWithTag("Content");
 			playerMessages = GameObject.FindGameObjectWithTag("Message");
+			foreach (GameClient player in players)
+			{
+				DisplayClientName(player);
+			}
 			wasDisplayed = true;
-			DisplayClientName( players[0]);
-			//if ( isHost == "client" && players.Count > 1)
-			//{
-			//	DisplayClientName(players[1]);
-			//}
 		}
 		if (socketReady)
 		{
@@ -114,115 +132,117 @@ public class Client : MonoBehaviour
 	private void OnApplicationQuit()
 	{
 		CloseSocket();
+		System.Diagnostics.Process[] running = System.Diagnostics.Process.GetProcesses();
+		foreach (System.Diagnostics.Process process in running)
+		{
+			if (process.ProcessName == "ConcurentTCP.exe")
+			{
+				Debug.Log("found process");
+			}
+		}
 	}
-	private void OnDisable()
-	{
-		CloseSocket();
-	}
+
 	// This function represents incoming data from other client(s) through SERVER
 	private void OnIncomingData(string data)
 	{
 		string[] aData = data.Split('|');
 
+		//deserialize<struct name>(kapja a stringet);
+
 		Debug.Log(" Client: " + data);
 		// If the scene is lobby -> host is already connected!
 		if (SceneManager.GetActiveScene().name == "Lobby")
 		{
-			if (aData[0] == "server" && aData[1] == "client")
+			if (aData[0] == "client" && aData[1] == "server")
 				switch (aData[2])
 				{
 					case "syst":
 						switch (aData[3])
 						{
-							case "newc":
-								for (int i = 1; i < aData.Length - 1; i++)
-								{
-									UserConnected(aData[i], false, false, null);
-								}
-								//
-								Send("serverclientsystname" + clientName + "|" + "|" + playerColor.r.ToString() + "-" + playerColor.g.ToString() + "-" + playerColor.b.ToString() + "-" + playerColor.a.ToString());
-								break;
 							case "newclient":
 								//Get a display message that someone connected!
-
-								//messagePanel.GetComponent<Animator>().SetTrigger("dispMessage");
-								MessagePanelController messagePanelController = FindObjectOfType<MessagePanelController>();
-								messagePanelController.SetMessage(aData[1] + " has connected!");
-								UserConnected(aData[1], false, false, aData[3]);
-
+								DisplayNotification(aData[4] + " has connected!");
+								UserConnected(aData[4], false, false, aData[5]);
 								// Display the connected players name in the player list view
-								colors = aData[3].Split('-');
-								GameObject pl = Instantiate(textPrefab, playersList.transform) as GameObject;
-								pl.GetComponent<Text>().color = new Color(float.Parse(colors[0]), float.Parse(colors[1]), float.Parse(colors[2]), float.Parse(colors[3]));
-								pl.GetComponent<Text>().text = aData[1];
-
-								// Send the connected person your data so they will know you are there too!
-								//Send("HI|" + clientName + "|" + ((isHost) ? 1 : 0).ToString() + "|" + ((isReady) ? 1 : 0).ToString() + "|" + playerColor.r.ToString() + "-" + playerColor.g.ToString() + "-" + playerColor.b.ToString() + "-" + playerColor.a.ToString());
 								break;
+							case "ready":
+								//If we get a ready signal , we check our players list with the players data who is ready
+								foreach (GameClient p in players)
+								{
+									if (p.playerName == aData[4] && !p.isReady)
+									{
+										p.isReady = true;
+										DisplayChatMessage(messagePrefab, aData[4] + " is ready!", "0-1-0.4412-1");
+									}
+								}
+								break;
+							case "start":
+								StartGame();
+								break;
+							case "disconnect":
+								//If someone disconnects send a notification with his name and remove him from the players list
+								DisplayNotification(aData[4] + " has disconnected!");
+								foreach (GameClient p in players)
+								{
+									if ( p.playerName == aData[4] && p.playerColor == aData[5])
+									{
+										players.Remove(p);
+									}
+								}
 								break;
 						}
 						break;
-						
-
-					
 					case "chat":
-						//client.send("serverclientsystchat");
-						//write aData[3] on lobby panel;
+						DisplayChatMessage(messagePrefab, aData[3] + " says:" + aData[4], aData[5]);
 						break;
 					case "file":
-						//fajl fogadasa
+						// TODO: fajl fogadasa
 						break;
 					case "imag":
 						//kep fogadasa
 						break;
-					case "ready":
-						string ready = " is ready!";
-						//Displays a message on the chat panel
-						GameObject msg = Instantiate(messagePrefab, playerMessages.transform) as GameObject;
-						msg.GetComponent<Image>().color = new Color(0f, 1f, 0.4412079f, 1f);
-						msg.GetComponentInChildren<Text>().text = aData[1] + ready;
-						foreach (var item in players)
-						{
-							if (item.playerName == aData[1])
-							{
-								item.isReady = true;
-							}
-						}
-						//Client
-						//kiirni hogy a masik jatekos ready
-						break;
-					case "start":
-					StartGame();
-					break;
+			
 			}
 		}
 		//Before and after  the lobby scene is loaded:
 		else
 		{
-			if (aData[0] == "server" && aData[1] == "client")
+			if (aData[0] == "client" && aData[1] == "server")
 				switch (aData[2])
 				{
 					case "move":
-
-						//Debug.Log(int.Parse(aData[3]) + "|" + int.Parse(aData[4]));
 						ConnectLines.Instance.drawMove(int.Parse(aData[3]), int.Parse(aData[4]));
-						Debug.Log(ConnectLines.Instance.isMyTurn);
-						//Debug.Log(isHost);
-						//Debug.Log(aData[3] + "|" + aData[4]);
 						break;
 					case "chat":
-						//write aData[3] on lobby panel
+						DisplayChatMessage(lilmsgPrefab, aData[3] + ":" + aData[4], aData[5]);
 						break;
 					case "syst":
 						switch (aData[3])
 						{
-							case "start":
-								//Client.send("serverclientsyststart");
-								//inditsd a jatekot
+							case "newclient":
+								for (int i = 4; i < aData.Length-1 ; i += 2)
+								{
+									UserConnected(aData[i], false, false, aData[i + 1]);
+								}
+								canDisplay = true;
+								break;
+							//Resume game
+							case "ready":
+								foreach (GameClient p in players)
+								{
+									if (p.playerName == aData[4] && !p.isReady)
+									{
+										p.isReady = true;
+										readyPanel = GameObject.FindGameObjectWithTag("ReadyPanel");
+										GameObject ready = Instantiate(readyPrefab, readyPanel.transform) as GameObject;
+										ready.GetComponentInChildren<Text>().text = aData[4];
+									}
+								}
 								break;
 							case "pause":
-								//Client.send("serverclientsystpause");
-								//megallitja a jatekot
+								PauseMenuController pmc = FindObjectOfType<PauseMenuController>();
+								pmc.showPanel();
+								pmc.isPaused = true;
 								break;
 							case "disconnected":
 								//kiirni hogy valaki disconnectalt+ a nevet
@@ -236,6 +256,16 @@ public class Client : MonoBehaviour
 		}
 		
 	}
+	private void DisplayChatMessage(GameObject msgPrefab, string message, string msgcolor)
+	{
+		playerMessages = GameObject.FindGameObjectWithTag("Message");
+		string[] colors = msgcolor.Split('-');
+		Color color = new Color(float.Parse(colors[0]), float.Parse(colors[1]), float.Parse(colors[2]), float.Parse(colors[3]));
+		
+		GameObject msg = Instantiate(msgPrefab, playerMessages.transform) as GameObject;
+		msg.GetComponent<Image>().color = color;	//set the color of the message
+		msg.GetComponentInChildren<Text>().text = message;	// set the message
+	}
 	private void UserConnected(string name,bool host, bool ready, string ccolor)
 	{
 		GameClient gc = new GameClient();
@@ -243,7 +273,35 @@ public class Client : MonoBehaviour
 		gc.playerName = name;
 		gc.playerColor = ccolor;
 		gc.isReady = ready;
-		players.Add(gc);
+		if (players.Count > 0)
+		{
+			for (int i = 0; i < players.Count; i++)
+			{
+				//If there is a gameclient in the list with the same name and color , its probably the same client
+				if (players[i].playerName == gc.playerName && players[i].playerColor == gc.playerColor)
+				{
+					//Client already present in list
+					//Debug.Log("Client in list already");
+				}
+				else
+				{
+					players.Add(gc);
+					if (SceneManager.GetActiveScene().name == "Lobby")
+					{
+						DisplayClientName(players[players.Count - 1]);
+					}
+				}	
+			}
+		}
+		else
+		{
+			players.Add(gc);
+			if (SceneManager.GetActiveScene().name == "Lobby")
+			{
+				DisplayClientName(players[players.Count - 1]);
+			}
+		}
+
 	}
 	public void Send(string data)
 	{
@@ -258,6 +316,10 @@ public class Client : MonoBehaviour
 	public void StartGame()
 	{
 		SceneManager.LoadScene("GameMain");
+		foreach (var item in players)
+		{
+			item.isReady = false;
+		}
 	}
 	public void CloseSocket()
 	{
@@ -279,4 +341,6 @@ public class GameClient
 	public bool isHost;
 	public bool isReady;
 	public bool canMove;
+
+	public GameObject panels;
 }

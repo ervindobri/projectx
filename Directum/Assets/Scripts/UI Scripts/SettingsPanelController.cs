@@ -58,7 +58,7 @@ public class SettingsPanelController : MonoBehaviour
 		//Debug.Log( "Player" + index + " data Saved!");
 		SaveSystem.SavePlayer(this);
 	}
-	public void SavePlayerPrefs(int index)
+	public bool SavePlayerPrefs(int index)
 	{
 		string name = playerName;
 		Color playerColor = GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<ChangeColor>()._handle.color;
@@ -66,14 +66,21 @@ public class SettingsPanelController : MonoBehaviour
 		PlayerPrefs.SetFloat("p" + index + "c1", playerColor.r);
 		PlayerPrefs.SetFloat("p" + index + "c2", playerColor.g);
 		PlayerPrefs.SetFloat("p" + index + "c3", playerColor.b);
-		PlayerPrefs.SetFloat("p" + index + "c4", playerColor.a);
-
-		Debug.Log("Playerprefs Saved for " + name + " " + playerColor.r + playerColor.g + playerColor.b + playerColor.a);
-
+		//Debug.Log("Playerprefs Saved for " + name + " " + playerColor.r + playerColor.g + playerColor.b + playerColor.a);
+		if ( name == "" || playerColor == Color.white)
+		{
+			return false;
+		}
+		return true;
 	}
 	public void LoadPlayer()
 	{
 		PlayerData data = SaveSystem.LoadPlayer();
+		if ( data == null)
+		{
+			messagePanelAnimator.SetTrigger("dispMessage");
+			messagePanelDisplayText.GetComponent<Text>().text = "Couldn't load player data!";
+		}
 
 		inputTextObject.text = data.playerName;
 		Color loadColor;

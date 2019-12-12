@@ -11,30 +11,32 @@ public class CanvasController : MonoBehaviour
 	[Header("Style Parent")]
 	public GameObject titleStylePanel;
 
-	private Animator titleStyleAnimator;
 	private Animator titleStylePanelAnimator;
+	private readonly string panelFadeIn = "Panel Open";
 
-
-	// [Header("PANEL ANIMS")]
-	private string panelFadeIn = "Panel Open";
-	private string panelFadeOut = "Panel Close";
-	private string styleExpand = "Expand";
-
-
-	private Image image;
+	private GameObject menuCanvas;
 
 	private void Start()
 	{
-		titleStyleAnimator = titleStyle.GetComponent<Animator>();
 		titleStylePanelAnimator = titleStylePanel.GetComponent<Animator>();
 
-
+		//gameObject.GetComponent<Animator>().SetTrigger("playIntro");
 		titleStylePanelAnimator.Play(panelFadeIn);
-		image = GameObject.Find("Image").GetComponent<Image>();
+		menuCanvas = GameObject.Find("MenuCanvas");
+		if (MenuPlay.sceneLoadCounter == 0 && SceneManager.GetActiveScene().name == "MainMenu")
+		{
+			menuCanvas.GetComponent<Canvas>().sortingOrder = 0;
+		}
 	}
 	void Update()
     {
-		
-    }
+		StartCoroutine(WaitABitAndSetCanvas(4.5f));
 
+	}
+	IEnumerator WaitABitAndSetCanvas(float duration)
+	{
+		//Play the transition, then load next scene ->
+		yield return new WaitForSeconds(duration);
+		gameObject.SetActive(false);
+	}
 }

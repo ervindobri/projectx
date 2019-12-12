@@ -42,7 +42,8 @@ public class PointLife : MonoBehaviour
 	
 	private void OnMouseDown()
 	{
-		if (!countDownPanel.activeInHierarchy && pausePanel.GetComponent<Canvas>().sortingLayerName != "Pause" )
+		if (!countDownPanel.activeInHierarchy && 
+			!PauseMenuController.Instance.isPaused && !GameplayManager.Instance.gameWon )
 		{
 			if (!connectLines.isMyTurn)
 			{
@@ -57,23 +58,19 @@ public class PointLife : MonoBehaviour
 				wasSelected = true;
 				//Play sound:
 				point.GetComponent<AudioSource>().Play();
-				if (connectLines.isWin(point))
+				if ( connectLines.isWin(point) )
 				{
 					//Stop timer, display panel
 					//Send to server that this player won -> clients display panel
-					ConnectLines.gameWon = true;
+					GameOverPanelController.Instance.gameWon = true;
 					return;
-				}
-				else
-				{
-					// Game is continuing
 				}
 				connectLines.drawLines();
 				string msg = "serverclientmove" + point.GetComponent<CircleCollider2D>().transform.position.x + "|"
 							+ point.GetComponent<CircleCollider2D>().transform.position.y;
 				Debug.Log(connectLines.client.clientName + ": " + msg);
 				connectLines.client.Send(msg);
-				if (!connectLines.isAnotherLineFromThisPoint(point))
+				if (!connectLines.IsAnotherLineFromThisPoint(point))
 				{
 					connectLines.isMyTurn = false;
 					//Debug.Log(connectLines.isMyTurn);

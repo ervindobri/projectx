@@ -50,3 +50,11 @@ MonoBehaviour:
   messagePrefab: {fileID: 6882470852621003905, guid: 534dd70287e5ebb4d9cae083363aa421,
     type: 3}
   inputField: {fileID: 0}
+  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  colors:
+  - 0
+  myTurn: 0
+  readyPrefab: {fileID: 5536660765394326802, guid: 5f8788929d69cdc499fc4c27cd8c997e,
+    type: 3}
+  lilmsgPrefab: {fileID: 6882470852621003905, guid: fa8dbac9daa3869438255dfb9917aa17,
+    type: 3}

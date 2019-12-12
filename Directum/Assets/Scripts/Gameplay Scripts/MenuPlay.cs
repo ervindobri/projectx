@@ -9,46 +9,52 @@ public class MenuPlay : MonoBehaviour
 {
 
 	public GameObject styleObject;
-	private Animator styleAnimator;
 	public string sceneName;
 	ButtonAnimController buttonAnimController;
 	public static int sceneLoadCounter;
-	private GameObject introCanvasObject;
-	private bool introCanvasStatus;
 
 	public static bool wasRestarted;
 
-
+	private void Awake()
+	{
+		if (SceneManager.GetActiveScene().name == "MainMenu")
+		{
+			GameObject gm = GameObject.Find("GameplayManager");
+			if (gm != null)
+			{
+				Destroy(gm);
+			}
+		}
+		
+	}
 	private void Start()
 	{
-		styleAnimator = styleObject.GetComponent<Animator>();
 		GameObject buttonAnimControllerObject = GameObject.FindWithTag("Canvas");
+		GameObject introCanvas = GameObject.Find("IntroCanvas");
 		if (buttonAnimControllerObject != null)
 		{
 			buttonAnimController = buttonAnimControllerObject.GetComponent<ButtonAnimController>();
 		}
-		if (buttonAnimControllerObject == null)
+		else
 		{
 			Debug.Log("Could not find 'ButtonAnimController' script...");
 		}
 		// If this was the first scene loaded, don't play transition fade out
-		if ( sceneLoadCounter == 0 && SceneManager.GetActiveScene().name == "MainMenu")
+		if (sceneLoadCounter == 0 && SceneManager.GetActiveScene().name == "MainMenu")
 		{
 			GameObject.Find("Styles - Fade Out").SetActive(false);
-			GameObject.Find("IntroCanvas").SetActive(true);
-			introCanvasObject = GameObject.Find("IntroCanvas");
-			introCanvasStatus = introCanvasObject.activeInHierarchy;
+			introCanvas.SetActive(true);
 		}
-		else if(sceneLoadCounter!= 0 && SceneManager.GetActiveScene().name == "MainMenu")
+		else if (sceneLoadCounter != 0 && SceneManager.GetActiveScene().name == "MainMenu")
 		{
-			introCanvasStatus = introCanvasObject.activeInHierarchy;
-			GameObject.Find("IntroCanvas").SetActive(false);
+			//introCanvasStatus = introCanvasObject.activeInHierarchy;
+			introCanvas.SetActive(false);
 
 		}
 		
 	}
 
-	public void setSceneName(string scene)
+	public void SetSceneName(string scene)
 	{
 		sceneName = scene;
 		if ( sceneName == "GameMain")
@@ -60,12 +66,8 @@ public class MenuPlay : MonoBehaviour
 	{
 		if ( buttonAnimController.fadeIn )
 		{
-
 			StartCoroutine(WaitToLoadScene(1.01f));
 		}
-		//Debug.Log(sceneLoadCounter);
-		
-
 	}
 	void OnEnable()
 	{

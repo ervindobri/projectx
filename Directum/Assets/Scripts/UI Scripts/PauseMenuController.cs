@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class PauseMenuController : MonoBehaviour
 {
-	private RectTransform panelTransform;
 
 	private AudioSource audioSource;
 	[Header("Pause Sound")]
@@ -13,62 +12,47 @@ public class PauseMenuController : MonoBehaviour
 	public static float pausedTime;
 	private float startTime;
 	public GameObject panelObject;
-	private GameObject gameOverPanel;
 	public MoveTimer moveTimer;
 
-	private GameObject gameplayManagerObject;
-	private GameplayManager gameplayManager;
 	private GameObject pausePanel;
 	private Client client;
-	public static bool isPaused;
+	public  bool isPaused;
+
+	public GameObject readyPrefab;
+	private GameObject readyPanel;
+
+
+	public static PauseMenuController Instance { set; get; }
 	private void Start()
 	{
+		Instance = this;
 		audioSource = GetComponent<AudioSource>();
-		panelTransform = GetComponent<RectTransform>();
-		panelObject = GameplayManager.currentMovingPlayer;
-
-		gameOverPanel = GameObject.FindGameObjectWithTag("GameOver");
-		gameOverPanel.GetComponent<Canvas>().sortingLayerName = "Default";
 		//UnityEngine.Debug.Log(panelObject);
 
-		if ( panelObject != null)
-		{
-			moveTimer = panelObject.GetComponent<MoveTimer>();
-		}
-		else
-		{
-			Debug.Log("No move timer");
-		}
 
 		//UnityEngine.Debug.Log(moveTimer);
-		gameplayManagerObject = GameObject.Find("GameplayManager");
-		gameplayManager = gameplayManagerObject.GetComponent<GameplayManager>();
-		pausePanel = GameObject.Find("PausePanel");
+		pausePanel = this.gameObject;
+		readyPanel = GameObject.FindGameObjectWithTag("ReadyPanel");
 
 		//Reach the client for further message sending solutions
 		client = FindObjectOfType<Client>();
 	}
 	private void Update()
 	{
-		if (Input.GetKey("p") && !isPaused)
+		//Debug.Log(pausePanel.GetComponent<Canvas>().sortingLayerName);
+		//You can only stop the game if its your turn
+		if (ConnectLines.Instance.isMyTurn && Input.GetKey("p") && !isPaused)
 		{
-			//Send a message to server that pause is on
-			// Message format: Pause|GameTimer|MoveTimer1|MoveTimer2
-			showPanel(audioClip);
-			isPaused = true;
+			client.Send("serverclientsystpause");
 		}
-		else if ( Input.GetKey("escape") && isPaused)
+		if (client.players[0].isReady && client.players[1].isReady && isPaused)
 		{
-			//Send a message to server that pause is off
 			hidePanel();
 			isPaused = false;
 		}
 	}
-	public void showPanel(AudioClip audioClip)
+	public void showPanel()
 	{
-		//Send a message to server that game was stopped:
-
-		//client.Send("P|" + "0|0|0");
 		audioSource.PlayOneShot(audioClip);
 		startTime = Time.time - pausedTime;
 		GameTimer.isTicking = false;
@@ -81,13 +65,20 @@ public class PauseMenuController : MonoBehaviour
 	{
 		pausedTime = Time.time - startTime;
 		GameTimer.isTicking = true;
-		GameTimer.audioSource.volume = 0.7f;
-
-		foreach (var item in gameplayManager.moveTimers)
+		GameTimer.audioSource.volume = 0.4f;
+		foreach (Transform child in readyPanel.transform)
 		{
-			item.isTicking = true;
+			Destroy(child.gameObject);
+		}
+		foreach (var item in client.players)
+		{
+			item.isReady = false;
 		}
 		pausePanel.GetComponent<Canvas>().sortingLayerName = "Default";
-		isPaused = false;
+	}
+	//Resume button will send a signal that the player is ready -> if it receives the second signal the panel will hide, and game continues
+	public void ResumeButton()
+	{
+		client.Send("serverclientsyst" + "ready" + client.clientName);
 	}
 }

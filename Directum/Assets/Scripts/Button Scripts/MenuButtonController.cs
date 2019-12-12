@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MenuButtonController : MonoBehaviour
 {
@@ -8,9 +6,12 @@ public class MenuButtonController : MonoBehaviour
 	[SerializeField] bool keyDown;
 	[SerializeField] int maxIndex;
 	public AudioSource audioSource;
+	private Canvas currentCanvas;
+
 	void Start()
     {
 		audioSource = GetComponent<AudioSource>();
+		currentCanvas = gameObject.GetComponent<Canvas>();
 		index = -1;
 		if (Input.GetAxis("Vertical") < 0)
 		{
@@ -21,7 +22,7 @@ public class MenuButtonController : MonoBehaviour
 
 	void Update()
     {
-		if ( this.gameObject.GetComponent<Canvas>().sortingLayerName == "GameOver" || this.gameObject.GetComponent<Canvas>().sortingLayerName == "Pause")
+		if (currentCanvas.sortingLayerName != "Default" )
 		{
 			if (Input.GetAxis("Vertical") != 0)
 			{
@@ -57,6 +58,5 @@ public class MenuButtonController : MonoBehaviour
 				keyDown = false;
 			}
 		}
-       
     }
 }

@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 142.3, y: 0}
-  m_SizeDelta: {x: 562.3, y: 84.7}
+  m_AnchoredPosition: {x: 142.3, y: 13}
+  m_SizeDelta: {x: 562.3, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &194227939486367227
 CanvasRenderer:
@@ -135,8 +135,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 284.7, y: -42.35}
-  m_SizeDelta: {x: 500.4, y: 84.7}
+  m_AnchoredPosition: {x: 281.15002, y: -55.2}
+  m_SizeDelta: {x: 512.1, y: 93.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8719007352819231002
 CanvasRenderer:
@@ -166,15 +166,15 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: b0692c026d1ee9947a3ca409aeaec661, type: 3}
-    m_FontSize: 33
+    m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 4
-    m_AlignByGeometry: 1
+    m_Alignment: 0
+    m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'HOST SAYS: HELLO GANYE'
+  m_Text: hello  ganye how are you?

@@ -1,67 +1,48 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ConnectLines : MonoBehaviour
 {
-    private int mapLength=5;
-    private int mapWidth=4;
+    private readonly int mapLength=5;
+    private readonly int mapWidth =4;
+
 	public LineRenderer line;
     
 	[Header("Prefabs and materials:")]
 	public Material material;
-	//public GameObject lightPrefab;
 	public GameObject particleSystemObject;
 	public GameObject spriteGlow;
 
 	private Vector3 mousePos;
-	public uint numberOfPoints; // we tell him how many points there are 
 	private uint currentLines = 0; // number of current lines
-    private uint currentPoints = 0;
+    private uint currentPoints = 0; // number of current points
     public GameObject point;
     public GameObject[] allPoints;
 
-    public SpriteRenderer[] allPointsSprite;
 	public GameObject currentPoint;
-
 	public GameObject nextPoint;
-    PointLife pointController;
-	public GameObject[] renderedLineObjects;
-    Color white = new Color(1, 1, 1, 1f);
-    Color black = new Color(0, 0, 0, 1f);
+
+	Color white = Color.white;
     Color red = new Color(1.0f, 0, 0.2282262f, 1f);
-    int myScore = 0;
-	//int enemyScore=0;
 
-
-	public GameObject gameOverPanel;
-	public GameObject mainPanel;
-	public static bool gameWon;
-	private Vector3 originalPosition;
 
 	public bool isMyTurn = false;
-	public static bool deadEnd;
+	public bool deadEnd;
 	public Client client;
+	public bool lineCreated;
 
 	public static ConnectLines Instance { set; get; }
 	void Awake()
     {
 		Instance = this;
-		mainPanel = GameObject.Find("Canvas/MainPanel");
-		gameOverPanel = GameObject.FindGameObjectWithTag("GameOver");
 		particleSystemObject = GameObject.Find("Particle System");
 		drawPoints();
 		allPoints = GameObject.FindGameObjectsWithTag("Point");		
 		currentPoint = allPoints[49];
-		if (currentPoint != null )
-		{
-			pointController = currentPoint.GetComponent<PointLife>();
-		}
-		else
-		{
-		Debug.Log("Could not find 'PointLife' script...");
-		} 
+		//Drawing map lines and displaying the possible moves for the current point 
         drawMapLines();
         displayAllPossibleMoves(currentPoint); // displays all the possible moves
 
@@ -74,29 +55,18 @@ public class ConnectLines : MonoBehaviour
 	}
     private void Update()
 	{
-		if (MenuPlay.wasRestarted)
+		CheckForUselessObjects();
+	}
+
+	private void CheckForUselessObjects()
+	{
+		if (GameObject.Find("New Game Object") != null )
 		{
-			//Debug.Log("Reset");
-		}
-		//If someone won the game , hide unneccessary panels, points and lines, display GAME WON panel
-		if ( gameWon || deadEnd )
-		{
-			//if (mainPanel.activeSelf)
-			//{
-			//	mainPanel.GetComponent<Canvas>().sortingOrder = -1;
-			//}
-			gameOverPanel.GetComponent<Canvas>().sortingLayerName = "GameOver";
-			gameOverPanel.GetComponent<Animator>().enabled = true;
-			StartCoroutine(resetGameStatus());
-		}
-		IEnumerator resetGameStatus()
-		{
-			yield return new WaitForSeconds(0.3f);
-			gameWon = false;
-			deadEnd = false;
+			GameObject go = GameObject.Find("New Game Object").gameObject;
+			Destroy(go);
 		}
 	}
-    public void drawLines()
+	public void drawLines()
     {             
         if (line == null)
         {
@@ -113,8 +83,14 @@ public class ConnectLines : MonoBehaviour
 		currentPoint.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/pointocska", typeof(Sprite)) as Sprite;
 		currentPoint = nextPoint;
 		displayAllPossibleMoves(nextPoint);
-
-	}   
+		lineCreated = true;
+		StartCoroutine(ResetLC(1f));
+	}
+	IEnumerator ResetLC(float delay)
+	{
+		yield return new WaitForSeconds(delay);
+		lineCreated = false;
+	}
     void createLine()
 	{
 		line = new GameObject("Line" + currentLines).AddComponent<LineRenderer>();
@@ -132,11 +108,18 @@ public class ConnectLines : MonoBehaviour
 	//Check where we can move from this current point -> color available points(red) and color current point(black)
 	public void displayAllPossibleMoves(GameObject currentPoint)
 	{
-		GameObject rlight = new GameObject();
 		int possibleStepcounter = 0;
         for (int i = 0; i < allPoints.Length; i++)
-		{          
-            float dist = Vector3.Distance(currentPoint.transform.position, allPoints[i].GetComponent<CircleCollider2D>().transform.position);          
+		{
+			if (allPoints[i].transform.childCount > 0)
+			{
+				foreach (Transform child in allPoints[i].transform)
+				{
+					//child.parent = null;
+					Destroy(child.gameObject);
+				}
+			}
+			float dist = Vector3.Distance(currentPoint.transform.position, allPoints[i].GetComponent<CircleCollider2D>().transform.position);          
 			if ( dist <= 1.42  && dist != 0 && !isLineBetweenTwoPoints(currentPoint,allPoints[i])) // 1.42 because distance is  ~ 1 * square 2
 			{
                 //Debug.Log("rose");
@@ -148,14 +131,7 @@ public class ConnectLines : MonoBehaviour
 			else
 			{
 				//Debug.Log("white");
-				if (allPoints[i].transform.childCount > 0)
-				{
-					foreach (Transform child in allPoints[i].transform)
-					{
-						child.parent = null;
-						Destroy(child.gameObject);
-					}
-				}
+				
 				allPoints[i].GetComponent<SpriteRenderer>().color = white;
 				point.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/pointocska", typeof(Sprite)) as Sprite;
 			}
@@ -201,7 +177,7 @@ public class ConnectLines : MonoBehaviour
         return false;
     }
 
-    public bool isAnotherLineFromThisPoint(GameObject point)
+    public bool IsAnotherLineFromThisPoint(GameObject point)
     {
         int counter = 0;
         GameObject[] lineObjects = GameObject.FindGameObjectsWithTag("Line");
@@ -325,7 +301,7 @@ public class ConnectLines : MonoBehaviour
         pointCoordinates2.y = mapWidth;
         while (pointCoordinates1.x < mapLength)
         {
-            createLine();
+            //line = createLine(ide ami kell egy linehoz);
             line.SetPosition(0, pointCoordinates1);
             ++pointCoordinates1.x;
             line.SetPosition(1, pointCoordinates1);
@@ -423,7 +399,7 @@ public class ConnectLines : MonoBehaviour
 		point.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("vibrating", typeof(RuntimeAnimatorController)) as RuntimeAnimatorController;
 		point.GetComponent<Animator>().enabled = false;
 
-		point.AddComponent<AudioSource>().clip = Resources.Load("Audio/POINT", typeof(AudioClip)) as AudioClip;
+		point.AddComponent<AudioSource>().clip = Resources.Load("Audio/uh", typeof(AudioClip)) as AudioClip;
 		point.GetComponent<AudioSource>().playOnAwake = false;
 		point.GetComponent<AudioSource>().volume = 0.33f;
 
@@ -457,7 +433,7 @@ public class ConnectLines : MonoBehaviour
 		if (nextPoint != currentPoint)
 		{
 			drawLines();
-			if (!isAnotherLineFromThisPoint(nextPoint))
+			if (!IsAnotherLineFromThisPoint(nextPoint))
 			{
 				isMyTurn = true;
 			}

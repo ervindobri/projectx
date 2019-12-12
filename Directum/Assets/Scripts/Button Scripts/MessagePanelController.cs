@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class MessagePanelController : MonoBehaviour
@@ -11,8 +9,16 @@ public class MessagePanelController : MonoBehaviour
 		text = GameObject.Find("DisplayText").GetComponent<Text>();
 	}
 
+	public void DisplayMessage()
+	{
+		gameObject.GetComponent<Animator>().SetTrigger("dispMessage");	
+	}
 	public void SetMessage(string message)
 	{
 		text.text = message;
+	}
+	public void PlayAudio(AudioClip audioClip)
+	{
+		gameObject.GetComponent<AudioSource>().PlayOneShot(audioClip);
 	}
 }

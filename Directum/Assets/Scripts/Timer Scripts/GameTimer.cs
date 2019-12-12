@@ -9,13 +9,10 @@ public class GameTimer : MonoBehaviour
 
 	private float startTime; // sets how much time the player has to start with
 	private float timePassed;
-	private bool stopTimer; 
-
-
 	public float RemainingSeconds;
 
 	[Header("Timer sound")]
-	private AudioClip audioClip;
+	//private AudioClip audioClip;
 	public static AudioSource audioSource;
 
 	public static bool isTicking;
@@ -77,7 +74,6 @@ public class GameTimer : MonoBehaviour
 			{
 				// This is Game Over
 				RemainingSeconds = 0;
-				stopTimer = true;
 				return;
 			}
 		}

@@ -5,49 +5,42 @@ using UnityEngine.UI;
 
 public class LoadPlayerData : MonoBehaviour
 {
-	SettingsPanelController settings;
-
-	private GameObject playerNameObject;
-
-	private string playerName;
-	private Color loadColor;
-	public static bool playersLoaded;
-	private void Start()
+	Client client;
+	public GameObject playerPrefab;
+	private GameObject content;
+	private void Awake()
 	{
-		settings = GetComponent<SettingsPanelController>();
-		if ( SceneManager.GetActiveScene().name == "GameMain")
+		//Get the current client
+		client = FindObjectOfType<Client>();
+		content = GameObject.FindGameObjectWithTag("Content");
+		if (content == null)
 		{
-			playerNameObject = GameObject.Find(this.gameObject.name +"/PlayerPanel");
-		}
-		//playerNames.Add(GameObject.Find(this.gameObject.name +"/Player2Panel"));
-		
-		// Load player data on Load
-		LoadPlayerOnLoad();
-		playersLoaded = true;
-	}
-	private void LoadPlayerOnLoad()
-	{
-		try
-		{
-			PlayerData data = SaveSystem.LoadPlayer();
-			playerName = data.playerName;
-			loadColor.r = data.cursorColor[0];
-			loadColor.g = data.cursorColor[1];
-			loadColor.b = data.cursorColor[2];
-			loadColor.a = data.cursorColor[3];
-			if (SceneManager.GetActiveScene().name == "GameMain")
-			{
-				playerNameObject.transform.Find("Text/Name").GetComponent<Text>().text = data.playerName;
-				loadColor = transform.Find("Text").GetComponent<Text>().color = loadColor;
-			}
-		}
-		catch (System.Exception)
-		{
-			Debug.Log("Save file not found");
-			throw;
+			UnityEngine.Debug.Log("Content not found!");
 		}
 
+		//Instantiate player panels
+		GameObject p1 = Instantiate(playerPrefab, content.transform) as GameObject;
+		p1.transform.Find("TitleImage/Title").GetComponent<Text>().text = "PLAYER 1";
+		p1.transform.Find("Name").GetComponent<Text>().text = client.players[0].playerName;
+		string[] pcolor = client.players[0].playerColor.Split('-');
+		Color color = new Color(float.Parse(pcolor[0]), float.Parse(pcolor[1]), float.Parse(pcolor[2]), float.Parse(pcolor[3]));
+		p1.transform.Find("Glow").GetComponent<Image>().color = color;
+		p1.transform.Find("TitleImage").GetComponent<Image>().color = color;
+		p1.transform.Find("Glow").GetComponent<Image>().enabled = true;
 
+		GameObject p2 = Instantiate(playerPrefab, content.transform) as GameObject;
+		p2.transform.Find("TitleImage/Title").GetComponent<Text>().text = "PLAYER 2";
+		p2.transform.Find("Name").GetComponent<Text>().text = client.players[1].playerName;
+		pcolor = client.players[1].playerColor.Split('-');
+		color = new Color(float.Parse(pcolor[0]), float.Parse(pcolor[1]), float.Parse(pcolor[2]), float.Parse(pcolor[3]));
+		p2.transform.Find("Glow").GetComponent<Image>().color = color;
+		p2.transform.Find("TitleImage").GetComponent<Image>().color = color;
+		p2.transform.Find("Glow").GetComponent<Image>().enabled = false;
+		if (p1 == null || p2 == null)
+		{
+			UnityEngine.Debug.Log("Couldn't instantiate players!");
+		}
+		//---------------------------------------------------------
 
 	}
 }

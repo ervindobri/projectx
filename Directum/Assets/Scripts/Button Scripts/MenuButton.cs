@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuButton : MonoBehaviour
@@ -9,26 +7,37 @@ public class MenuButton : MonoBehaviour
 	[SerializeField] Animator animator;
 	[SerializeField] AnimatorFunctions animatorFunctions;
 	[SerializeField] int thisIndex;
+	private Button currentButton;
+	private bool pointerOver;
 
+
+	public void MouseOverButton()
+	{
+		pointerOver = true;
+	}
+	private void Start()
+	{
+		currentButton = gameObject.GetComponent<Button>();
+	}
 	void Update()
     {
-		if (menuButtonController.index == thisIndex)
+		if (menuButtonController.index == thisIndex )
 		{
 			//trigger animations
 			animator.SetBool("selected",true);
-			if ( Input.GetAxis("Submit") == 1 || Input.GetMouseButtonDown(0) )
+			if ( Input.GetAxis("Submit") == 1 )
 			{
 
 				//Debug.Log(this.gameObject.name);
 				animator.SetBool("pressed", true);
-				this.gameObject.GetComponent<Button>().onClick.Invoke();
+				currentButton.onClick.Invoke();
+				Debug.Log(currentButton.name);
 			}
 			else if (animator.GetBool("pressed"))
 			{
 				animator.SetBool("pressed", false);
 				animatorFunctions.disableOnce = true;
-				this.gameObject.GetComponent<Button>().onClick.Invoke();
-
+				currentButton.onClick.Invoke();
 			}
 		}
 		else

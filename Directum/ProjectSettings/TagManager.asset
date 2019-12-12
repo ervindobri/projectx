@@ -22,6 +22,12 @@ TagManager:
   - MessageInput
   - GameOver
   - MessagePanel
+  - HostIp
+  - ReadyPanel
+  - Cursor
+  - GameTimer
+  - Winner
+  - FinalTimer
   layers:
   - Default
   - TransparentFX
@@ -61,6 +67,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 1992988955
+    locked: 0
+  - name: Menu
+    uniqueID: 2481813297
     locked: 0
   - name: Lines
     uniqueID: 154961587
