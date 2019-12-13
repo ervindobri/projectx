@@ -19,7 +19,7 @@ public class MenuPlay : MonoBehaviour
 	{
 		if (SceneManager.GetActiveScene().name == "MainMenu")
 		{
-			GameObject gm = GameObject.Find("GameplayManager");
+			GameObject gm = GameObject.Find("ConnectionManager");
 			if (gm != null)
 			{
 				Destroy(gm);

@@ -32,9 +32,8 @@ public class Client : MonoBehaviour
 	public List<GameClient> players;
 
 	
- 
-	private bool canDisplay;
-	private bool wasDisplayed;
+
+	private static bool wasDisplayed;
 
 	//Booleans for checking turns
 	public bool myTurn = false;
@@ -105,9 +104,9 @@ public class Client : MonoBehaviour
 	}
 	private void Update()
 	{
-		//For testing
+		//Debug.Log("wD:" + wasDisplayed);
 		//If we are connected
-		if ( SceneManager.GetActiveScene().name == "Lobby" && !wasDisplayed && canDisplay)
+		if ( SceneManager.GetActiveScene().name == "Lobby" && !wasDisplayed )
 		{
 			playersList = GameObject.FindGameObjectWithTag("Content");
 			playerMessages = GameObject.FindGameObjectWithTag("Message");
@@ -132,14 +131,6 @@ public class Client : MonoBehaviour
 	private void OnApplicationQuit()
 	{
 		CloseSocket();
-		System.Diagnostics.Process[] running = System.Diagnostics.Process.GetProcesses();
-		foreach (System.Diagnostics.Process process in running)
-		{
-			if (process.ProcessName == "ConcurentTCP.exe")
-			{
-				Debug.Log("found process");
-			}
-		}
 	}
 
 	// This function represents incoming data from other client(s) through SERVER
@@ -224,7 +215,7 @@ public class Client : MonoBehaviour
 								{
 									UserConnected(aData[i], false, false, aData[i + 1]);
 								}
-								canDisplay = true;
+								//canDisplay = true;
 								break;
 							//Resume game
 							case "ready":
@@ -320,6 +311,10 @@ public class Client : MonoBehaviour
 		{
 			item.isReady = false;
 		}
+	}
+	public void RestartGame()
+	{
+		wasDisplayed = false;
 	}
 	public void CloseSocket()
 	{

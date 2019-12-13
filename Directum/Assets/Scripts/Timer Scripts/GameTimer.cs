@@ -8,7 +8,7 @@ public class GameTimer : MonoBehaviour
 	private static GameTimer instance;
 
 	private float startTime; // sets how much time the player has to start with
-	private float timePassed;
+	public float timePassed;
 	public float RemainingSeconds;
 
 	[Header("Timer sound")]
@@ -20,9 +20,11 @@ public class GameTimer : MonoBehaviour
 	private GameObject countDownPanel;
 	private bool soundOn;
 
+	public static GameTimer Instance { set; get; }
 	// Use this for initialization
 	void Awake()
 	{
+		Instance = this;
 		audioSource = gameObject.GetComponent<AudioSource>();
 		countDownPanel = GameObject.Find("CountdownPanel");
 		timerText = GameObject.Find("Timer").GetComponent<Text>();

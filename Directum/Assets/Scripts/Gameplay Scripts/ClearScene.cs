@@ -6,7 +6,7 @@ public class ClearScene : MonoBehaviour
 {
 	public void BackButton()
 	{
-		GameplayManager gm = FindObjectOfType<GameplayManager>();
+		ConnectionManager gm = FindObjectOfType<ConnectionManager>();
 		if ( gm != null)
 		{
 			Destroy(gm);

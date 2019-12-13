@@ -8,7 +8,7 @@ using System.Net;
 using System.Diagnostics;
 using System.Net.Sockets;
 
-public class GameplayManager : MonoBehaviour
+public class ConnectionManager : MonoBehaviour
 {
 
 
@@ -24,7 +24,7 @@ public class GameplayManager : MonoBehaviour
 	public bool gameWon;
 	private bool busy;
 
-	public static GameplayManager Instance { get; set; }
+	public static ConnectionManager Instance { get; set; }
 
 	private void Awake()
 	{
@@ -34,6 +34,8 @@ public class GameplayManager : MonoBehaviour
 		audioSource = gameObject.GetComponent<AudioSource>();
 		messagePanelObject = GameObject.Find("MessagePanel").gameObject;
 		messagePanel = messagePanelObject.GetComponent<MessagePanelController>();
+
+		PlayerPrefs.SetString("localhost", "127.0.0.1");
 
 		if ( SceneManager.GetActiveScene().name == "PlayMenu")
 		{
@@ -130,7 +132,7 @@ public class GameplayManager : MonoBehaviour
 
 		if (host == "")
 		{
-			host = "127.0.0.1";
+			host = PlayerPrefs.GetString("localhost");
 		}
 		try 
 		{

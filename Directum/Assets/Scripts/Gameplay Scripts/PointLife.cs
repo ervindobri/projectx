@@ -43,7 +43,7 @@ public class PointLife : MonoBehaviour
 	private void OnMouseDown()
 	{
 		if (!countDownPanel.activeInHierarchy && 
-			!PauseMenuController.Instance.isPaused && !GameplayManager.Instance.gameWon )
+			!PauseMenuController.Instance.isPaused && !ConnectionManager.Instance.gameWon )
 		{
 			if (!connectLines.isMyTurn)
 			{
@@ -75,7 +75,7 @@ public class PointLife : MonoBehaviour
 					connectLines.isMyTurn = false;
 					//Debug.Log(connectLines.isMyTurn);
 				}
-		}
+			}
 			else
 			{
 				;

@@ -21,9 +21,6 @@ public class ManageTimers : MonoBehaviour
 	private GameObject[] playerPanels;
 	public string currentMovingPlayerName;
 
-	private ManageTimers()
-	{ }
-
 	public static ManageTimers Instance { set; get; }
 	void Start()
     {
@@ -80,17 +77,17 @@ public class ManageTimers : MonoBehaviour
 		}
 		else if ( !ConnectLines.Instance.isMyTurn && !PauseMenuController.Instance.isPaused && !GameOverPanelController.Instance.gameWon && !ConnectLines.Instance.deadEnd)
 		{
-			foreach (var player in client.players)
-			{
-				//if (ConnectLines.Instance.client.clientName != player.playerName)
-				//{
-				//	map<player, GameObject>panels 
+			//foreach (var player in client.players)
+			//{
+			//	//if (ConnectLines.Instance.client.clientName != player.playerName)
+			//	//{
+			//	//	map<player, GameObject>panels 
 
-				//	//panels[player]...is a panel
-				//}
-				//player.panels 
-			    //player.Timer 
-			}
+			//	//	//panels[player]...is a panel
+			//	//}
+			//	//player.panels 
+			//    //player.Timer 
+			//}
 			for (int i = 0; i < client.players.Count; i++)
 			{
 

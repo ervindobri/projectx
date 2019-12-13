@@ -22,7 +22,6 @@ public class SettingsPanelController : MonoBehaviour
 	{
 		Instance = this;
 		currentPanelName = this.gameObject.name;
-		GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<Canvas>().sortingOrder = 0;
 		textObject = GameObject.Find(currentPanelName + "VibratingPanel/Name/InputField/Text").GetComponent<Text>();
 		inputTextObject = GameObject.Find(currentPanelName + "VibratingPanel/Name/InputField").GetComponent<InputField>();
 
@@ -39,14 +38,14 @@ public class SettingsPanelController : MonoBehaviour
 
 		//Debug.Log(playerName);
 	}
-	public void enableColorSelectorPanel()
+	public void EnableColorSelectorPanel()
 	{
-		GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<Canvas>().sortingOrder = 2;
+		GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<Canvas>().sortingLayerName = "SetColors";
 
 	}
-	public void disableColorSelectorPanel()
+	public void DisableColorSelectorPanel()
 	{
-		GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<Canvas>().sortingOrder = 0;
+		GameObject.Find(currentPanelName + "/ColorSelectorPanel").GetComponent<Canvas>().sortingLayerName = "Default";
 	}
 
 	public void SavePlayer()

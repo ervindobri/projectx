@@ -204,167 +204,192 @@ public class ConnectLines : MonoBehaviour
         //Debug.Log("out isThereline false");
         return false;
     }
-    public bool isWin(GameObject point)
-    {
-        if((point.GetComponent<CircleCollider2D>().transform.position.x == mapLength+1) || (point.GetComponent<CircleCollider2D>().transform.position.x == -mapLength-1))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+	//public bool isWin(GameObject point)
+	//{
+	//    if((point.GetComponent<CircleCollider2D>().transform.position.x == mapLength+1) || (point.GetComponent<CircleCollider2D>().transform.position.x == -mapLength-1))
+	//    {
+	//        return true;
+	//    }
+	//    else
+	//    {
+	//        return false;
+	//    }
+	//}
 
-    public void drawMapLines()
-    {
-        Vector3 pointCoordinates1;
-        Vector3 pointCoordinates2;
-        bool stop = false;
-        bool stop2 = false;
-        pointCoordinates1.z = 0;
-        pointCoordinates1.x = -mapLength;
-        pointCoordinates1.y = -mapWidth;
-        pointCoordinates2.z = 0;
-        pointCoordinates2.x = mapLength;
-        pointCoordinates2.y = -mapWidth;
-        //Vertival limits
-        while (pointCoordinates1.y < mapWidth)
-        { 
-            createLine();
-            if (pointCoordinates1.y == -1 && !stop)
-            {
-                line.SetPosition(0, pointCoordinates1);
-                --pointCoordinates1.x;
-                line.SetPosition(1, pointCoordinates1);
-                line = null;
-                currentLines++;
-                stop = true;
-            }
-            else
-            {
-                if (pointCoordinates1.y == 1 && !stop)
-                {
-                    line.SetPosition(0, pointCoordinates1);
-                    ++pointCoordinates1.x;
-                    line.SetPosition(1, pointCoordinates1);
-                    line = null;
-                    currentLines++;
-                    stop = true;
-                }
-                else
-                {
-                    line.SetPosition(0, pointCoordinates1);
-                    ++pointCoordinates1.y;
-                    line.SetPosition(1, pointCoordinates1);
-                    line = null;
-                    currentLines++;
-                    stop = false;
-                }
-            }
-            createLine();
-            if (pointCoordinates2.y == -1 && !stop2)
-            {
-                line.SetPosition(0, pointCoordinates2);
-                ++pointCoordinates2.x;
-                line.SetPosition(1, pointCoordinates2);
-                line = null;
-                currentLines++;
-                stop2 = true;
-            }
-            else
-            {
-                if (pointCoordinates2.y == 1 && !stop2)
-                {
-                    line.SetPosition(0, pointCoordinates2);
-                    --pointCoordinates2.x;
-                    line.SetPosition(1, pointCoordinates2);
-                    line = null;
-                    currentLines++;
-                    stop2 = true;
-                }
-                else
-                {
-                    line.SetPosition(0, pointCoordinates2);
-                    ++pointCoordinates2.y;
-                    line.SetPosition(1, pointCoordinates2);
-                    line = null;
-                    currentLines++;
-                    stop2 = false;
-                }
-            }
-        }
-        //vertical limits
-        pointCoordinates1.x = -mapLength;
-        pointCoordinates1.y = -mapWidth;
-        pointCoordinates2.x = -mapLength;
-        pointCoordinates2.y = mapWidth;
-        while (pointCoordinates1.x < mapLength)
-        {
-            //line = createLine(ide ami kell egy linehoz);
-            line.SetPosition(0, pointCoordinates1);
-            ++pointCoordinates1.x;
-            line.SetPosition(1, pointCoordinates1);
-            line = null;
-            currentLines++;
-            createLine();
+	public bool isWin(GameObject point)
+	{
+		if (client.isHost == "host")
+		{
+			if ((point.GetComponent<CircleCollider2D>().transform.position.x == mapLength + 1))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if ((point.GetComponent<CircleCollider2D>().transform.position.x == -mapLength - 1))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+	public void drawMapLines()
+	{
+		Vector3 pointCoordinates1;
+		Vector3 pointCoordinates2;
+		bool stop = false;
+		bool stop2 = false;
+		pointCoordinates1.z = 0;
+		pointCoordinates1.x = -mapLength;
+		pointCoordinates1.y = -mapWidth;
+		pointCoordinates2.z = 0;
+		pointCoordinates2.x = mapLength;
+		pointCoordinates2.y = -mapWidth;
+		//Vertival limits
+		while (pointCoordinates1.y < mapWidth)
+		{
+			createLine();
+			if (pointCoordinates1.y == -1 && !stop)
+			{
+				line.SetPosition(0, pointCoordinates1);
+				--pointCoordinates1.x;
+				line.SetPosition(1, pointCoordinates1);
+				line = null;
+				currentLines++;
+				stop = true;
+			}
+			else
+			{
+				if (pointCoordinates1.y == 1 && !stop)
+				{
+					line.SetPosition(0, pointCoordinates1);
+					++pointCoordinates1.x;
+					line.SetPosition(1, pointCoordinates1);
+					line = null;
+					currentLines++;
+					stop = true;
+				}
+				else
+				{
+					line.SetPosition(0, pointCoordinates1);
+					++pointCoordinates1.y;
+					line.SetPosition(1, pointCoordinates1);
+					line = null;
+					currentLines++;
+					stop = false;
+				}
+			}
+			createLine();
+			if (pointCoordinates2.y == -1 && !stop2)
+			{
+				line.SetPosition(0, pointCoordinates2);
+				++pointCoordinates2.x;
+				line.SetPosition(1, pointCoordinates2);
+				line = null;
+				currentLines++;
+				stop2 = true;
+			}
+			else
+			{
+				if (pointCoordinates2.y == 1 && !stop2)
+				{
+					line.SetPosition(0, pointCoordinates2);
+					--pointCoordinates2.x;
+					line.SetPosition(1, pointCoordinates2);
+					line = null;
+					currentLines++;
+					stop2 = true;
+				}
+				else
+				{
+					line.SetPosition(0, pointCoordinates2);
+					++pointCoordinates2.y;
+					line.SetPosition(1, pointCoordinates2);
+					line = null;
+					currentLines++;
+					stop2 = false;
+				}
+			}
+		}
+		//vertical limits
+		pointCoordinates1.x = -mapLength;
+		pointCoordinates1.y = -mapWidth;
+		pointCoordinates2.x = -mapLength;
+		pointCoordinates2.y = mapWidth;
+		while (pointCoordinates1.x < mapLength)
+		{
+			createLine();
+			line.SetPosition(0, pointCoordinates1);
+			++pointCoordinates1.x;
+			line.SetPosition(1, pointCoordinates1);
+			line = null;
+			currentLines++;
+			createLine();
 
-            line.SetPosition(0, pointCoordinates2);
-            ++pointCoordinates2.x;
-            line.SetPosition(1, pointCoordinates2);
-            line = null;
-            currentLines++;
-        }
+			line.SetPosition(0, pointCoordinates2);
+			++pointCoordinates2.x;
+			line.SetPosition(1, pointCoordinates2);
+			line = null;
+			currentLines++;
+		}
 
-        pointCoordinates1.x = -mapLength;
-        pointCoordinates1.y = -2;
-        pointCoordinates2.x = -mapLength-1;
-        pointCoordinates2.y = -1;
-        createLine();
-        line.SetPosition(0, pointCoordinates1);
-        line.SetPosition(1, pointCoordinates2);
-        line.sortingLayerName = "Default";
-        line.sortingOrder = -2;
-        line = null;
-        currentLines++;
+		pointCoordinates1.x = -mapLength;
+		pointCoordinates1.y = -2;
+		pointCoordinates2.x = -mapLength - 1;
+		pointCoordinates2.y = -1;
+		createLine();
+		line.SetPosition(0, pointCoordinates1);
+		line.SetPosition(1, pointCoordinates2);
+		line.sortingLayerName = "Default";
+		line.sortingOrder = -2;
+		line = null;
+		currentLines++;
 
-        pointCoordinates1.x = -mapLength;
-        pointCoordinates1.y = 2;
-        pointCoordinates2.x = -mapLength - 1;
-        pointCoordinates2.y = 1;
-        createLine();
-        line.SetPosition(0, pointCoordinates1);
-        line.SetPosition(1, pointCoordinates2);
-        line.sortingLayerName = "Default";
-        line.sortingOrder = -2;
-        line = null;
+		pointCoordinates1.x = -mapLength;
+		pointCoordinates1.y = 2;
+		pointCoordinates2.x = -mapLength - 1;
+		pointCoordinates2.y = 1;
+		createLine();
+		line.SetPosition(0, pointCoordinates1);
+		line.SetPosition(1, pointCoordinates2);
+		line.sortingLayerName = "Default";
+		line.sortingOrder = -2;
+		line = null;
 		currentLines++;
 
 		pointCoordinates1.x = mapLength;
-        pointCoordinates1.y = 2;
-        pointCoordinates2.x = mapLength + 1;
-        pointCoordinates2.y = 1;
-        createLine();
-        line.SetPosition(0, pointCoordinates1);
-        line.SetPosition(1, pointCoordinates2);
-        line.sortingLayerName = "Default";
-        line.sortingOrder = -2;
-        line = null;
-        currentLines++;
+		pointCoordinates1.y = 2;
+		pointCoordinates2.x = mapLength + 1;
+		pointCoordinates2.y = 1;
+		createLine();
+		line.SetPosition(0, pointCoordinates1);
+		line.SetPosition(1, pointCoordinates2);
+		line.sortingLayerName = "Default";
+		line.sortingOrder = -2;
+		line = null;
+		currentLines++;
 
-        pointCoordinates1.x = mapLength;
-        pointCoordinates1.y = -2;
-        pointCoordinates2.x = mapLength + 1;
-        pointCoordinates2.y = -1;
-        createLine();
-        line.SetPosition(0, pointCoordinates1);
-        line.SetPosition(1, pointCoordinates2);
-        line.sortingLayerName = "Default";
-        line.sortingOrder = -2;
-        line = null;
-        currentLines++;
-    }
-    public int numberOfLinesFromPoint(GameObject point)
+		pointCoordinates1.x = mapLength;
+		pointCoordinates1.y = -2;
+		pointCoordinates2.x = mapLength + 1;
+		pointCoordinates2.y = -1;
+		createLine();
+		line.SetPosition(0, pointCoordinates1);
+		line.SetPosition(1, pointCoordinates2);
+		line.sortingLayerName = "Default";
+		line.sortingOrder = -2;
+		line = null;
+		currentLines++;
+	}
+	public int numberOfLinesFromPoint(GameObject point)
     {
         int counter = 0;
         GameObject[] lineObjects = GameObject.FindGameObjectsWithTag("Line");
