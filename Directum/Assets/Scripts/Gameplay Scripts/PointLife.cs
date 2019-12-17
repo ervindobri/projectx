@@ -58,18 +58,19 @@ public class PointLife : MonoBehaviour
 				wasSelected = true;
 				//Play sound:
 				point.GetComponent<AudioSource>().Play();
-				if ( connectLines.isWin(point) )
+
+				connectLines.DrawLines();
+				string msg = "serverclientmove" + point.GetComponent<CircleCollider2D>().transform.position.x + "|"
+							+ point.GetComponent<CircleCollider2D>().transform.position.y;
+				Debug.Log(connectLines.client.clientName + ": " + msg);
+				connectLines.client.Send(msg);
+				if (connectLines.IsWin(point))
 				{
 					//Stop timer, display panel
 					//Send to server that this player won -> clients display panel
 					GameOverPanelController.Instance.gameWon = true;
 					return;
 				}
-				connectLines.drawLines();
-				string msg = "serverclientmove" + point.GetComponent<CircleCollider2D>().transform.position.x + "|"
-							+ point.GetComponent<CircleCollider2D>().transform.position.y;
-				Debug.Log(connectLines.client.clientName + ": " + msg);
-				connectLines.client.Send(msg);
 				if (!connectLines.IsAnotherLineFromThisPoint(point))
 				{
 					connectLines.isMyTurn = false;

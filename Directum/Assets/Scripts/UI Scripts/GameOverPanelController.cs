@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class GameOverPanelController : MonoBehaviour
@@ -14,9 +16,11 @@ public class GameOverPanelController : MonoBehaviour
 	private Text winnerText;
 
 	private Client client;
+	public string disconnectedPlayer;
+
 	void Start()
     {
-		busy = false;
+		disconnectedPlayer = null;
 		Instance = this;
 		try
 		{
@@ -36,7 +40,36 @@ public class GameOverPanelController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		//Debug.Log(busy);
+		//Debug.Log(disconnectedPlayer);
+		if ( disconnectedPlayer != null)
+		{
+			// If GameOverPanel is active play clip, stop all timers
+			if (!busy)
+			{
+				gameObject.GetComponent<Canvas>().sortingLayerName = "GameOver";
+				gameObject.GetComponent<Animator>().enabled = true;
+
+				AudioClip ac = Resources.Load("Audio/WINNER", typeof(AudioClip)) as AudioClip;
+				audioSource.PlayOneShot(ac);
+				GameTimer.isTicking = false;
+				GameTimer.audioSource.volume = 0f;
+
+				//Stop all timers
+				client.TriggerMoveTimers(false);
+				Debug.Log(client.players[0].moveTimer.isTicking);
+				// Set winner name and time
+				winnerText.text = client.clientName + " won";
+				try
+				{
+					finalTimerText.text = GameTimer.Instance.timePassed.ToString("#0.00");
+				}
+				catch (System.Exception)
+				{
+					throw;
+				}
+				busy = true;
+			}
+		}
 		if (gameWon)
 		{
 			// If GameOverPanel is active play clip, stop all timers
@@ -51,11 +84,10 @@ public class GameOverPanelController : MonoBehaviour
 				GameTimer.audioSource.volume = 0f;
 
 				//Stop all timers
-				ManageTimers.Instance.moveTimers[0].isTicking = false;
-				ManageTimers.Instance.moveTimers[1].isTicking = false;
+				client.TriggerMoveTimers(false);
+
 				// Set winner name and time
 				winnerText.text = ManageTimers.Instance.currentMovingPlayerName + " won";
-				Debug.Log("ft: " + finalTimerText.text + " gt: " + GameTimer.Instance.timePassed.ToString("#0.00"));
 				try
 				{
 					finalTimerText.text = GameTimer.Instance.timePassed.ToString("#0.00");
@@ -81,8 +113,8 @@ public class GameOverPanelController : MonoBehaviour
 				GameTimer.isTicking = false;
 				GameTimer.audioSource.volume = 0f;
 				//Stop all timers
-				ManageTimers.Instance.moveTimers[0].isTicking = false;
-				ManageTimers.Instance.moveTimers[1].isTicking = false;
+				client.TriggerMoveTimers(false);
+				Debug.Log(client.players[0].moveTimer.isTicking);
 				// Set winner name and final time
 				string winnerName = ManageTimers.Instance.currentMovingPlayerName;
 				foreach (GameClient p in client.players)
@@ -93,7 +125,6 @@ public class GameOverPanelController : MonoBehaviour
 					}
 				}
 				winnerText.text = winnerName + " won";
-				Debug.Log(/*"ft: " + finalTimerText.text +*/ " gt: " + GameTimer.Instance.timePassed.ToString("#0.00"));
 				try
 				{
 					finalTimerText.text = GameTimer.Instance.timePassed.ToString("#0.00");
@@ -105,5 +136,42 @@ public class GameOverPanelController : MonoBehaviour
 				busy = true;
 			}
 		}
+	}
+
+	public void Rematch()
+	{
+		if ( client.players.Count < 2)
+		{
+			if (client.isHost == "host")
+			{
+				AudioClip ac = Resources.Load("Audio/rematch", typeof(AudioClip)) as AudioClip;
+				audioSource.PlayOneShot(ac);
+				StartCoroutine(WaitForSeconds(1.5f,"Lobby"));
+
+			}
+			else
+			{
+				AudioClip ac = Resources.Load("Audio/rematch", typeof(AudioClip)) as AudioClip;
+				audioSource.PlayOneShot(ac);
+				StartCoroutine(WaitForSeconds(1.5f,"PlayMenu"));
+
+			}
+		}
+		else
+		{
+			AudioClip ac = Resources.Load("Audio/rematch", typeof(AudioClip)) as AudioClip;
+				audioSource.PlayOneShot(ac);
+				StartCoroutine(WaitForSeconds(1.5f,"Lobby"));
+		}
+		
+	}
+
+	IEnumerator WaitForSeconds(float v, string scene)
+	{
+		MenuPlay menuPlay = FindObjectOfType<MenuPlay>();
+		ButtonAnimController buttonAnimController = FindObjectOfType<ButtonAnimController>();
+		yield return new WaitForSeconds(v);
+		buttonAnimController.PanelAnimationFadeIn();
+		menuPlay.SetSceneName(scene);
 	}
 }

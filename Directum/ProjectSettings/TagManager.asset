@@ -28,6 +28,7 @@ TagManager:
   - GameTimer
   - Winner
   - FinalTimer
+  - ConnManager
   layers:
   - Default
   - TransparentFX

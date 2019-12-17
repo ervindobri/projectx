@@ -1,25 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ClearScene : MonoBehaviour
 {
+	private Client client;
+
 	public void BackButton()
 	{
-		ConnectionManager gm = FindObjectOfType<ConnectionManager>();
-		if ( gm != null)
+		GameObject connectionManager = GameObject.FindGameObjectWithTag("ConnManager");
+		if (connectionManager != null)
 		{
-			Destroy(gm);
+			Destroy(connectionManager);
 		}
-		Server s = FindObjectOfType<Server>();
-		if ( s != null)
+		GameObject clientObject = GameObject.FindGameObjectWithTag("Client");
+		if (clientObject != null)
 		{
-			Destroy(s);
+			Destroy(clientObject);
 		}
-		Client c = FindObjectOfType<Client>();
-		if (c != null)
+		client = FindObjectOfType<Client>();
+		if ( client.isHost == "host")
 		{
-			Destroy(c);
+			foreach (var process in System.Diagnostics.Process.GetProcessesByName("ConcurentTCP"))
+			{
+				process.Kill();
+			}
 		}
 	}
 }

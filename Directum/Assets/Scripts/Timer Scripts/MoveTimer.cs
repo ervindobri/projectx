@@ -16,6 +16,8 @@ public class MoveTimer : MonoBehaviour
 	private GameObject thisMoveTimer;
 	public bool resetTrigger;
 	private bool busy;
+	public bool timeOut;
+	private Client client;
 
 	private void Start()
 	{
@@ -27,6 +29,8 @@ public class MoveTimer : MonoBehaviour
 		RemainingSeconds = timeLeft;
 		moveTimerText.text = RemainingSeconds.ToString("#0");
 		//alreadyMoved = false;
+
+		client = FindObjectOfType<Client>();
 	}
 	private void Update()
 	{
@@ -35,6 +39,7 @@ public class MoveTimer : MonoBehaviour
 		{	
 			if ( isTicking )
 			{
+				busy = false;
 				// if this player has to move -> start timer
 				timePassed += Time.deltaTime;
 				RemainingSeconds = timeLeft - timePassed;
@@ -50,8 +55,7 @@ public class MoveTimer : MonoBehaviour
 							RemainingSeconds = timeLeft;
 							moveTimerText.text = RemainingSeconds.ToString("#0");
 							resetTrigger = false;
-						}
-						
+						}	
 				}
 				//Time out!
 				else
@@ -59,21 +63,22 @@ public class MoveTimer : MonoBehaviour
 					timePassed = 0;
 					RemainingSeconds = timeLeft;
 					moveTimerText.text = RemainingSeconds.ToString("#0");
-					//if ( !busy )
-					//{
-					//	StartCoroutine(PlaySound());
-					//	string msg = "serverclientmove" + ConnectLines.Instance.currentPoint.GetComponent<CircleCollider2D>().transform.position.x + "|"
-					//		+ ConnectLines.Instance.currentPoint.GetComponent<CircleCollider2D>().transform.position.y;
-					//	ConnectLines.Instance.client.Send(msg);
-					//	ConnectLines.Instance.isMyTurn = false;
-					//	busy = true;
-					//}
+					if (!busy)
+					{
+						StartCoroutine(PlaySound());
+						client.Send("serverclientsysttimeo");
+						ConnectLines.Instance.isMyTurn = false;
+						busy = true;
+					}
 					Debug.Log("Your time ran out! Next player has to move");
 					return;
 				}
 			}
 			else
 			{
+				timePassed = 0;
+				RemainingSeconds = timeLeft;
+				moveTimerText.text = RemainingSeconds.ToString("#0");
 				//The other player has to move!
 				Debug.Log("The other player has to move!");
 				return;

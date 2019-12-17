@@ -9,12 +9,9 @@ public class MessagePanelController : MonoBehaviour
 		text = GameObject.Find("DisplayText").GetComponent<Text>();
 	}
 
-	public void DisplayMessage()
+	public void SetMessageAndNotify(string message)
 	{
-		gameObject.GetComponent<Animator>().SetTrigger("dispMessage");	
-	}
-	public void SetMessage(string message)
-	{
+		gameObject.GetComponent<Animator>().SetTrigger("dispMessage");
 		text.text = message;
 	}
 	public void PlayAudio(AudioClip audioClip)

@@ -27,6 +27,8 @@ public class LoadPlayerData : MonoBehaviour
 		p1.transform.Find("Glow").GetComponent<Image>().color = color;
 		p1.transform.Find("TitleImage").GetComponent<Image>().color = color;
 		p1.transform.Find("Glow").GetComponent<Image>().enabled = true;
+		client.players[0].moveTimer = p1.GetComponent<MoveTimer>();
+		client.players[0].playerPanel = p1;
 
 		GameObject p2 = Instantiate(playerPrefab, content.transform) as GameObject;
 		p2.transform.Find("TitleImage/Title").GetComponent<Text>().text = "PLAYER 2";
@@ -36,6 +38,8 @@ public class LoadPlayerData : MonoBehaviour
 		p2.transform.Find("Glow").GetComponent<Image>().color = color;
 		p2.transform.Find("TitleImage").GetComponent<Image>().color = color;
 		p2.transform.Find("Glow").GetComponent<Image>().enabled = false;
+		client.players[1].moveTimer = p2.GetComponent<MoveTimer>();
+		client.players[1].playerPanel = p2;
 		if (p1 == null || p2 == null)
 		{
 			UnityEngine.Debug.Log("Couldn't instantiate players!");

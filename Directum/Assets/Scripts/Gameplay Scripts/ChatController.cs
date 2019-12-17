@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,8 +6,8 @@ using UnityEngine.UI;
 public class ChatController : MonoBehaviour
 {
 	private Client client;
-	private GameObject playerMessages;
-	public MessagePanelController messagePanel;
+	private CanvasGroup chatPanel;
+	private MessagePanelController messagePanelController;
 	public GameObject textPrefab;
 
 	public GameObject contentParent;
@@ -19,9 +18,12 @@ public class ChatController : MonoBehaviour
 
 	private void Awake()
 	{
-		playerMessages = GameObject.FindGameObjectWithTag("Message");
-
+		messagePanelController = FindObjectOfType<MessagePanelController>();
 		client = FindObjectOfType<Client>();
+		if ( SceneManager.GetActiveScene().name == "GameMain")
+		{
+			chatPanel = GetComponent<CanvasGroup>();
+		}
 	}
 	IEnumerator ResetBool()
 	{
@@ -47,7 +49,7 @@ public class ChatController : MonoBehaviour
 				OnPointerSetAlpha(1);
 				inputField.Select();
 			}
-			if (this.GetComponent<CanvasGroup>().alpha == 1)
+			if (chatPanel.alpha == 1)
 			{
 				if (Input.GetKey(KeyCode.Return) && !wasPressed)
 				{
@@ -61,21 +63,20 @@ public class ChatController : MonoBehaviour
 	}
 	public void SendMessage()
 	{
-		//Send to server -> format: MSG|clientName|message|messagecolor: r-g-b-a
+		//Let the server know that someone sent a message
 		if (inputField.text != "")
 		{
 			client.Send("serverclientchat" + client.clientName + "|" + inputField.text + "|" +
 			client.playerColor.r.ToString() + "-" + client.playerColor.g.ToString() + "-" +
 			client.playerColor.b.ToString() + "-" + "0.69");
-			//client.Send("MSG|" + client.clientName + "|" + inputField.text + "|" +
-			//client.playerColor.r.ToString() + "-" + client.playerColor.g.ToString() + "-" +
-			//client.playerColor.b.ToString() + "-" + "0.69");
+
 			inputField.Select();
 			inputField.text = "";
 		}
 		else
 		{
 			Debug.Log("Your message is empty!");
+			messagePanelController.SetMessageAndNotify("YOUR MESSAGE IS EMPTY!");
 		}
 
 	}
@@ -87,29 +88,35 @@ public class ChatController : MonoBehaviour
 	}
 	public void StartButton()
 	{
-		if ( client.isHost == "host"  )
+		if ( client.isHost == "host" )
 		{
-			//Check if the 2 - players pressed the ready button and start the game if so
-			if (client.players[0].isReady && client.players[1].isReady)
+			if ( client.players.Count == 2)
 			{
-				//Start the game
-				GameObject go = Instantiate(messagePrefab, playerMessages.transform) as GameObject;
-				go.GetComponentInChildren<Text>().text = "Starting game!";
-				AudioClip clip = Resources.Load("Audio/down", typeof(AudioClip)) as AudioClip;
-				gameObject.GetComponent<AudioSource>().PlayOneShot(clip);
-				client.Send("serverclientsyststart");
+				//Check if the 2 - players pressed the ready button and start the game if so
+				if (client.players[0].isReady && client.players[1].isReady)
+				{
+					//Start the game
+					messagePanelController.SetMessageAndNotify("STARTING GAME!");
+					AudioClip clip = Resources.Load("Audio/down", typeof(AudioClip)) as AudioClip;
+					gameObject.GetComponent<AudioSource>().PlayOneShot(clip);
+					client.Send("serverclientsyststart");
+				}
+				else
+				{
+					messagePanelController.SetMessageAndNotify("EVERYONE MUST BE READY!");
+					Debug.Log("Everyone must be ready!");
+				}
 			}
 			else
 			{
-				GameObject go = Instantiate(messagePrefab, playerMessages.transform) as GameObject;
-				go.GetComponentInChildren<Text>().text = "Everyone must be ready!";
-				Debug.Log("Everyone must be ready!");
+				messagePanelController.SetMessageAndNotify("WAIT FOR ANOTHER PLAYER!");
+				Debug.Log("Wait for another player before you can start!");
 			}
+			
 		}
 		else
 		{
-			GameObject go = Instantiate(messagePrefab, playerMessages.transform) as GameObject;
-			go.GetComponentInChildren<Text>().text = "You are not the host!";
+			messagePanelController.SetMessageAndNotify("YOU ARE NOT THE HOST!");
 			//If you aren't host you can't start the game
 			Debug.Log("You are not the host!");
 			AudioClip clip = Resources.Load("Audio/down", typeof(AudioClip)) as AudioClip;

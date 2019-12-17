@@ -524,7 +524,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
       - m_Target: {fileID: 1949418256}
         m_MethodName: SetSceneName
         m_Mode: 5
@@ -535,7 +535,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: MainMenu
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
       - m_Target: {fileID: 108282635}
         m_MethodName: PlaySound
         m_Mode: 2
@@ -550,7 +550,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 175842025746895300, guid: 0f91ef8ec2939814380578787d66747d,
           type: 3}
-        m_MethodName: CloseServer
+        m_MethodName: CloseSocket
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1221,7 +1221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1245,7 +1245,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!95 &193948672
 Animator:
@@ -1957,7 +1957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3622,7 +3622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3711,7 +3711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3969,7 +3969,7 @@ GameObject:
   - component: {fileID: 954848106}
   m_Layer: 0
   m_Name: GameplayManager
-  m_TagString: Untagged
+  m_TagString: ConnManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3986,7 +3986,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec8039790f3a7d49bb2390b6d138ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messagePanel: {fileID: 0}
   clientPrefab: {fileID: 175842025746895303, guid: 0f91ef8ec2939814380578787d66747d,
     type: 3}
   serverPrefab: {fileID: 6172214544371265404, guid: cbc7c56cd946969499c3a296fa3c1efe,
@@ -4692,8 +4691,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27d3b7e4c4674114c847ae872f9ed694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slider: {fileID: 1414079877}
-  _handle: {fileID: 1760293484}
+  slider: {fileID: 1414079877}
+  handle: {fileID: 1760293484}
 --- !u!114 &1008445743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6178,7 +6177,6 @@ MonoBehaviour:
   currentPanelName: 
   color: {r: 0, g: 0, b: 0, a: 0}
   playerName: 
-  messagePanelAnimator: {fileID: 0}
 --- !u!82 &1490589506
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6189,7 +6187,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 930e21722ed892c46a269bc8e02957ab, type: 3}
+  m_audioClip: {fileID: 8300000, guid: a5d3caa66c4398a4d93510d8edf0af82, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.306
   m_Pitch: 1
@@ -6289,7 +6287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0.40912533, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6830,7 +6828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.06666667, g: 0.454902, b: 0.70980394, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6903,7 +6901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6981,7 +6979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7075,7 +7073,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7.299988, y: -9.799988}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1644956813
@@ -7147,7 +7145,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 1949418253}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -7478,7 +7476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -8325,7 +8323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -8451,7 +8449,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1490589505}
         m_MethodName: ResetPlayer
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8571,7 +8569,7 @@ MonoBehaviour:
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0

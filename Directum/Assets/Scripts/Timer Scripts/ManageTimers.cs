@@ -7,19 +7,21 @@ public class ManageTimers : MonoBehaviour
 {
 	//Current player dependencies
 	public static GameObject currentMovingPlayer;
-	private List<Text> playerNames;
 
 	//Current timer dependencies
 	private GameObject[] moveTimerObjects;
 	public static GameObject currentMoveTimerObject;
 
-	public List<MoveTimer> moveTimers;
+
 	private Client client;
 
 	//Panels
 	private GameObject gameOverPanel;
-	private GameObject[] playerPanels;
 	public string currentMovingPlayerName;
+
+	public Dictionary<GameClient, MoveTimer> moveTimers;
+	public Dictionary<GameClient, GameObject> playerPanels;
+	public Dictionary<GameObject, Image> panelGlow;
 
 	public static ManageTimers Instance { set; get; }
 	void Start()
@@ -28,100 +30,78 @@ public class ManageTimers : MonoBehaviour
 		client = FindObjectOfType<Client>();
 		gameOverPanel = GameObject.FindGameObjectWithTag("GameOver");
 		gameOverPanel.GetComponent<Canvas>().sortingLayerName = "Default";
-		playerPanels = GameObject.FindGameObjectsWithTag("Player");
-		playerNames = new List<Text>();
-		//Initially player1 is starting, but in our case non-Host client is starting
-		for (int i = 0; i < playerPanels.Length; i++)
+		//For storing 
+		moveTimers = new Dictionary<GameClient, MoveTimer>();
+		playerPanels = new Dictionary<GameClient, GameObject>();
+		playerPanels.Add(client.players[0], client.players[0].playerPanel);
+		playerPanels.Add(client.players[1], client.players[1].playerPanel);
+		//Get glow components:
+		panelGlow = new Dictionary<GameObject, Image>();
+		//Get the player names for future uses
+		foreach (var item in playerPanels)
 		{
-			playerNames.Add(playerPanels[i].transform.Find("Name").GetComponent<Text>());
-			//UnityEngine.Debug.Log(playerTexts[i]);
-		}
-		moveTimerObjects = GameObject.FindGameObjectsWithTag("Movetimer");
-		moveTimers = new List<MoveTimer>();
-		for (int i = 0; i < playerPanels.Length; i++)
-		{
-			moveTimers.Add(playerPanels[i].GetComponent<MoveTimer>());
-		}
+			panelGlow.Add(item.Value, item.Value.transform.Find("Glow").GetComponent<Image>());
 
-		// ....
-		moveTimers[0].isTicking = true;
-		currentMovingPlayerName = playerNames[0].text;
+		}
+		// 0 - the hosts movetimer and name - players[0] is the host
+		client.players[0].moveTimer.isTicking= true;
+		currentMovingPlayerName = client.players[0].playerName;
 	}
 
     // Update is called once per frame
     void Update()
     {
-		Debug.Log("gamewon" + GameOverPanelController.Instance.gameWon + "deadend:" + ConnectLines.Instance.deadEnd);
-		//Debug.Log(ConnectLines.Instance.client.clientName + "," + ConnectLines.Instance.isMyTurn);
+		Debug.Log("gamewon: " + GameOverPanelController.Instance.gameWon + "deadend:" + ConnectLines.Instance.deadEnd);
 		//If it's my turn -> start timer
-        if ( ConnectLines.Instance.isMyTurn && !PauseMenuController.Instance.isPaused && !GameOverPanelController.Instance.gameWon && !ConnectLines.Instance.deadEnd)
+		if ( GameOverPanelController.Instance.disconnectedPlayer == null)
 		{
-			//Debug.Log(ConnectLines.Instance.client.clientName + "'s turn!");
-			for (int i = 0; i < client.players.Count; i++)
+			if (ConnectLines.Instance.isMyTurn && !PauseMenuController.Instance.isPaused && !GameOverPanelController.Instance.gameWon && !ConnectLines.Instance.deadEnd)
 			{
-				if (ConnectLines.Instance.client.clientName == client.players[i].playerName)
+				foreach (GameClient p in client.players)
 				{
-					//copy paste code (getcomponent)
-					playerPanels[i].transform.Find("Glow").GetComponent<Image>().enabled = true;
-					moveTimers[i].isTicking = true;
-					currentMovingPlayerName = playerNames[i].text;
-				}
-				else
-				{
-					playerPanels[i].transform.Find("Glow").GetComponent<Image>().enabled = false;
-					moveTimers[i].isTicking = false;
-					//moveTimers[i].alreadyMoved = false;
-					moveTimers[i].resetTrigger = true;
+					if (ConnectLines.Instance.client.clientName == p.playerName)
+					{
+						panelGlow[p.playerPanel].enabled = true;
+						p.moveTimer.isTicking = true;
+						currentMovingPlayerName = p.playerName;
+					}
+					else
+					{
+						panelGlow[p.playerPanel].enabled = false;
+						p.moveTimer.isTicking = false;
+						p.moveTimer.resetTrigger = true;
+					}
 				}
 			}
-		}
-		else if ( !ConnectLines.Instance.isMyTurn && !PauseMenuController.Instance.isPaused && !GameOverPanelController.Instance.gameWon && !ConnectLines.Instance.deadEnd)
-		{
-			//foreach (var player in client.players)
-			//{
-			//	//if (ConnectLines.Instance.client.clientName != player.playerName)
-			//	//{
-			//	//	map<player, GameObject>panels 
-
-			//	//	//panels[player]...is a panel
-			//	//}
-			//	//player.panels 
-			//    //player.Timer 
-			//}
-			for (int i = 0; i < client.players.Count; i++)
+			else if (!ConnectLines.Instance.isMyTurn && !PauseMenuController.Instance.isPaused && !GameOverPanelController.Instance.gameWon && !ConnectLines.Instance.deadEnd)
 			{
-
-				if (ConnectLines.Instance.client.clientName != client.players[i].playerName)
+				foreach (GameClient p in client.players)
 				{
-					playerPanels[i].transform.Find("Glow").GetComponent<Image>().enabled = true;
-					moveTimers[i].isTicking = true;
-					currentMovingPlayerName = playerNames[i].text;
-				}
-				else
-				{
-					playerPanels[i].transform.Find("Glow").GetComponent<Image>().enabled = false;
-					moveTimers[i].isTicking = false;
-					//moveTimers[i].alreadyMoved = false;
-					moveTimers[i].resetTrigger = true;
+					if (ConnectLines.Instance.client.clientName != p.playerName)
+					{
+						panelGlow[p.playerPanel].enabled = true;
+						p.moveTimer.isTicking = true;
+						currentMovingPlayerName = p.playerName;
+					}
+					else
+					{
+						panelGlow[p.playerPanel].enabled = false;
+						p.moveTimer.isTicking = false;
+						p.moveTimer.resetTrigger = true;
+					}
 				}
 			}
-		}
-		else if (GameOverPanelController.Instance.gameWon || ConnectLines.Instance.deadEnd )
-		{
-			Debug.Log("Both timers stopped!");
-			for (int i = 0; i < client.players.Count; i++)
+			else
 			{
-				moveTimers[i].isTicking = false;
-			}
+				//Debug.Log("Both timers stopped!");
+				client.TriggerMoveTimers(false);
 
+			}
 		}
 		else
 		{
-			Debug.Log("Both timers stopped!");
-			for (int i = 0; i < client.players.Count; i++)
-			{
-				moveTimers[i].isTicking = false;
-			}
+			//Debug.Log("Both timers stopped!");
+			client.TriggerMoveTimers(false);
 		}
-    }
+	}
 }

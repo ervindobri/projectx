@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AnimatorFunctions" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAARAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Button Scripts\AnimatorFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BackButtonController" Collapsed="true">
+    <Position X="10.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAABAACAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Button Scripts\BackButtonController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ButtonAnimController" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAJAAgEBgAAAAgAQAQAAAGAAAIAMAAAAABBAAAAQ=</HashCode>
+      <FileName>Assets\Scripts\Button Scripts\ButtonAnimController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuButton" Collapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAwAAAAAICAAAAAIBAAAAAAAAAAAAIAAAAAACAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Button Scripts\MenuButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuButtonController" Collapsed="true">
+    <Position X="12.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAIAAIAAAAAAAEAAAAAAAQAABAAA=</HashCode>
+      <FileName>Assets\Scripts\Button Scripts\MenuButtonController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MessagePanelController" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAgACAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Button Scripts\MessagePanelController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatController" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="6.5" Y="8.25" />
+        <Point X="6.5" Y="4.566" />
+        <Point X="8.182" Y="4.566" />
+        <Point X="8.182" Y="1.345" />
+        <Point X="11.25" Y="1.345" />
+        <Point X="11.25" Y="1.191" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ABQEAAAEQAAAAAAAACAAEIBAAAAAMABAAAABBAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Gameplay Scripts\ChatController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClearScene" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="6.5" Y="8.25" />
+        <Point X="6.5" Y="4.566" />
+        <Point X="8.151" Y="4.566" />
+        <Point X="8.151" Y="1.345" />
+        <Point X="13" Y="1.345" />
+        <Point X="13" Y="1.191" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Gameplay Scripts\ClearScene.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConnectionManager" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAABAAACAEAAAEAAAAABACAAAAwAAQAAAAAABAkA=</HashCode>
+      <FileName>Assets\Scripts\Gameplay Scripts\ConnectionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConnectLines" Collapsed="true">
+    <Position X="14.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAUCAAiBACBAWAMAAEIEQAEUEAABAhAsYEAANgBAEGA=</HashCode>
+      <FileName>Assets\Scripts\Gameplay Scripts\ConnectLines.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HowtoplayController" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAQAEgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Gameplay Scripts\HowtoplayController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LoadPlayerData" Collapsed="true">
+    <Position X="6.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAABAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Gameplay Scripts\LoadPlayerData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuPlay" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oAQAAAAAACACAAACAAAAAAAACAAAAAAIAgAAAAAAKEA=</HashCode>
+      <FileName>Assets\Scripts\Gameplay Scripts\MenuPlay.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerData">
+    <Position X="21.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Gameplay Scripts\PlayerData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PointLife" Collapsed="true">
+    <Position X="17" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAEAACAECAAAAAAAAAAQAAMAAACAAAAIgABAEAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Gameplay Scripts\PointLife.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SaveSystem">
+    <Position X="11" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Gameplay Scripts\SaveSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQIAFAEQCAAgAAAAEgAANAgAAAYEESAKYEBYAgUgAI=</HashCode>
+      <FileName>Assets\Scripts\Networking Scripts\Client.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameClient">
+    <Position X="21.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAkAQBAAAACIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Networking Scripts\Client.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScrollRect_fix" Collapsed="true">
+    <Position X="9" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAIAAAAAAAAAAAACBAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI Scripts\ScrollRect_fix.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CountdownTimerBehaviour" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAABAAAAAAAAAAAAAAEAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Timer Scripts\CountdownTimerBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameTimer" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAEAAAoABAAAAgAAAABABAEAAAQAAAAEAAAFA=</HashCode>
+      <FileName>Assets\Scripts\Timer Scripts\GameTimer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManageTimers" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAICAAAAAEBAAAwCAAAAAAQAAAQAAABAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Timer Scripts\ManageTimers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoveTimer" Collapsed="true">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQEAAAAECAAIAAAAABCAAgABAAAAAAAAAYABEAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Timer Scripts\MoveTimer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CanvasController" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQAAIAAAGAAAIAAAAABAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI Scripts\CanvasController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChangeColor" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="6.5" Y="8.25" />
+        <Point X="6.5" Y="4.566" />
+        <Point X="8.182" Y="4.566" />
+        <Point X="8.182" Y="1.345" />
+        <Point X="9.5" Y="1.345" />
+        <Point X="9.5" Y="1.191" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAABAAAAAAGAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI Scripts\ChangeColor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOverPanelController" Collapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="6.5" Y="8.25" />
+        <Point X="6.5" Y="4.566" />
+        <Point X="8.195" Y="4.566" />
+        <Point X="8.195" Y="2.345" />
+        <Point X="13" Y="2.345" />
+        <Point X="13" Y="2.191" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAQUAAAAACEAAAAAAAAAAAAAAEAIEQAAQAAARAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI Scripts\GameOverPanelController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MessageController" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAACAAAAAAAAAAAAAAAAJAAAAAAAAAAAAQACA=</HashCode>
+      <FileName>Assets\Scripts\UI Scripts\MessageController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PauseMenuController" Collapsed="true">
+    <Position X="10.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAIAAACAAAAAAAAAggAAEAACIkAAAQIAAhAAEIAI=</HashCode>
+      <FileName>Assets\Scripts\UI Scripts\PauseMenuController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsPanelController" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAABAgACEACAAAAgFAQIBAAAIAAAiAQAAQAAAQAAA=</HashCode>
+      <FileName>Assets\Scripts\UI Scripts\SettingsPanelController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextConverter" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI Scripts\TextConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TransitionBehaviour" Collapsed="true">
+    <Position X="6.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAQAAEAACAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\UI Scripts\TransitionBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnityEngine.MonoBehaviour" Collapsed="true">
+    <Position X="5.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="UnityEngine.UI.ScrollRect" Collapsed="true">
+    <Position X="10" Y="9" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -33,23 +33,35 @@ public class Client : MonoBehaviour
 
 	
 
-	private static bool wasDisplayed;
+	private bool wasDisplayed;
 
 	//Booleans for checking turns
 	public bool myTurn = false;
-	internal bool isReady;
 	private GameObject readyPanel;
 	public GameObject readyPrefab;
 	public GameObject lilmsgPrefab;
 
+	public bool invalidName;
+
 	// TODO: turn player timers on and off
-	//private void TriggerAllPlayers(bool turnoN)
-	//{
-	//	foreach (var player in players)
-	//	{
-	//		player.
-	//	}
-	//}
+
+	public void TriggerMoveTimers(bool turnOn)
+	{
+		if ( turnOn )
+		{
+			foreach (var player in players)
+			{
+				player.moveTimer.isTicking = true;
+			}
+		}
+		else
+		{
+			foreach (var player in players)
+			{
+				player.moveTimer.isTicking = false;
+			}
+		}
+	}
 	private void Start()
 	{
 		//hostData = new GameClient();
@@ -62,17 +74,16 @@ public class Client : MonoBehaviour
 	}
 	public void DisplayClientName(GameClient client)
 	{
-		string[] pcolors = client.playerColor.Split('-');
+		string[] pColors = client.playerColor.Split('-');
 		GameObject playerName = Instantiate(textPrefab, playersList.transform);
 		playerName.GetComponent<Text>().text = client.playerName;
 		//Put the clientName in the playersList panel
-		playerName.GetComponent<Text>().color = new Color(float.Parse(pcolors[0]), float.Parse(pcolors[1]), float.Parse(pcolors[2]), float.Parse(pcolors[3]));
+		playerName.GetComponent<Text>().color = new Color(float.Parse(pColors[0]), float.Parse(pColors[1]), float.Parse(pColors[2]), float.Parse(pColors[3]));
 	}
 	public void DisplayNotification(string message)
 	{
 		MessagePanelController messagePanelController = FindObjectOfType<MessagePanelController>();
-		messagePanelController.DisplayMessage();
-		messagePanelController.SetMessage(message);
+		messagePanelController.SetMessageAndNotify(message);
 	}
 	public bool ConnectToServer(string host, int port)
 	{
@@ -104,7 +115,7 @@ public class Client : MonoBehaviour
 	}
 	private void Update()
 	{
-		//Debug.Log("wD:" + wasDisplayed);
+		Debug.Log("wD:" + wasDisplayed);
 		//If we are connected
 		if ( SceneManager.GetActiveScene().name == "Lobby" && !wasDisplayed )
 		{
@@ -112,6 +123,7 @@ public class Client : MonoBehaviour
 			playerMessages = GameObject.FindGameObjectWithTag("Message");
 			foreach (GameClient player in players)
 			{
+				Debug.Log(player.playerName);
 				DisplayClientName(player);
 			}
 			wasDisplayed = true;
@@ -172,37 +184,31 @@ public class Client : MonoBehaviour
 								break;
 							case "disconnect":
 								//If someone disconnects send a notification with his name and remove him from the players list
-								DisplayNotification(aData[4] + " has disconnected!");
-								foreach (GameClient p in players)
-								{
-									if ( p.playerName == aData[4] && p.playerColor == aData[5])
-									{
-										players.Remove(p);
-									}
-								}
+								ClientDisconnected(playersList , aData[4], aData[5]);
+								break;
+							default:
+								DisplayNotification("CANNOT PROCESS RECEIVED DATA!");
 								break;
 						}
 						break;
 					case "chat":
 						DisplayChatMessage(messagePrefab, aData[3] + " says:" + aData[4], aData[5]);
 						break;
-					case "file":
-						// TODO: fajl fogadasa
+					default:
+						DisplayNotification("CANNOT PROCESS RECEIVED DATA!");
 						break;
-					case "imag":
-						//kep fogadasa
-						break;
-			
-			}
+
+				}
 		}
 		//Before and after  the lobby scene is loaded:
 		else
 		{
 			if (aData[0] == "client" && aData[1] == "server")
+			{
 				switch (aData[2])
 				{
 					case "move":
-						ConnectLines.Instance.drawMove(int.Parse(aData[3]), int.Parse(aData[4]));
+						ConnectLines.Instance.DrawMove(int.Parse(aData[3]), int.Parse(aData[4]));
 						break;
 					case "chat":
 						DisplayChatMessage(lilmsgPrefab, aData[3] + ":" + aData[4], aData[5]);
@@ -211,13 +217,15 @@ public class Client : MonoBehaviour
 						switch (aData[3])
 						{
 							case "newclient":
-								for (int i = 4; i < aData.Length-1 ; i += 2)
+								// index starts with 4 due to protocoll
+								// data received in format: name|color|name|color etc...
+								for (int i = 4; i < aData.Length - 1; i += 2)
 								{
 									UserConnected(aData[i], false, false, aData[i + 1]);
 								}
 								//canDisplay = true;
 								break;
-							//Resume game
+							//Resume game with this 'ready' message
 							case "ready":
 								foreach (GameClient p in players)
 								{
@@ -231,22 +239,82 @@ public class Client : MonoBehaviour
 								}
 								break;
 							case "pause":
+								//In-game pause
 								PauseMenuController pmc = FindObjectOfType<PauseMenuController>();
 								pmc.showPanel();
 								pmc.isPaused = true;
 								break;
-							case "disconnected":
-								//kiirni hogy valaki disconnectalt+ a nevet
+							case "timeout":
+								ConnectLines.Instance.isMyTurn = true;
 								break;
-							case "rematch":
-								//rematch
+							case "disconnect":
+								//Somebody has disconnected
+								ClientDisconnected(null, aData[4], aData[5]);
+								break;
+							default:
+								DisplayNotification("CANNOT PROCESS RECEIVED DATA!");
 								break;
 						}
 						break;
+					default:
+						DisplayNotification("CANNOT PROCESS RECEIVED DATA!");
+						break;
 				}
+
+			}
 		}
 		
 	}
+
+	private void ClientDisconnected(GameObject content, string name, string color)
+	{
+		if ( content != null)
+		{
+			foreach(GameClient p in players)
+			{
+				if (p.playerName == name && p.playerColor == color)
+				{
+					content = GameObject.FindGameObjectWithTag("Content");
+					foreach (Transform child in content.transform)
+					{
+
+						if (child.gameObject.GetComponent<Text>().text == p.playerName)
+						{
+							Destroy(child.gameObject);
+							players.Remove(p);
+							DisplayNotification(name + " HAS DISCONNECTED!");
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			try
+			{
+				foreach (GameClient p in players)
+				{
+					if (p.playerName == name)
+					{
+						Debug.Log(p.playerName + " has disconnected!");
+						players.Remove(p);
+						DisplayNotification(name + " HAS DISCONNECTED!");
+						GameOverPanelController.Instance.disconnectedPlayer = p.playerName;
+					}
+
+				}
+			}
+			catch (Exception e)
+			{
+
+				Debug.Log(e.Message);
+			}
+			
+
+		}
+		
+	}
+
 	private void DisplayChatMessage(GameObject msgPrefab, string message, string msgcolor)
 	{
 		playerMessages = GameObject.FindGameObjectWithTag("Message");
@@ -259,41 +327,48 @@ public class Client : MonoBehaviour
 	}
 	private void UserConnected(string name,bool host, bool ready, string ccolor)
 	{
-		GameClient gc = new GameClient();
-		gc.isHost = host;
-		gc.playerName = name;
-		gc.playerColor = ccolor;
-		gc.isReady = ready;
+		GameClient gameClient = new GameClient();
+		gameClient.isHost = host;
+		gameClient.playerName = name;
+		gameClient.playerColor = ccolor;
+		gameClient.isReady = ready;
 		if (players.Count > 0)
 		{
-			for (int i = 0; i < players.Count; i++)
+			if ( CheckForValidPlayer(gameClient) )
 			{
-				//If there is a gameclient in the list with the same name and color , its probably the same client
-				if (players[i].playerName == gc.playerName && players[i].playerColor == gc.playerColor)
+				players.Add(gameClient);
+				if (SceneManager.GetActiveScene().name == "Lobby")
 				{
-					//Client already present in list
-					//Debug.Log("Client in list already");
+					DisplayClientName(players[players.Count - 1]);
 				}
-				else
-				{
-					players.Add(gc);
-					if (SceneManager.GetActiveScene().name == "Lobby")
-					{
-						DisplayClientName(players[players.Count - 1]);
-					}
-				}	
 			}
 		}
 		else
 		{
-			players.Add(gc);
+			players.Add(gameClient);
 			if (SceneManager.GetActiveScene().name == "Lobby")
 			{
 				DisplayClientName(players[players.Count - 1]);
 			}
 		}
-
 	}
+
+	public bool CheckForValidPlayer(GameClient newClient)
+	{
+		foreach (GameClient player in players)
+		{
+			//If there is a gameclient in the list with the same name and color , its probably the same client
+			if (player.playerName == newClient.playerName && player.playerColor == newClient.playerColor)
+			{
+				//Client already present in list
+				Debug.Log("Client already in players list!");
+				DisplayNotification("CHOOSE ANOTHER NAME/COLOR");
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public void Send(string data)
 	{
 		if ( !socketReady )
@@ -337,5 +412,6 @@ public class GameClient
 	public bool isReady;
 	public bool canMove;
 
-	public GameObject panels;
+	public GameObject playerPanel;
+	public MoveTimer moveTimer;
 }
