@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
@@ -73,7 +71,6 @@ public class ConnectionManager : MonoBehaviour
 	{
 		try
 		{
-			int.TryParse(GameObject.Find("PortInput").GetComponent<InputField>().text, out int port);
 			//Start C++ Server as a new process with arguments as host and port
 			Process process = new Process();
 			process.EnableRaisingEvents = false;
@@ -107,7 +104,6 @@ public class ConnectionManager : MonoBehaviour
 		bool connectionStatus;
 		//int port;
 		string host = GameObject.Find("HostInput").GetComponent<InputField>().text;
-		//int.TryParse(GameObject.Find("PortInput").GetComponent<InputField>().text, out port);
 
 		if (host == "")
 		{

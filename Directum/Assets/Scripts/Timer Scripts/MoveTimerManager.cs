@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManageTimers : MonoBehaviour
+public class MoveTimerManager : MonoBehaviour
 {
 	//Current player dependencies
 	public static GameObject currentMovingPlayer;
 
 	//Current timer dependencies
-	private GameObject[] moveTimerObjects;
 	public static GameObject currentMoveTimerObject;
 
 
@@ -23,7 +22,7 @@ public class ManageTimers : MonoBehaviour
 	public Dictionary<GameClient, GameObject> playerPanels;
 	public Dictionary<GameObject, Image> panelGlow;
 
-	public static ManageTimers Instance { set; get; }
+	public static MoveTimerManager Instance { set; get; }
 	void Start()
     {
 		Instance = this;
@@ -31,12 +30,12 @@ public class ManageTimers : MonoBehaviour
 		gameOverPanel = GameObject.FindGameObjectWithTag("GameOver");
 		gameOverPanel.GetComponent<Canvas>().sortingLayerName = "Default";
 		//For storing 
-		moveTimers = new Dictionary<GameClient, MoveTimer>();
 		playerPanels = new Dictionary<GameClient, GameObject>();
+		moveTimers = new Dictionary<GameClient, MoveTimer>();
 		playerPanels.Add(client.players[0], client.players[0].playerPanel);
 		playerPanels.Add(client.players[1], client.players[1].playerPanel);
 		//Get glow components:
-		panelGlow = new Dictionary<GameObject, Image>();
+		panelGlow= new Dictionary<GameObject, Image>();
 		//Get the player names for future uses
 		foreach (var item in playerPanels)
 		{

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -87,7 +86,7 @@ public class GameOverPanelController : MonoBehaviour
 				client.TriggerMoveTimers(false);
 
 				// Set winner name and time
-				winnerText.text = ManageTimers.Instance.currentMovingPlayerName + " won";
+				winnerText.text = client.clientName + " won";
 				try
 				{
 					finalTimerText.text = GameTimer.Instance.timePassed.ToString("#0.00");
@@ -116,10 +115,10 @@ public class GameOverPanelController : MonoBehaviour
 				client.TriggerMoveTimers(false);
 				Debug.Log(client.players[0].moveTimer.isTicking);
 				// Set winner name and final time
-				string winnerName = ManageTimers.Instance.currentMovingPlayerName;
+				string winnerName = client.clientName;
 				foreach (GameClient p in client.players)
 				{
-					if (p.playerName != ManageTimers.Instance.currentMovingPlayerName)
+					if (p.playerName != client.clientName)
 					{
 						winnerName = p.playerName;
 					}
@@ -140,6 +139,7 @@ public class GameOverPanelController : MonoBehaviour
 
 	public void Rematch()
 	{
+		client.wasDisplayed = false;
 		if ( client.players.Count < 2)
 		{
 			if (client.isHost == "host")
@@ -147,7 +147,6 @@ public class GameOverPanelController : MonoBehaviour
 				AudioClip ac = Resources.Load("Audio/rematch", typeof(AudioClip)) as AudioClip;
 				audioSource.PlayOneShot(ac);
 				StartCoroutine(WaitForSeconds(1.5f,"Lobby"));
-
 			}
 			else
 			{

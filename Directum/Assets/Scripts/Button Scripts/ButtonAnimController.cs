@@ -51,7 +51,6 @@ public class ButtonAnimController : MonoBehaviour
 		client = FindObjectOfType<Client>();
 		client.CloseSocket();
 		Debug.Log("Exited!");
-
 	}
 	public void SetTransitionToNextPanel(string setTrigger)
 	{

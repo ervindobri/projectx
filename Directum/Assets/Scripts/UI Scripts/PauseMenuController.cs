@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -16,6 +13,7 @@ public class PauseMenuController : MonoBehaviour
 
 	private GameObject pausePanel;
 	private Client client;
+	private CanvasGroup chatPanelCanvas;
 	public  bool isPaused;
 
 	public GameObject readyPrefab;
@@ -36,22 +34,23 @@ public class PauseMenuController : MonoBehaviour
 
 		//Reach the client for further message sending solutions
 		client = FindObjectOfType<Client>();
+		chatPanelCanvas = GameObject.Find("ChatPanel").GetComponent<CanvasGroup>();
 	}
 	private void Update()
 	{
 		//Debug.Log(pausePanel.GetComponent<Canvas>().sortingLayerName);
 		//You can only stop the game if its your turn
-		if (ConnectLines.Instance.isMyTurn && Input.GetKey("p") && !isPaused)
+		if ( ConnectLines.Instance.isMyTurn && Input.GetKey("p") && !isPaused && chatPanelCanvas.alpha != 1 )
 		{
 			client.Send("serverclientsystpause");
 		}
 		if (client.players[0].isReady && client.players[1].isReady && isPaused)
 		{
-			hidePanel();
+			HidePanel();
 			isPaused = false;
 		}
 	}
-	public void showPanel()
+	public void ShowPanel()
 	{
 		audioSource.PlayOneShot(audioClip);
 		startTime = Time.time - pausedTime;
@@ -61,7 +60,7 @@ public class PauseMenuController : MonoBehaviour
 		pausePanel.GetComponent<Canvas>().sortingLayerName = "Pause";
 		pausePanel.GetComponentInChildren<Animator>().SetTrigger("fadeIn");
 	}
-	public void hidePanel()
+	public void HidePanel()
 	{
 		pausedTime = Time.time - startTime;
 		GameTimer.isTicking = true;

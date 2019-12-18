@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ConnectLines : MonoBehaviour
 {
@@ -87,7 +84,7 @@ public class ConnectLines : MonoBehaviour
 		yield return new WaitForSeconds(delay);
 		lineCreated = false;
 	}
-	private int CreateLine(Vector3 startPosition, Vector3 endPosition, int sortingOrder = default(int), string sortingLayer = "Lines")
+	private int CreateLine(Vector3 startPosition, Vector3 endPosition, int sortingOrder = default, string sortingLayer = "Lines")
 	{
 		if (line == null)
 		{
@@ -218,14 +215,6 @@ public class ConnectLines : MonoBehaviour
 				{
 					return true;
 				}
-				else
-				{
-					;
-				}
-			}
-			else
-			{
-				;
 			}
 		}
 		//Debug.Log("out isThereline false");
@@ -233,16 +222,56 @@ public class ConnectLines : MonoBehaviour
 	}
 	public bool IsWin(GameObject point)
 	{
-		if ((point.GetComponent<CircleCollider2D>().transform.position.x == mapLength + 1) || (point.GetComponent<CircleCollider2D>().transform.position.x == -mapLength - 1))
+		if (client.isHost == "host")
 		{
-			return true;
+			if ((point.GetComponent<CircleCollider2D>().transform.position.x == mapLength + 1))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{
-			return false;
+			if ((point.GetComponent<CircleCollider2D>().transform.position.x == -mapLength - 1))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 
+	public bool CheckIfIGotGoal(GameObject point)
+	{
+		if ( client.isHost == "host")
+		{
+			if ((point.GetComponent<CircleCollider2D>().transform.position.x == -mapLength - 1))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if ((point.GetComponent<CircleCollider2D>().transform.position.x == mapLength + 1))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+	}
 	public void DrawMapLines()
 	{
 		DrawVerticalMapLines();
@@ -318,6 +347,10 @@ public class ConnectLines : MonoBehaviour
 			if (IsWin(nextPoint))
 			{
 				GameOverPanelController.Instance.gameWon = true;
+			}
+			if ( CheckIfIGotGoal(nextPoint) )
+			{
+				deadEnd = true;
 			}
 			if (!IsAnotherLineFromThisPoint(nextPoint))
 			{

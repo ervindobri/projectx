@@ -1,57 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="AnimatorFunctions" Collapsed="true">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+  <Class Name="AnimatorFunctions">
+    <Position X="2.75" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAARAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Button Scripts\AnimatorFunctions.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="BackButtonController" Collapsed="true">
-    <Position X="10.5" Y="1.5" Width="1.5" />
+  <Class Name="BackButtonController">
+    <Position X="27.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAABAACAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Button Scripts\BackButtonController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ButtonAnimController" Collapsed="true">
-    <Position X="4" Y="0.5" Width="1.5" />
+  <Class Name="ButtonAnimController">
+    <Position X="33.75" Y="1.5" Width="2.25" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="1.191" />
+        <Point X="8.5" Y="1.345" />
+        <Point X="14" Y="1.345" />
+        <Point X="14" Y="1.191" />
+        <Point X="16.25" Y="1.191" />
+        <Point X="16.25" Y="1.095" />
+        <Point X="16.419" Y="1.095" Type="JumpStart" />
+        <Point X="16.585" Y="1.095" Type="JumpEnd" />
+        <Point X="32.667" Y="1.095" Type="JumpStart" />
+        <Point X="32.833" Y="1.095" Type="JumpEnd" />
+        <Point X="34.875" Y="1.095" />
+        <Point X="34.875" Y="1.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAJAAgEBgAAAAgAQAQAAAGAAAIAMAAAAABBAAAAQ=</HashCode>
       <FileName>Assets\Scripts\Button Scripts\ButtonAnimController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MenuButton" Collapsed="true">
-    <Position X="10.5" Y="2.5" Width="1.5" />
+  <Class Name="MenuButton">
+    <Position X="5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAwAAAAAICAAAAAIBAAAAAAAAAAAAIAAAAAACAAAAAA=</HashCode>
+      <HashCode>BAQAAAAAICAAAAAIBAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Button Scripts\MenuButton.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MenuButtonController" Collapsed="true">
-    <Position X="12.25" Y="2.5" Width="1.5" />
+  <Class Name="MenuButtonController">
+    <Position X="0.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAACAAAAAAAIAAIAAAAAAAEAAAAAAAQAABAAA=</HashCode>
       <FileName>Assets\Scripts\Button Scripts\MenuButtonController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MessagePanelController" Collapsed="true">
-    <Position X="4" Y="2.5" Width="1.5" />
+  <Class Name="MessagePanelController">
+    <Position X="11.25" Y="8.25" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="1.191" />
+        <Point X="8.5" Y="2.489" />
+        <Point X="9.956" Y="2.489" />
+        <Point X="9.956" Y="5.125" />
+        <Point X="12" Y="5.125" />
+        <Point X="12" Y="8.25" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AEAAAAAgACAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Button Scripts\MessagePanelController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ChatController" Collapsed="true">
-    <Position X="10.5" Y="0.5" Width="1.5" />
+  <Class Name="ChatController">
+    <Position X="15" Y="8" Width="1.5" />
     <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
       <Path>
-        <Point X="6.5" Y="8.25" />
-        <Point X="6.5" Y="4.566" />
-        <Point X="8.182" Y="4.566" />
-        <Point X="8.182" Y="1.345" />
-        <Point X="11.25" Y="1.345" />
-        <Point X="11.25" Y="1.191" />
+        <Point X="8.5" Y="0.5" />
+        <Point X="8.5" Y="2.12" />
+        <Point X="9.893" Y="2.12" />
+        <Point X="9.893" Y="5.409" />
+        <Point X="9.987" Y="5.409" />
+        <Point X="9.987" Y="15.375" />
+        <Point X="15.75" Y="15.375" />
+        <Point X="15.75" Y="12.184" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -60,15 +88,17 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ClearScene" Collapsed="true">
-    <Position X="12.25" Y="0.5" Width="1.5" />
+    <Position X="12.25" Y="3.25" Width="1.5" />
     <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
       <Path>
-        <Point X="6.5" Y="8.25" />
-        <Point X="6.5" Y="4.566" />
+        <Point X="8.5" Y="0.5" />
+        <Point X="8.5" Y="4.566" />
         <Point X="8.151" Y="4.566" />
         <Point X="8.151" Y="1.345" />
+        <Point X="8.417" Y="1.345" Type="JumpStart" />
+        <Point X="8.583" Y="1.345" Type="JumpEnd" />
         <Point X="13" Y="1.345" />
-        <Point X="13" Y="1.191" />
+        <Point X="13" Y="3.941" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -77,127 +107,252 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ConnectionManager" Collapsed="true">
-    <Position X="4" Y="1.5" Width="1.5" />
+    <Position X="14.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAABAAACAEAAAEAAAAABACAAAAwAAQAAAAAABAkA=</HashCode>
       <FileName>Assets\Scripts\Gameplay Scripts\ConnectionManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ConnectLines" Collapsed="true">
-    <Position X="14.75" Y="5" Width="1.5" />
+  <Class Name="ConnectLines">
+    <Position X="40.5" Y="2.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="1.191" />
+        <Point X="8.5" Y="0.677" />
+        <Point X="16.419" Y="0.677" Type="JumpStart" />
+        <Point X="16.585" Y="0.677" Type="JumpEnd" />
+        <Point X="32.667" Y="0.677" Type="JumpStart" />
+        <Point X="32.833" Y="0.677" Type="JumpEnd" />
+        <Point X="41.25" Y="0.677" />
+        <Point X="41.25" Y="2.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>gAUCAAiBACBAWAMAAEIEQAEUEAABAhAsYEAANgBAEGA=</HashCode>
+      <HashCode>gAUCACiBACBAWAMAAEIEQAEUEAABAhAsYEAANgBAEGA=</HashCode>
       <FileName>Assets\Scripts\Gameplay Scripts\ConnectLines.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="HowtoplayController" Collapsed="true">
-    <Position X="2.25" Y="1.5" Width="1.5" />
+  <Class Name="HowtoplayController">
+    <Position X="23" Y="3.5" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="1.191" />
+        <Point X="8.5" Y="2.489" />
+        <Point X="9.956" Y="2.489" />
+        <Point X="9.956" Y="2.208" />
+        <Point X="12.917" Y="2.208" Type="JumpStart" />
+        <Point X="13.083" Y="2.208" Type="JumpEnd" />
+        <Point X="13.917" Y="2.208" Type="JumpStart" />
+        <Point X="14.083" Y="2.208" Type="JumpEnd" />
+        <Point X="23.75" Y="2.208" />
+        <Point X="23.75" Y="3.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAQAAAAAACAAAAAAQAEgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Gameplay Scripts\HowtoplayController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LoadPlayerData" Collapsed="true">
-    <Position X="6.25" Y="1.5" Width="1.5" />
+  <Class Name="LoadPlayerData">
+    <Position X="17" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAABAAAAEA=</HashCode>
       <FileName>Assets\Scripts\Gameplay Scripts\LoadPlayerData.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MenuPlay" Collapsed="true">
-    <Position X="0.5" Y="2.5" Width="1.5" />
+  <Class Name="MenuPlay">
+    <Position X="32" Y="1.5" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="1.191" />
+        <Point X="16.502" Y="1.191" />
+        <Point X="16.502" Y="0.16" />
+        <Point X="32.75" Y="0.16" />
+        <Point X="32.75" Y="1.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>oAQAAAAAACACAAACAAAAAAAACAAAAAAIAgAAAAAAKEA=</HashCode>
       <FileName>Assets\Scripts\Gameplay Scripts\MenuPlay.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PlayerData">
-    <Position X="21.25" Y="5" Width="1.5" />
+    <Position X="33.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Gameplay Scripts\PlayerData.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="PointLife" Collapsed="true">
-    <Position X="17" Y="5" Width="1.5" />
+  <Class Name="PointLife">
+    <Position X="38" Y="2.25" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="1.191" />
+        <Point X="8.5" Y="0.885" />
+        <Point X="16.419" Y="0.885" Type="JumpStart" />
+        <Point X="16.585" Y="0.885" Type="JumpEnd" />
+        <Point X="32.667" Y="0.885" Type="JumpStart" />
+        <Point X="32.833" Y="0.885" Type="JumpEnd" />
+        <Point X="38.75" Y="0.885" />
+        <Point X="38.75" Y="2.25" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>CAAEAACAECAAAAAAAAAAQAAMAAACAAAAIgABAEAAAAA=</HashCode>
+      <HashCode>AAAAAACAACAAAAAAAAAAAAAAAAACAAAAIgABAEAAAAA=</HashCode>
       <FileName>Assets\Scripts\Gameplay Scripts\PointLife.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SaveSystem">
-    <Position X="11" Y="5" Width="1.5" />
+    <Position X="33.5" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Gameplay Scripts\SaveSystem.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Client" Collapsed="true">
-    <Position X="2.25" Y="0.5" Width="1.5" />
+  <Class Name="Client">
+    <Position X="16.75" Y="8" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="1.191" />
+        <Point X="8.5" Y="2.877" />
+        <Point X="9.935" Y="2.877" />
+        <Point X="9.935" Y="6.3" />
+        <Point X="11.917" Y="6.3" Type="JumpStart" />
+        <Point X="12.083" Y="6.3" Type="JumpEnd" />
+        <Point X="13.917" Y="6.3" Type="JumpStart" />
+        <Point X="14.083" Y="6.3" Type="JumpEnd" />
+        <Point X="15.05" Y="6.3" />
+        <Point X="15.05" Y="6.641" />
+        <Point X="16.8" Y="6.641" />
+        <Point X="16.8" Y="6.55" />
+        <Point X="17.625" Y="6.55" />
+        <Point X="17.625" Y="8" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AQQIAFAEQCAAgAAAAEgAANAgAAAYEESAKYEBYAgUgAI=</HashCode>
+      <HashCode>AQQIAFAEQCAAgAAAAEgAANAgAAAQEESAKYEBYAgUAAI=</HashCode>
       <FileName>Assets\Scripts\Networking Scripts\Client.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameClient">
-    <Position X="21.25" Y="2.5" Width="1.5" />
+    <Position X="18.75" Y="8" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAkAQBAAAACIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Networking Scripts\Client.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ScrollRect_fix" Collapsed="true">
-    <Position X="9" Y="5" Width="1.5" />
+    <Position X="24.25" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAIAAAAAAAAAAAACBAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\UI Scripts\ScrollRect_fix.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CountdownTimerBehaviour" Collapsed="true">
-    <Position X="8.75" Y="1.5" Width="1.5" />
+  <Class Name="CountdownTimerBehaviour">
+    <Position X="7" Y="6.5" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="1.191" />
+        <Point X="8.5" Y="2.877" />
+        <Point X="9.81" Y="2.877" Type="JumpStart" />
+        <Point X="9.976" Y="2.877" Type="JumpEnd" />
+        <Point X="10.008" Y="2.877" />
+        <Point X="10.008" Y="6.3" />
+        <Point X="7.75" Y="6.3" />
+        <Point X="7.75" Y="6.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAQAAAAAACAAABAAAAAAAAAAAAAAEAAAAAQAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Timer Scripts\CountdownTimerBehaviour.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="GameTimer" Collapsed="true">
-    <Position X="0.5" Y="1.5" Width="1.5" />
+  <Class Name="GameTimer">
+    <Position X="1" Y="6.5" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="1.191" />
+        <Point X="8.5" Y="2.619" />
+        <Point X="9.945" Y="2.619" />
+        <Point X="9.945" Y="5.519" />
+        <Point X="9.054" Y="5.519" Type="JumpStart" />
+        <Point X="8.888" Y="5.519" Type="JumpEnd" />
+        <Point X="8.583" Y="5.519" Type="JumpStart" />
+        <Point X="8.417" Y="5.519" Type="JumpEnd" />
+        <Point X="1.75" Y="5.519" />
+        <Point X="1.75" Y="6.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAQAAAAAEAAAoABAAAAgAAAABABAEAAAQAAAAEAAAFA=</HashCode>
       <FileName>Assets\Scripts\Timer Scripts\GameTimer.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ManageTimers" Collapsed="true">
-    <Position X="8.75" Y="2.5" Width="1.5" />
+  <Class Name="MoveTimerManager">
+    <Position X="5" Y="6.5" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="1.191" />
+        <Point X="8.5" Y="2.795" />
+        <Point X="9.935" Y="2.795" />
+        <Point X="9.935" Y="6.05" />
+        <Point X="8.583" Y="6.05" Type="JumpStart" />
+        <Point X="8.417" Y="6.05" Type="JumpEnd" />
+        <Point X="5.75" Y="6.05" />
+        <Point X="5.75" Y="6.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAQAAEAAICAAAAAEBAAAwCAAAAAAQAAAQAAABAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Timer Scripts\ManageTimers.cs</FileName>
+      <HashCode>AAQAAEAAICAAAAAEBAAAwAAAAAAAQAAAQAAABAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Timer Scripts\MoveTimerManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MoveTimer" Collapsed="true">
-    <Position X="8.75" Y="3.5" Width="1.5" />
+  <Class Name="MoveTimer">
+    <Position X="3" Y="6.5" Width="1.5" />
+    <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
+      <Path>
+        <Point X="8.5" Y="1.191" />
+        <Point X="8.5" Y="2.877" />
+        <Point X="8.971" Y="2.877" />
+        <Point X="8.971" Y="5.842" />
+        <Point X="8.583" Y="5.842" Type="JumpStart" />
+        <Point X="8.417" Y="5.842" Type="JumpEnd" />
+        <Point X="3.75" Y="5.842" />
+        <Point X="3.75" Y="6.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgQEAAAAECAAIAAAAABCAAgABAAAAAAAAAYABEAAAAA=</HashCode>
       <FileName>Assets\Scripts\Timer Scripts\MoveTimer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CanvasController" Collapsed="true">
-    <Position X="6.25" Y="0.5" Width="1.5" />
+    <Position X="16.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAQAAIAAAGAAAIAAAAABAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Assets\Scripts\UI Scripts\CanvasController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ChangeColor" Collapsed="true">
-    <Position X="8.75" Y="0.5" Width="1.5" />
+    <Position X="19.25" Y="1.5" Width="1.5" />
     <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
       <Path>
-        <Point X="6.5" Y="8.25" />
-        <Point X="6.5" Y="4.566" />
+        <Point X="8.5" Y="0.5" />
+        <Point X="8.5" Y="4.566" />
         <Point X="8.182" Y="4.566" />
         <Point X="8.182" Y="1.345" />
-        <Point X="9.5" Y="1.345" />
-        <Point X="9.5" Y="1.191" />
+        <Point X="8.417" Y="1.345" Type="JumpStart" />
+        <Point X="8.583" Y="1.345" Type="JumpEnd" />
+        <Point X="14.917" Y="1.345" Type="JumpStart" />
+        <Point X="15.083" Y="1.345" Type="JumpEnd" />
+        <Point X="20" Y="1.345" />
+        <Point X="20" Y="2.191" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -205,16 +360,28 @@
       <FileName>Assets\Scripts\UI Scripts\ChangeColor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="GameOverPanelController" Collapsed="true">
-    <Position X="12.25" Y="1.5" Width="1.5" />
+  <Class Name="GameOverPanelController">
+    <Position X="25.25" Y="3.5" Width="1.5" />
     <InheritanceLine Type="UnityEngine.MonoBehaviour" ManuallyRouted="true">
       <Path>
-        <Point X="6.5" Y="8.25" />
-        <Point X="6.5" Y="4.566" />
+        <Point X="8.5" Y="0.5" />
+        <Point X="8.5" Y="4.566" />
         <Point X="8.195" Y="4.566" />
         <Point X="8.195" Y="2.345" />
-        <Point X="13" Y="2.345" />
-        <Point X="13" Y="2.191" />
+        <Point X="8.417" Y="2.345" Type="JumpStart" />
+        <Point X="8.583" Y="2.345" Type="JumpEnd" />
+        <Point X="9.81" Y="2.345" Type="JumpStart" />
+        <Point X="10.039" Y="2.345" Type="JumpEnd" />
+        <Point X="12.917" Y="2.345" Type="JumpStart" />
+        <Point X="13.083" Y="2.345" Type="JumpEnd" />
+        <Point X="13.917" Y="2.345" Type="JumpStart" />
+        <Point X="14.083" Y="2.345" Type="JumpEnd" />
+        <Point X="23.667" Y="2.345" Type="JumpStart" />
+        <Point X="23.833" Y="2.345" Type="JumpEnd" />
+        <Point X="31.214" Y="2.345" />
+        <Point X="31.214" Y="9.595" />
+        <Point X="26" Y="9.595" />
+        <Point X="26" Y="7.366" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -222,47 +389,40 @@
       <FileName>Assets\Scripts\UI Scripts\GameOverPanelController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MessageController" Collapsed="true">
-    <Position X="2.25" Y="2.5" Width="1.5" />
+  <Class Name="MessageController">
+    <Position X="13.25" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAACAAAAAAAAAAAAAAAAJAAAAAAAAAAAAQACA=</HashCode>
       <FileName>Assets\Scripts\UI Scripts\MessageController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="PauseMenuController" Collapsed="true">
-    <Position X="10.5" Y="3.5" Width="1.5" />
+  <Class Name="PauseMenuController">
+    <Position X="20.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAIAAACAAAAAAAAAggAAEAACIkAAAQIAAhAAEIAI=</HashCode>
+      <HashCode>AAQAAIAAACAAAAAAAAAggAAEAACAkAAASIAAhgAEIAA=</HashCode>
       <FileName>Assets\Scripts\UI Scripts\PauseMenuController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SettingsPanelController" Collapsed="true">
-    <Position X="0.5" Y="3.5" Width="1.5" />
+  <Class Name="SettingsPanelController">
+    <Position X="31.5" Y="9.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAQAABAgACEACAAAAgFAQIBAAAIAAAiAQAAQAAAQAAA=</HashCode>
       <FileName>Assets\Scripts\UI Scripts\SettingsPanelController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TextConverter" Collapsed="true">
-    <Position X="4" Y="3.5" Width="1.5" />
+    <Position X="14.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
       <FileName>Assets\Scripts\UI Scripts\TextConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TransitionBehaviour" Collapsed="true">
-    <Position X="6.25" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAQAAEAACAAAAAAAAAAAAAAAAEA=</HashCode>
-      <FileName>Assets\Scripts\UI Scripts\TransitionBehaviour.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="UnityEngine.MonoBehaviour" Collapsed="true">
-    <Position X="5.75" Y="8.25" Width="1.5" />
+    <Position X="7.75" Y="0.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
   <Class Name="UnityEngine.UI.ScrollRect" Collapsed="true">
-    <Position X="10" Y="9" Width="1.5" />
+    <Position X="22.25" Y="11.75" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 //This means we can save it in a file
 [System.Serializable]
 public class PlayerData

@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.IO;
 using UnityEngine.SceneManagement;
 

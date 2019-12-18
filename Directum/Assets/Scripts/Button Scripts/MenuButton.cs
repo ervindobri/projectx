@@ -8,13 +8,9 @@ public class MenuButton : MonoBehaviour
 	[SerializeField] AnimatorFunctions animatorFunctions;
 	[SerializeField] int thisIndex;
 	private Button currentButton;
-	private bool pointerOver;
 
 
-	public void MouseOverButton()
-	{
-		pointerOver = true;
-	}
+
 	private void Start()
 	{
 		currentButton = gameObject.GetComponent<Button>();

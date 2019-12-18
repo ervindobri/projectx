@@ -5,26 +5,18 @@ using UnityEngine;
 public class PointLife : MonoBehaviour
 {
 
-	private SpriteRenderer pointSprite;
 	private GameObject countDownPanel;
-	private GameObject pausePanel;
 	private GameObject point;
 	//When mouse is over a point and clicks , it selects it
 	//making it the start point of the line
 	ConnectLines connectLines;
 	public bool wasSelected;
 
-	Collider2D pointCollider;
-	private Vector3 linePos;
-	private bool lineCreated;
-	private bool busy;
 
 	public ParticleSystem particleSystem;
 
 	private void Start()
 	{
-		pointCollider = GetComponent<Collider2D>();
-		pointSprite = GetComponent<SpriteRenderer>();
 		GameObject connectLinesObject = GameObject.FindWithTag("MainCamera");
 		if ( connectLinesObject != null)
 		{
@@ -35,11 +27,9 @@ public class PointLife : MonoBehaviour
 			Debug.Log("Could not find 'ConnectLines' script...");
 		}
 		countDownPanel = GameObject.Find("CountdownPanel");
-		pausePanel = GameObject.Find("PausePanel");
 		point = this.gameObject;
 		particleSystem = GameObject.Find("Particle System").GetComponent<ParticleSystem>();
 	}
-	
 	private void OnMouseDown()
 	{
 		if (!countDownPanel.activeInHierarchy && 
@@ -64,22 +54,21 @@ public class PointLife : MonoBehaviour
 							+ point.GetComponent<CircleCollider2D>().transform.position.y;
 				Debug.Log(connectLines.client.clientName + ": " + msg);
 				connectLines.client.Send(msg);
-				if (connectLines.IsWin(point))
+				if (connectLines.IsWin(point) )
 				{
 					//Stop timer, display panel
 					//Send to server that this player won -> clients display panel
 					GameOverPanelController.Instance.gameWon = true;
 					return;
 				}
+				if (connectLines.CheckIfIGotGoal(point))
+				{
+					connectLines.deadEnd = true;
+				}
 				if (!connectLines.IsAnotherLineFromThisPoint(point))
 				{
 					connectLines.isMyTurn = false;
-					//Debug.Log(connectLines.isMyTurn);
 				}
-			}
-			else
-			{
-				;
 			}
 		}
 	}

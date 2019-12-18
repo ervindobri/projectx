@@ -33,7 +33,7 @@ public class Client : MonoBehaviour
 
 	
 
-	private bool wasDisplayed;
+	public bool wasDisplayed = false;
 
 	//Booleans for checking turns
 	public bool myTurn = false;
@@ -68,9 +68,8 @@ public class Client : MonoBehaviour
 		players = new List<GameClient>();
 		DontDestroyOnLoad(gameObject);
 
-		//For testing:
-		//UserConnected(clientName, false, false, "1-1-1-1");
-		//UserConnected(clientName, false, false, "1-1-1-1");
+		System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+		wasDisplayed = false;
 	}
 	public void DisplayClientName(GameClient client)
 	{
@@ -115,7 +114,6 @@ public class Client : MonoBehaviour
 	}
 	private void Update()
 	{
-		Debug.Log("wD:" + wasDisplayed);
 		//If we are connected
 		if ( SceneManager.GetActiveScene().name == "Lobby" && !wasDisplayed )
 		{
@@ -123,7 +121,7 @@ public class Client : MonoBehaviour
 			playerMessages = GameObject.FindGameObjectWithTag("Message");
 			foreach (GameClient player in players)
 			{
-				Debug.Log(player.playerName);
+				//Debug.Log(player.playerName);
 				DisplayClientName(player);
 			}
 			wasDisplayed = true;
@@ -241,7 +239,7 @@ public class Client : MonoBehaviour
 							case "pause":
 								//In-game pause
 								PauseMenuController pmc = FindObjectOfType<PauseMenuController>();
-								pmc.showPanel();
+								pmc.ShowPanel();
 								pmc.isPaused = true;
 								break;
 							case "timeout":
@@ -386,10 +384,6 @@ public class Client : MonoBehaviour
 		{
 			item.isReady = false;
 		}
-	}
-	public void RestartGame()
-	{
-		wasDisplayed = false;
 	}
 	public void CloseSocket()
 	{
